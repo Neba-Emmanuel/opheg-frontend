@@ -1,0 +1,205 @@
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
+import { Link } from "react-router-dom";
+import { Heart, Users, Shield, Stethoscope, Globe, TrendingUp } from "lucide-react";
+import communityOutreachImg from "@/assets/community-outreach.jpg";
+
+const Home = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty("--mouse-x", `${x}%`);
+      el.style.setProperty("--mouse-y", `${y}%`);
+    };
+    el.addEventListener("mousemove", onMove);
+    setIsVisible(true);
+    return () => el.removeEventListener("mousemove", onMove);
+  }, []);
+
+  const stats = [
+    { number: "5000+", label: "Lives Impacted", icon: Heart },
+    { number: "50+", label: "Communities Served", icon: Users },
+    { number: "100+", label: "Health Professionals Trained", icon: Stethoscope },
+    { number: "20+", label: "Health Facilities", icon: Shield },
+  ];
+
+  const services = [
+    {
+      icon: Stethoscope,
+      title: "Medical Consultations",
+      description: "Expert healthcare consultations from qualified professionals"
+    },
+    {
+      icon: Heart,
+      title: "Community Outreach",
+      description: "Bringing healthcare directly to rural and underserved communities"
+    },
+    {
+      icon: Globe,
+      title: "Health Education",
+      description: "Comprehensive health education and disease prevention programs"
+    },
+    {
+      icon: TrendingUp,
+      title: "Research & Innovation",
+      description: "Advancing healthcare through research and technological innovation"
+    }
+  ];
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    name: "Optimum Health Global (OPHEG)",
+    slogan: "Clean health · Clean society",
+    foundingDate: "2022-11-22",
+    areaServed: "Cameroon and Africa",
+    url: typeof window !== 'undefined' ? window.location.origin : "",
+    logo: "/lovable-uploads/92dab1df-9e55-4782-b39c-46e58e19e16c.png",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Kumba",
+      addressRegion: "Southwest Region",
+      addressCountry: "Cameroon"
+    }
+  };
+
+  return (
+    <>
+      <SEO
+        title="Optimum Health Global (OPHEG) – Clean Health, Clean Society"
+        description="Helping humanity and saving lives through community health, outreach, research, and training across Africa. Book an appointment or chat with our Health AI."
+        canonical="/"
+        jsonLd={jsonLd}
+      />
+
+      <section ref={heroRef} className="bg-hero relative overflow-hidden">
+        <div className="container flex min-h-[80vh] flex-col items-center justify-center gap-8 py-16 text-center relative z-10">
+          <div className={`floating-element ${isVisible ? 'fade-in-up' : ''}`}>
+            <img
+              src="/lovable-uploads/92dab1df-9e55-4782-b39c-46e58e19e16c.png"
+              alt="Optimum Health Global logo"
+              className="h-24 w-24 rounded-full shadow-lg"
+              loading="eager"
+            />
+          </div>
+          <div className={`space-y-4 ${isVisible ? 'fade-in-up stagger-1' : ''}`}>
+            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl">
+              Optimum Health Global
+            </h1>
+            <p className="text-lg text-primary/80 font-medium">OPHEG</p>
+          </div>
+          <p className={`max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed ${isVisible ? 'fade-in-up stagger-2' : ''}`}>
+            Taking health to the communities and ensuring a clean health and clean society across Africa.
+          </p>
+          <div className={`flex flex-col gap-4 sm:flex-row ${isVisible ? 'fade-in-up stagger-3' : ''}`}>
+            <Button asChild size="lg" variant="hero" className="text-lg px-8 py-4">
+              <Link to="/appointments">Book an Appointment</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="text-lg px-8 py-4">
+              <Link to="/health-ai">Chat with Health AI</Link>
+            </Button>
+          </div>
+          <p className={`text-sm text-muted-foreground italic ${isVisible ? 'fade-in-up stagger-4' : ''}`}>
+            Motto: Clean health · Clean society
+          </p>
+        </div>
+      </section>
+
+      <main className="container space-y-24 py-20">
+        {/* Statistics Section */}
+        <section className="text-center">
+          <h2 className="display-title text-3xl font-bold mb-4">Our Impact</h2>
+          <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Making a real difference in communities across Africa through dedicated healthcare services.
+          </p>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((stat, index) => (
+              <div key={stat.label} className={`card-hover rounded-xl bg-card p-8 shadow-sm fade-in-up stagger-${index + 1}`}>
+                <stat.icon className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <div className="text-3xl font-bold text-primary counter-animation">{stat.number}</div>
+                <div className="text-sm text-muted-foreground mt-2">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section>
+          <div className="text-center mb-12">
+            <h2 className="display-title text-3xl font-bold mb-4">Our Services</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Comprehensive healthcare solutions designed to meet the unique needs of African communities.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {services.map((service, index) => (
+              <div key={service.title} className={`card-hover rounded-xl bg-card p-6 shadow-sm fade-in-up stagger-${index + 1}`}>
+                <service.icon className="h-10 w-10 text-primary mb-4" />
+                <h3 className="font-semibold mb-2">{service.title}</h3>
+                <p className="text-sm text-muted-foreground">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Community Impact Section */}
+        <section className="grid gap-12 md:grid-cols-2 items-center">
+          <div className="space-y-6">
+            <h2 className="display-title text-3xl font-bold">Transforming Communities</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Since our founding in November 2022, OPHEG has been at the forefront of community healthcare 
+              transformation. We bring essential medical services directly to underserved communities, 
+              breaking down barriers to healthcare access.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Our comprehensive approach includes mobile surgical teams, health education programs, 
+              and sustainable facility development to ensure lasting positive impact.
+            </p>
+            <div className="flex gap-4">
+              <Button asChild variant="default">
+                <Link to="/about">Learn More About Us</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/our-works">See Our Work</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="card-hover">
+            <img
+              src={communityOutreachImg}
+              alt="OPHEG community health outreach"
+              className="rounded-xl shadow-lg w-full h-[400px] object-cover"
+            />
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="rounded-2xl bg-gradient-to-tr from-primary/10 to-accent/10 p-12 text-center">
+          <h2 className="display-title text-3xl font-bold mb-4">Ready to Make a Difference?</h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Join us in our mission to bring quality healthcare to every community. Whether you need medical care 
+            or want to contribute to our cause, we're here to help.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" variant="hero">
+              <Link to="/appointments">Schedule Your Appointment</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link to="/get-involved">Get Involved</Link>
+            </Button>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+};
+
+export default Home;

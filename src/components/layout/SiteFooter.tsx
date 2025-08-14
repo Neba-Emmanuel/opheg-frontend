@@ -18,11 +18,12 @@ const SiteFooter = () => {
           </p>
         </div>
         <div>
-          <h4 className="font-semibold">Get Involved</h4>
+          <h4 className="font-semibold">Quick Links</h4>
           <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-            <li><a href="#objectives" className="hover:text-foreground">Our Objectives</a></li>
-            <li><a href="#values" className="hover:text-foreground">Our Values</a></li>
-            <li><a href="/appointments" className="hover:text-foreground">Book an Appointment</a></li>
+            <li><a href="/about" className="hover:text-foreground transition-colors">About Us</a></li>
+            <li><a href="/our-works" className="hover:text-foreground transition-colors">Our Works</a></li>
+            <li><a href="/get-involved" className="hover:text-foreground transition-colors">Get Involved</a></li>
+            <li><a href="/appointments" className="hover:text-foreground transition-colors">Book Appointment</a></li>
           </ul>
         </div>
       </div>

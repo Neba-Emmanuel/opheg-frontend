@@ -15,11 +15,11 @@ const SiteHeader = () => {
           <span className="display-title text-lg font-semibold">OPHEG</span>
         </Link>
         <nav className="hidden gap-6 md:flex">
-          <NavLink to="/" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground"}>Home</NavLink>
-          <a href="#mission" className="text-foreground/80 hover:text-foreground">Mission</a>
-          <a href="#values" className="text-foreground/80 hover:text-foreground">Values</a>
-          <a href="#objectives" className="text-foreground/80 hover:text-foreground">Objectives</a>
-          <NavLink to="/health-ai" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground"}>Health AI</NavLink>
+          <NavLink to="/" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground transition-colors"}>Home</NavLink>
+          <NavLink to="/about" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground transition-colors"}>About</NavLink>
+          <NavLink to="/our-works" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground transition-colors"}>Our Works</NavLink>
+          <NavLink to="/get-involved" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground transition-colors"}>Get Involved</NavLink>
+          <NavLink to="/health-ai" className={({isActive}) => isActive ? "text-primary" : "text-foreground/80 hover:text-foreground transition-colors"}>Health AI</NavLink>
         </nav>
         <div className="flex items-center gap-2">
           <Button asChild variant="outline" className="hidden md:inline-flex">

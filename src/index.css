@@ -124,4 +124,45 @@ All colors MUST be HSL.
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+  .card-hover {
+    transition: var(--transition-smooth);
+    transition-property: transform, box-shadow;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-glow);
+  }
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+  .counter-animation {
+    animation: countUp 2s ease-out forwards;
+  }
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
 }
