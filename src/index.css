@@ -18,13 +18,13 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Brand greens (teal/emerald) */
-    --primary: 162 72% 35%;
-    --primary-variant: 162 80% 42%;
+    /* OPHEG brand blue */
+    --primary: 212 85% 45%;
+    --primary-variant: 212 90% 52%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 160 30% 96%;
-    --secondary-foreground: 162 72% 20%;
+    --secondary: 212 20% 96%;
+    --secondary-foreground: 212 85% 25%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -38,19 +38,19 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 162 72% 35%;
+    --ring: 212 85% 45%;
 
     --radius: 0.75rem;
 
     /* Sidebar tokens */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 162 72% 35%;
+    --sidebar-primary: 212 85% 45%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 160 30% 96%;
+    --sidebar-accent: 212 20% 96%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 162 72% 35%;
+    --sidebar-ring: 212 85% 45%;
 
     /* Design tokens */
     --shadow-elegant: 0 10px 30px -12px hsl(var(--primary) / 0.35);
@@ -72,8 +72,8 @@ All colors MUST be HSL.
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 162 72% 45%;
-    --primary-variant: 162 80% 50%;
+    --primary: 212 85% 55%;
+    --primary-variant: 212 90% 62%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -90,16 +90,16 @@ All colors MUST be HSL.
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 162 72% 45%;
+    --ring: 212 85% 55%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 162 72% 45%;
+    --sidebar-primary: 212 85% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 162 72% 45%;
+    --sidebar-ring: 212 85% 55%;
   }
 }
 

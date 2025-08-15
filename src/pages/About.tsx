@@ -1,6 +1,12 @@
 import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Calendar, Eye, Target, Heart, Lightbulb, Shield, Users, Handshake } from "lucide-react";
+import executiveCEO from "@/assets/executive-ceo.jpg";
+import executiveDirectorGeneral from "@/assets/executive-director-general.jpg";
+import executiveSecretaryGeneral from "@/assets/executive-secretary-general.jpg";
+import executiveCFO from "@/assets/executive-cfo.jpg";
+import executiveProjectManager from "@/assets/executive-project-manager.jpg";
+import executiveCommunications from "@/assets/executive-communications.jpg";
 
 const About = () => {
   const coreValues = [
@@ -37,16 +43,56 @@ const About = () => {
   ];
 
   const executiveTeam = [
-    "Founder/Chief Executive Officer",
-    "Director General",
-    "Secretary General",
-    "Chief Financial Officer",
-    "Chief Project Manager",
-    "Communications Officer",
-    "Director of Outreaches",
-    "Auditors",
-    "Advisors",
-    "Human Resource Personnel"
+    {
+      role: "Founder/Chief Executive Officer",
+      image: executiveCEO,
+      name: "Leadership Team"
+    },
+    {
+      role: "Director General",
+      image: executiveDirectorGeneral,
+      name: "Leadership Team"
+    },
+    {
+      role: "Secretary General",
+      image: executiveSecretaryGeneral,
+      name: "Leadership Team"
+    },
+    {
+      role: "Chief Financial Officer",
+      image: executiveCFO,
+      name: "Leadership Team"
+    },
+    {
+      role: "Chief Project Manager",
+      image: executiveProjectManager,
+      name: "Leadership Team"
+    },
+    {
+      role: "Communications Officer",
+      image: executiveCommunications,
+      name: "Leadership Team"
+    },
+    {
+      role: "Director of Outreaches",
+      image: null,
+      name: "Leadership Team"
+    },
+    {
+      role: "Auditors",
+      image: null,
+      name: "Support Team"
+    },
+    {
+      role: "Advisors",
+      image: null,
+      name: "Advisory Board"
+    },
+    {
+      role: "Human Resource Personnel",
+      image: null,
+      name: "Support Team"
+    }
   ];
 
   return (
@@ -172,13 +218,23 @@ const About = () => {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {executiveTeam.map((role, index) => (
-              <Card key={role} className={`card-hover text-center fade-in-up stagger-${(index % 5) + 1}`}>
+            {executiveTeam.map((member, index) => (
+              <Card key={member.role} className={`card-hover text-center fade-in-up stagger-${(index % 5) + 1}`}>
                 <CardContent className="pt-6">
-                  <div className="h-16 w-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Users className="h-8 w-8 text-primary" />
-                  </div>
-                  <p className="font-medium text-sm">{role}</p>
+                  {member.image ? (
+                    <div className="h-20 w-20 mx-auto mb-4 rounded-full overflow-hidden">
+                      <img 
+                        src={member.image} 
+                        alt={`${member.role} at OPHEG`}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-20 w-20 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Users className="h-8 w-8 text-primary" />
+                    </div>
+                  )}
+                  <p className="font-medium text-sm">{member.role}</p>
                 </CardContent>
               </Card>
             ))}
