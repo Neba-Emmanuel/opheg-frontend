@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/SEO";
@@ -31,7 +32,7 @@ const HealthAI = () => {
     {
       role: "assistant",
       content:
-        "Hi! I’m OPHEG’s Health AI in demo mode. I can provide general health information, but this is not medical advice. How can I help you today?",
+        "Hi! I’m OPHEG’s Health AI. I can provide general health information. How can I help you today?",
       ts: Date.now(),
     },
   ]);
@@ -45,28 +46,93 @@ const HealthAI = () => {
     });
   }, [messages.length]);
 
-  const send = (e: React.FormEvent) => {
+  const send = async (e: React.FormEvent) => {
     e.preventDefault();
     const content = input.trim();
     if (!content) return;
+
+    // Add user message
     const user: ChatMsg = { role: "user", content, ts: Date.now() };
     setMessages((m) => [...m, user]);
     setInput("");
-    setTimeout(() => {
-      const assistant: ChatMsg = {
-        role: "assistant",
-        content: demoReply(content),
-        ts: Date.now(),
-      };
-      setMessages((m) => [...m, assistant]);
-    }, 350);
+
+    // Add placeholder assistant message (with typing dots)
+    const assistant: ChatMsg = {
+      role: "assistant",
+      content: "…", // typing indicator
+      ts: Date.now(),
+    };
+    setMessages((m) => [...m, assistant]);
+
+    try {
+      const res = await fetch("http://localhost:28906/api/ophegai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            ...messages.map((m) => ({ role: m.role, content: m.content })),
+            { role: "user", content },
+          ],
+        }),
+      });
+
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+
+      if (!reader) return;
+
+      let fullText = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n").filter((line) => line.trim());
+
+        for (const line of lines) {
+          if (line === "data: [DONE]") break;
+          if (line.startsWith("data:")) {
+            const data = JSON.parse(line.replace("data: ", ""));
+            if (data.token) {
+              fullText += data.token;
+
+              // Update the last assistant message
+              setMessages((m) => {
+                const updated = [...m];
+                updated[updated.length - 1] = {
+                  ...assistant,
+                  content: fullText,
+                };
+                return updated;
+              });
+
+              // Auto-scroll while streaming
+              listRef.current?.scrollTo({
+                top: listRef.current.scrollHeight,
+                behavior: "smooth",
+              });
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content: "⚠️ Error streaming AI response.",
+          ts: Date.now(),
+        },
+      ]);
+    }
   };
 
   return (
     <>
       <SEO
         title="Health AI Chat – OPHEG"
-        description="Chat with OPHEG’s Health AI for general guidance. Demo mode; not a substitute for medical care."
+        description="Chat with OPHEG’s Health AI for general guidance. Get information on symptoms, prevention, and care in Cameroon, Africa and the World."
         canonical="/health-ai"
         jsonLd={{ "@context": "https://schema.org", "@type": "FAQPage" }}
       />

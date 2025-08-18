@@ -1,24 +1,24 @@
 import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Globe, 
-  Building, 
-  Microscope, 
-  GraduationCap, 
-  Users, 
-  Hospital, 
-  TrendingUp, 
+import {
+  Globe,
+  Building,
+  Microscope,
+  GraduationCap,
+  Users,
+  Hospital,
+  TrendingUp,
   Truck,
   Heart,
   Target,
   BookOpen,
-  Stethoscope
+  Stethoscope,
 } from "lucide-react";
 import mobileSurgicalTeamImg from "@/assets/mobile-surgical-team.jpg";
 import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
-import communityOutreachImg from "@/assets/community-outreach.jpg";
+import communityOutreachImg from "@/assets/outreach.jpg";
 import ourWorksHeroImg from "@/assets/our-works-hero.jpg";
 
 const OurWorks = () => {
@@ -26,99 +26,135 @@ const OurWorks = () => {
     {
       icon: Globe,
       title: "Global Health Promotion",
-      description: "Following the SDG3 goals to ensure healthy lives and promote well-being for all at all ages.",
+      description:
+        "Following the SDG3 goals to ensure healthy lives and promote well-being for all at all ages.",
       color: "bg-blue-100 text-blue-700",
-      category: "Global Impact"
+      category: "Global Impact",
     },
     {
       icon: Building,
       title: "Public Health Policy Support",
-      description: "Supporting public health and economic policies that create sustainable healthcare systems.",
+      description:
+        "Supporting public health and economic policies that create sustainable healthcare systems.",
       color: "bg-green-100 text-green-700",
-      category: "Policy"
+      category: "Policy",
     },
     {
       icon: Microscope,
       title: "Health Research & Innovation",
-      description: "Advancing medical knowledge through cutting-edge research and innovative healthcare solutions.",
+      description:
+        "Advancing medical knowledge through cutting-edge research and innovative healthcare solutions.",
       color: "bg-purple-100 text-purple-700",
-      category: "Research"
+      category: "Research",
     },
     {
       icon: GraduationCap,
       title: "Training Health Professionals",
-      description: "Building capacity through comprehensive training programs for healthcare workers.",
+      description:
+        "Building capacity through comprehensive training programs for healthcare workers.",
       color: "bg-orange-100 text-orange-700",
-      category: "Education"
+      category: "Education",
     },
     {
       icon: Users,
       title: "Community Outreach Programs",
-      description: "Bringing healthcare directly to underserved communities across Africa.",
+      description:
+        "Bringing healthcare directly to underserved communities across Africa.",
       color: "bg-rose-100 text-rose-700",
-      category: "Community"
+      category: "Community",
     },
     {
       icon: Hospital,
       title: "Health Facilities Establishment",
-      description: "Building and establishing modern healthcare facilities in underserved areas.",
+      description:
+        "Building and establishing modern healthcare facilities in underserved areas.",
       color: "bg-cyan-100 text-cyan-700",
-      category: "Infrastructure"
+      category: "Infrastructure",
     },
     {
       icon: TrendingUp,
       title: "Capacity Building",
-      description: "Strengthening healthcare systems through strategic capacity building initiatives.",
+      description:
+        "Strengthening healthcare systems through strategic capacity building initiatives.",
       color: "bg-indigo-100 text-indigo-700",
-      category: "Development"
+      category: "Development",
     },
     {
       icon: Truck,
       title: "Mobile Surgical Team",
-      description: "Providing essential surgical services through our mobile surgical units.",
+      description:
+        "Providing essential surgical services through our mobile surgical units.",
       color: "bg-emerald-100 text-emerald-700",
-      category: "Mobile Care"
-    }
+      category: "Mobile Care",
+    },
   ];
 
   const programs = [
     {
       title: "Mobile Surgical Program",
-      description: "Our mobile surgical teams bring life-saving procedures directly to remote communities.",
+      description:
+        "Our mobile surgical teams bring life-saving procedures directly to remote communities.",
       image: mobileSurgicalTeamImg,
       stats: "50+ surgeries performed",
-      features: ["Emergency procedures", "Specialized equipment", "Trained surgical teams", "Post-operative care"]
+      features: [
+        "Emergency procedures",
+        "Specialized equipment",
+        "Trained surgical teams",
+        "Post-operative care",
+      ],
     },
     {
       title: "Health Professional Training",
-      description: "Comprehensive training programs for healthcare workers across Africa.",
+      description:
+        "Comprehensive training programs for healthcare workers across Africa.",
       image: medicalTrainingImg,
       stats: "100+ professionals trained",
-      features: ["Modern curriculum", "Hands-on practice", "Certification programs", "Continuing education"]
+      features: [
+        "Modern curriculum",
+        "Hands-on practice",
+        "Certification programs",
+        "Continuing education",
+      ],
     },
     {
       title: "Community Health Centers",
-      description: "Establishing modern healthcare facilities in underserved communities.",
+      description:
+        "Establishing modern healthcare facilities in underserved communities.",
       image: healthFacilityImg,
       stats: "20+ facilities established",
-      features: ["Primary healthcare", "Preventive services", "Health education", "Community wellness"]
+      features: [
+        "Primary healthcare",
+        "Preventive services",
+        "Health education",
+        "Community wellness",
+      ],
     },
     {
       title: "Outreach Initiatives",
-      description: "Regular community health outreach programs promoting preventive care.",
+      description:
+        "Regular community health outreach programs promoting preventive care.",
       image: communityOutreachImg,
       stats: "5,000+ people reached",
-      features: ["Health screenings", "Vaccination campaigns", "Health education", "Disease prevention"]
-    }
+      features: [
+        "Health screenings",
+        "Vaccination campaigns",
+        "Health education",
+        "Disease prevention",
+      ],
+    },
   ];
 
   const impact = [
     { number: "50+", label: "Communities Served", icon: Users },
     { number: "5,000+", label: "Lives Impacted", icon: Heart },
-    { number: "100+", label: "Healthcare Workers Trained", icon: GraduationCap },
+    {
+      number: "100+",
+      label: "Healthcare Workers Trained",
+      icon: GraduationCap,
+    },
     { number: "20+", label: "Health Facilities", icon: Hospital },
     { number: "50+", label: "Surgical Procedures", icon: Stethoscope },
-    { number: "15+", label: "Research Projects", icon: Microscope }
+    { number: "15+", label: "Research Projects", icon: Microscope },
   ];
 
   return (
@@ -132,39 +168,53 @@ const OurWorks = () => {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src={ourWorksHeroImg} 
+          <img
+            src={ourWorksHeroImg}
             alt="OPHEG healthcare team in action - Our work hero image"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
         </div>
         <div className="relative z-10 text-center text-white space-y-6 container animate-fade-in">
-          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">Our Work</h1>
+          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">
+            Our Work
+          </h1>
           <p className="text-xl max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Transforming healthcare delivery across Africa through innovative programs, community engagement, 
-            and sustainable development initiatives.
+            Transforming healthcare delivery across Africa through innovative
+            programs, community engagement, and sustainable development
+            initiatives.
           </p>
         </div>
       </section>
 
       <div className="container py-16 space-y-16">
-
         {/* Impact Statistics */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Our Impact</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Our Impact
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Measurable results from our commitment to improving healthcare access and quality.
+              Measurable results from our commitment to improving healthcare
+              access and quality.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {impact.map((stat, index) => (
-              <Card key={stat.label} className={`card-hover text-center fade-in-up stagger-${(index % 5) + 1}`}>
+              <Card
+                key={stat.label}
+                className={`card-hover text-center fade-in-up stagger-${
+                  (index % 5) + 1
+                }`}
+              >
                 <CardContent className="pt-6">
                   <stat.icon className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <div className="text-2xl font-bold text-primary counter-animation">{stat.number}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                  <div className="text-2xl font-bold text-primary counter-animation">
+                    {stat.number}
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    {stat.label}
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -174,14 +224,20 @@ const OurWorks = () => {
         {/* Core Objectives */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Our Core Objectives</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Our Core Objectives
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Strategic objectives aligned with global health goals and local community needs.
+              Strategic objectives aligned with global health goals and local
+              community needs.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {objectives.map((objective, index) => (
-              <Card key={objective.title} className={`card-hover fade-in-up stagger-${(index % 5) + 1}`}>
+              <Card
+                key={objective.title}
+                className={`card-hover fade-in-up stagger-${(index % 5) + 1}`}
+              >
                 <CardHeader>
                   <div className="flex items-center gap-3 mb-2">
                     <div className={`p-2 rounded-lg ${objective.color}`}>
@@ -206,14 +262,22 @@ const OurWorks = () => {
         {/* Key Programs */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Key Programs</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Key Programs
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our flagship programs delivering transformative healthcare solutions across communities.
+              Our flagship programs delivering transformative healthcare
+              solutions across communities.
             </p>
           </div>
           <div className="grid gap-8 lg:grid-cols-2">
             {programs.map((program, index) => (
-              <Card key={program.title} className={`card-hover overflow-hidden fade-in-up stagger-${(index % 4) + 1}`}>
+              <Card
+                key={program.title}
+                className={`card-hover overflow-hidden fade-in-up stagger-${
+                  (index % 4) + 1
+                }`}
+              >
                 <div className="aspect-video overflow-hidden">
                   <img
                     src={program.image}
@@ -235,7 +299,10 @@ const OurWorks = () => {
                     <h4 className="font-semibold text-sm">Key Features:</h4>
                     <div className="grid grid-cols-2 gap-2">
                       {program.features.map((feature) => (
-                        <div key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <div
+                          key={feature}
+                          className="flex items-center gap-2 text-sm text-muted-foreground"
+                        >
                           <div className="h-1.5 w-1.5 bg-primary rounded-full" />
                           {feature}
                         </div>
@@ -251,31 +318,40 @@ const OurWorks = () => {
         {/* Success Stories Placeholder */}
         <section className="bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12">
           <div className="text-center space-y-6">
-            <h2 className="display-title text-3xl font-bold">Success Stories</h2>
+            <h2 className="display-title text-3xl font-bold">
+              Success Stories
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Real stories of transformation and impact from the communities we serve. 
-              Coming soon - testimonials and case studies from our healthcare programs.
+              Real stories of transformation and impact from the communities we
+              serve. Coming soon - testimonials and case studies from our
+              healthcare programs.
             </p>
             <div className="grid gap-6 md:grid-cols-3 mt-8">
               <Card className="text-center">
                 <CardContent className="pt-6">
                   <BookOpen className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="font-semibold mb-2">Case Studies</h3>
-                  <p className="text-sm text-muted-foreground">Detailed program outcomes</p>
+                  <p className="text-sm text-muted-foreground">
+                    Detailed program outcomes
+                  </p>
                 </CardContent>
               </Card>
               <Card className="text-center">
                 <CardContent className="pt-6">
                   <Users className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="font-semibold mb-2">Community Stories</h3>
-                  <p className="text-sm text-muted-foreground">Personal impact testimonials</p>
+                  <p className="text-sm text-muted-foreground">
+                    Personal impact testimonials
+                  </p>
                 </CardContent>
               </Card>
               <Card className="text-center">
                 <CardContent className="pt-6">
                   <Target className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="font-semibold mb-2">Impact Reports</h3>
-                  <p className="text-sm text-muted-foreground">Measurable outcomes</p>
+                  <p className="text-sm text-muted-foreground">
+                    Measurable outcomes
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -284,10 +360,12 @@ const OurWorks = () => {
 
         {/* Call to Action */}
         <section className="text-center">
-          <h2 className="display-title text-3xl font-bold mb-4">Join Our Mission</h2>
+          <h2 className="display-title text-3xl font-bold mb-4">
+            Join Our Mission
+          </h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Be part of our transformative healthcare initiatives. Whether as a volunteer, partner, 
-            or through accessing our services.
+            Be part of our transformative healthcare initiatives. Whether as a
+            volunteer, partner, or through accessing our services.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

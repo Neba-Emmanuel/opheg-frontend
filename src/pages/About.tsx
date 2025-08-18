@@ -1,6 +1,16 @@
 import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Calendar, Eye, Target, Heart, Lightbulb, Shield, Users, Handshake } from "lucide-react";
+import {
+  MapPin,
+  Calendar,
+  Eye,
+  Target,
+  Heart,
+  Lightbulb,
+  Shield,
+  Users,
+  Handshake,
+} from "lucide-react";
 import executiveCEO from "@/assets/executive-ceo.jpg";
 import executiveDirectorGeneral from "@/assets/executive-director-general.jpg";
 import executiveSecretaryGeneral from "@/assets/executive-secretary-general.jpg";
@@ -14,86 +24,91 @@ const About = () => {
     {
       icon: Eye,
       title: "Vision",
-      description: "We act with purpose, guided by a clear mission to build a healthier, empowered, and more equitable future for all.",
-      color: "text-blue-600"
+      description:
+        "We act with purpose, guided by a clear mission to build a healthier, empowered, and more equitable future for all.",
+      color: "text-blue-600",
     },
     {
       icon: Lightbulb,
       title: "Innovation",
-      description: "We embrace new ideas, technology, and creative solutions to expand access, improve care, and deliver impact in hard-to-reach communities.",
-      color: "text-yellow-600"
+      description:
+        "We embrace new ideas, technology, and creative solutions to expand access, improve care, and deliver impact in hard-to-reach communities.",
+      color: "text-yellow-600",
     },
     {
       icon: Shield,
       title: "Transparency",
-      description: "We are open, honest, and accountable in every action—building trust with our patients, partners, and the public.",
-      color: "text-emerald-600"
+      description:
+        "We are open, honest, and accountable in every action—building trust with our patients, partners, and the public.",
+      color: "text-emerald-600",
     },
     {
       icon: Users,
       title: "Accessibility",
-      description: "We are committed to breaking barriers so that essential health services reach everyone, everywhere, without discrimination.",
-      color: "text-purple-600"
+      description:
+        "We are committed to breaking barriers so that essential health services reach everyone, everywhere, without discrimination.",
+      color: "text-purple-600",
     },
     {
       icon: Heart,
       title: "Love",
-      description: "We serve with compassion and empathy, putting humanity first and ensuring care is delivered with heart.",
-      color: "text-red-600"
-    }
+      description:
+        "We serve with compassion and empathy, putting humanity first and ensuring care is delivered with heart.",
+      color: "text-red-600",
+    },
   ];
 
   const executiveTeam = [
     {
       role: "Founder/Chief Executive Officer",
       image: executiveCEO,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Director General",
       image: executiveDirectorGeneral,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Secretary General",
       image: executiveSecretaryGeneral,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Chief Financial Officer",
       image: executiveCFO,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Chief Project Manager",
       image: executiveProjectManager,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Communications Officer",
       image: executiveCommunications,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Director of Outreaches",
       image: null,
-      name: "Leadership Team"
+      name: "Leadership Team",
     },
     {
       role: "Auditors",
       image: null,
-      name: "Support Team"
+      name: "Support Team",
     },
     {
       role: "Advisors",
       image: null,
-      name: "Advisory Board"
+      name: "Advisory Board",
     },
     {
       role: "Human Resource Personnel",
       image: null,
-      name: "Support Team"
-    }
+      name: "Support Team",
+    },
   ];
 
   return (
@@ -107,24 +122,26 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src={aboutHeroImg} 
+          <img
+            src={aboutHeroImg}
             alt="OPHEG healthcare team - About us hero image"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
         </div>
         <div className="relative z-10 text-center text-white space-y-6 container animate-fade-in">
-          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">About OPHEG</h1>
+          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">
+            About OPHEG
+          </h1>
           <p className="text-xl max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Optimum Health Global is dedicated to transforming healthcare access across Africa through 
-            innovative community-centered approaches and sustainable health solutions.
+            Optimum Health Global is dedicated to transforming healthcare access
+            across Africa through innovative community-centered approaches and
+            sustainable health solutions.
           </p>
         </div>
       </section>
 
       <div className="container py-16 space-y-16">
-
         {/* Organization Details */}
         <section className="grid gap-8 md:grid-cols-3">
           <Card className="card-hover">
@@ -133,8 +150,12 @@ const About = () => {
               <CardTitle>Founded</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-2xl font-bold text-primary">November 22, 2022</p>
-              <p className="text-muted-foreground mt-2">Establishing our mission</p>
+              <p className="text-2xl font-bold text-primary">
+                November 22, 2022
+              </p>
+              <p className="text-muted-foreground mt-2">
+                Establishing our mission
+              </p>
             </CardContent>
           </Card>
 
@@ -146,7 +167,9 @@ const About = () => {
             <CardContent className="text-center">
               <p className="font-semibold">Kumba</p>
               <p className="text-muted-foreground">Meme Division</p>
-              <p className="text-muted-foreground">Southwest Region, Cameroon</p>
+              <p className="text-muted-foreground">
+                Southwest Region, Cameroon
+              </p>
             </CardContent>
           </Card>
 
@@ -173,10 +196,11 @@ const About = () => {
             </CardHeader>
             <CardContent>
               <p className="leading-relaxed text-muted-foreground">
-                Helping Humanity and saving lives from common and endemic diseases, coupled with negative 
-                health stigmas that puts a threat to human lives through identifying, educating, empowering 
-                and helping the masses make positive health decisions to adopt a healthy behavior, thereby 
-                attaining health at its optimum.
+                Helping Humanity and saving lives from common and endemic
+                diseases, coupled with negative health stigmas that puts a
+                threat to human lives through identifying, educating, empowering
+                and helping the masses make positive health decisions to adopt a
+                healthy behavior, thereby attaining health at its optimum.
               </p>
             </CardContent>
           </Card>
@@ -190,7 +214,8 @@ const About = () => {
             </CardHeader>
             <CardContent>
               <p className="leading-relaxed text-muted-foreground">
-                Taking health to the communities and ensuring a clean health and clean society.
+                Taking health to the communities and ensuring a clean health and
+                clean society.
               </p>
             </CardContent>
           </Card>
@@ -199,16 +224,24 @@ const About = () => {
         {/* VITAL Core Values */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Our VITAL Core Values</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Our VITAL Core Values
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              At OPHEG, our values are VITAL to transforming lives and communities across Africa.
+              At OPHEG, our values are VITAL to transforming lives and
+              communities across Africa.
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {coreValues.map((value, index) => (
-              <Card key={value.title} className={`card-hover fade-in-up stagger-${index + 1}`}>
+              <Card
+                key={value.title}
+                className={`card-hover fade-in-up stagger-${index + 1}`}
+              >
                 <CardHeader className="text-center pb-4">
-                  <value.icon className={`h-12 w-12 mx-auto mb-3 ${value.color}`} />
+                  <value.icon
+                    className={`h-12 w-12 mx-auto mb-3 ${value.color}`}
+                  />
                   <CardTitle className="text-lg">{value.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -224,19 +257,27 @@ const About = () => {
         {/* Executive Committee */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Executive Committee</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Executive Committee
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our dedicated leadership team brings together diverse expertise to guide OPHEG's mission.
+              Our dedicated leadership team brings together diverse expertise to
+              guide OPHEG's mission.
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {executiveTeam.map((member, index) => (
-              <Card key={member.role} className={`card-hover text-center fade-in-up stagger-${(index % 5) + 1}`}>
+              <Card
+                key={member.role}
+                className={`card-hover text-center fade-in-up stagger-${
+                  (index % 5) + 1
+                }`}
+              >
                 <CardContent className="pt-6">
                   {member.image ? (
                     <div className="h-20 w-20 mx-auto mb-4 rounded-full overflow-hidden">
-                      <img 
-                        src={member.image} 
+                      <img
+                        src={member.image}
                         alt={`${member.role} at OPHEG`}
                         className="h-full w-full object-cover"
                       />
@@ -255,20 +296,22 @@ const About = () => {
 
         {/* Call to Action */}
         <section className="text-center bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12">
-          <h2 className="display-title text-3xl font-bold mb-4">Join Our Mission</h2>
+          <h2 className="display-title text-3xl font-bold mb-4">
+            Join Our Mission
+          </h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Learn more about our work in communities or discover how you can be part of our 
-            transformative healthcare initiatives.
+            Learn more about our work in communities or discover how you can be
+            part of our transformative healthcare initiatives.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/our-works"
+              href="#"
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-primary text-primary-foreground hover:bg-primary/90"
             >
               See Our Work
             </a>
             <a
-              href="/get-involved"
+              href="#"
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 border border-input bg-background hover:bg-accent hover:text-accent-foreground"
             >
               Get Involved
