@@ -19,6 +19,7 @@ import mobileSurgicalTeamImg from "@/assets/mobile-surgical-team.jpg";
 import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
 import communityOutreachImg from "@/assets/community-outreach.jpg";
+import ourWorksHeroImg from "@/assets/our-works-hero.jpg";
 
 const OurWorks = () => {
   const objectives = [
@@ -128,15 +129,26 @@ const OurWorks = () => {
         canonical="/our-works"
       />
 
-      <div className="container py-16 space-y-16">
-        {/* Hero Section */}
-        <section className="text-center space-y-6">
-          <h1 className="display-title text-4xl font-bold md:text-5xl">Our Work</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+      {/* Hero Section */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={ourWorksHeroImg} 
+            alt="OPHEG healthcare team in action - Our work hero image"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
+        </div>
+        <div className="relative z-10 text-center text-white space-y-6 container animate-fade-in">
+          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">Our Work</h1>
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed drop-shadow-md">
             Transforming healthcare delivery across Africa through innovative programs, community engagement, 
             and sustainable development initiatives.
           </p>
-        </section>
+        </div>
+      </section>
+
+      <div className="container py-16 space-y-16">
 
         {/* Impact Statistics */}
         <section>

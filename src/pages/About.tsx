@@ -7,6 +7,7 @@ import executiveSecretaryGeneral from "@/assets/executive-secretary-general.jpg"
 import executiveCFO from "@/assets/executive-cfo.jpg";
 import executiveProjectManager from "@/assets/executive-project-manager.jpg";
 import executiveCommunications from "@/assets/executive-communications.jpg";
+import aboutHeroImg from "@/assets/about-hero.jpg";
 
 const About = () => {
   const coreValues = [
@@ -103,15 +104,26 @@ const About = () => {
         canonical="/about"
       />
 
-      <div className="container py-16 space-y-16">
-        {/* Hero Section */}
-        <section className="text-center space-y-6">
-          <h1 className="display-title text-4xl font-bold md:text-5xl">About OPHEG</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+      {/* Hero Section */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={aboutHeroImg} 
+            alt="OPHEG healthcare team - About us hero image"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
+        </div>
+        <div className="relative z-10 text-center text-white space-y-6 container animate-fade-in">
+          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">About OPHEG</h1>
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed drop-shadow-md">
             Optimum Health Global is dedicated to transforming healthcare access across Africa through 
             innovative community-centered approaches and sustainable health solutions.
           </p>
-        </section>
+        </div>
+      </section>
+
+      <div className="container py-16 space-y-16">
 
         {/* Organization Details */}
         <section className="grid gap-8 md:grid-cols-3">
