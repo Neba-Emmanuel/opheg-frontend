@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/SEO";
 
-interface ChatMsg { role: "assistant" | "user"; content: string; ts: number }
+interface ChatMsg {
+  role: "assistant" | "user";
+  content: string;
+  ts: number;
+}
 
 const demoReply = (text: string): string => {
   const t = text.toLowerCase();
@@ -35,7 +39,10 @@ const HealthAI = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+    listRef.current?.scrollTo({
+      top: listRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages.length]);
 
   const send = (e: React.FormEvent) => {
@@ -46,7 +53,11 @@ const HealthAI = () => {
     setMessages((m) => [...m, user]);
     setInput("");
     setTimeout(() => {
-      const assistant: ChatMsg = { role: "assistant", content: demoReply(content), ts: Date.now() };
+      const assistant: ChatMsg = {
+        role: "assistant",
+        content: demoReply(content),
+        ts: Date.now(),
+      };
       setMessages((m) => [...m, assistant]);
     }, 350);
   };
@@ -61,33 +72,46 @@ const HealthAI = () => {
       />
 
       <div className="container grid gap-6 py-12">
-        <div className="rounded-lg border bg-secondary/30 p-4 text-sm text-muted-foreground">
-          Live AI will be enabled after connecting a backend (Supabase) and an AI provider. This page currently runs in private demo mode.
-        </div>
-
         <h1 className="display-title text-3xl">Health AI Chat</h1>
 
         <div className="grid gap-4 md:grid-cols-3">
           <section className="md:col-span-2">
             <div className="flex h-[60vh] flex-col rounded-lg border bg-card">
-              <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto p-4">
+              <div
+                ref={listRef}
+                className="flex-1 space-y-4 overflow-y-auto p-4"
+              >
                 {messages.map((m, i) => (
-                  <div key={i} className={m.role === "assistant" ? "mr-auto max-w-[85%] rounded-lg border bg-secondary/40 p-3" : "ml-auto max-w-[85%] rounded-lg bg-primary p-3 text-primary-foreground"}>
+                  <div
+                    key={i}
+                    className={
+                      m.role === "assistant"
+                        ? "mr-auto max-w-[85%] rounded-lg border bg-secondary/40 p-3"
+                        : "ml-auto max-w-[85%] rounded-lg bg-primary p-3 text-primary-foreground"
+                    }
+                  >
                     <p className="text-sm leading-relaxed">{m.content}</p>
                   </div>
                 ))}
               </div>
-              <form onSubmit={send} className="flex items-center gap-2 border-t p-3">
+              <form
+                onSubmit={send}
+                className="flex items-center gap-2 border-t p-3"
+              >
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about symptoms, prevention, or care..."
                 />
-                <Button type="submit" variant="hero">Send</Button>
+                <Button type="submit" variant="hero">
+                  Send
+                </Button>
               </form>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Disclaimer: OPHEG’s Health AI provides educational information only and does not replace professional medical advice, diagnosis, or treatment.
+              Disclaimer: OPHEG’s Health AI provides educational information
+              only and does not replace professional medical advice, diagnosis,
+              or treatment.
             </p>
           </section>
 
@@ -102,7 +126,10 @@ const HealthAI = () => {
             </div>
             <div className="rounded-lg border bg-card p-4">
               <h3 className="font-semibold">Emergency</h3>
-              <p className="mt-2 text-sm text-muted-foreground">If you have severe symptoms (difficulty breathing, severe bleeding, fainting), seek emergency care immediately.</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                If you have severe symptoms (difficulty breathing, severe
+                bleeding, fainting), seek emergency care immediately.
+              </p>
             </div>
           </aside>
         </div>
