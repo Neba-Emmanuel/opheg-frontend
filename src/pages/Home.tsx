@@ -11,6 +11,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import communityOutreachImg from "@/assets/outreach.jpg";
+import heroHomeImg from "@/assets/hero-home.jpg";
 
 const Home = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -95,7 +96,16 @@ const Home = () => {
         jsonLd={jsonLd}
       />
 
-      <section ref={heroRef} className="bg-hero relative overflow-hidden">
+      <section 
+        ref={heroRef} 
+        className="relative overflow-hidden min-h-[80vh]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.7), rgba(59, 130, 246, 0.8)), url(${heroHomeImg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         <div className="container flex min-h-[80vh] flex-col items-center justify-center gap-8 py-16 text-center relative z-10">
           <div className={`floating-element ${isVisible ? "fade-in-up" : ""}`}>
             <img
@@ -108,13 +118,13 @@ const Home = () => {
           <div
             className={`space-y-4 ${isVisible ? "fade-in-up stagger-1" : ""}`}
           >
-            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl">
+            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl text-white">
               Optimum Health Global
             </h1>
-            <p className="text-lg text-primary/80 font-medium">OPHEG</p>
+            <p className="text-lg text-white/90 font-medium">OPHEG</p>
           </div>
           <p
-            className={`max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed ${
+            className={`max-w-3xl text-lg text-white/90 md:text-xl leading-relaxed ${
               isVisible ? "fade-in-up stagger-2" : ""
             }`}
           >
@@ -144,7 +154,7 @@ const Home = () => {
             </Button>
           </div>
           <p
-            className={`text-sm text-muted-foreground italic ${
+            className={`text-sm text-white/80 italic ${
               isVisible ? "fade-in-up stagger-4" : ""
             }`}
           >
