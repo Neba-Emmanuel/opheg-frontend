@@ -11,7 +11,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import communityOutreachImg from "@/assets/outreach.jpg";
-import heroHomeImg from "@/assets/hero-home.jpg";
+import heroHomeImg from "@/assets/home-hero.jpg";
 
 const Home = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -96,14 +96,14 @@ const Home = () => {
         jsonLd={jsonLd}
       />
 
-      <section 
-        ref={heroRef} 
+      <section
+        ref={heroRef}
         className="relative overflow-hidden min-h-[80vh]"
         style={{
           backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.7), rgba(59, 130, 246, 0.8)), url(${heroHomeImg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div className="container flex min-h-[80vh] flex-col items-center justify-center gap-8 py-16 text-center relative z-10">

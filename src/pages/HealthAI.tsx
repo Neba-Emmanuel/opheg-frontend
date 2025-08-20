@@ -10,21 +10,136 @@ interface ChatMsg {
   ts: number;
 }
 
-const demoReply = (text: string): string => {
-  const t = text.toLowerCase();
-  if (t.includes("fever") || t.includes("malaria")) {
-    return "Fever can be caused by malaria or infections. If you have high fever, severe headache, or vomiting, seek care urgently. Drink fluids, rest, and consider a rapid malaria test at a clinic. This is general guidance, not a diagnosis.";
+interface FormattedBlock {
+  type: "h1" | "h2" | "bullet" | "paragraph";
+  content: string;
+}
+
+function parseAIContent(text: string): FormattedBlock[] {
+  // If it's just the typing indicator, return as paragraph
+  if (text === "…") {
+    return [{ type: "paragraph", content: text }];
   }
-  if (t.includes("hiv") || t.includes("aids")) {
-    return "HIV testing and early treatment are vital. Use protection, avoid sharing needles, and visit a certified testing center. We can guide you to local resources in Kumba. This is not a substitute for medical advice.";
+
+  const lines = text.split("\n").filter(Boolean);
+  const blocks: FormattedBlock[] = [];
+  let currentBullets: string[] = [];
+
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+
+    // Handle headings
+    if (trimmedLine.startsWith("# ")) {
+      // If we have pending bullets, add them first
+      if (currentBullets.length > 0) {
+        currentBullets.forEach((content) => {
+          blocks.push({ type: "bullet", content });
+        });
+        currentBullets = [];
+      }
+      blocks.push({ type: "h1", content: trimmedLine.slice(2).trim() });
+      continue;
+    }
+
+    if (trimmedLine.startsWith("## ")) {
+      // If we have pending bullets, add them first
+      if (currentBullets.length > 0) {
+        currentBullets.forEach((content) => {
+          blocks.push({ type: "bullet", content });
+        });
+        currentBullets = [];
+      }
+      blocks.push({ type: "h2", content: trimmedLine.slice(3).trim() });
+      continue;
+    }
+
+    // Handle bullet points (with various markdown formats)
+    if (
+      trimmedLine.startsWith("- ") ||
+      trimmedLine.startsWith("* ") ||
+      /^\d+\./.test(trimmedLine)
+    ) {
+      // Clean the content by removing markdown formatting
+      let cleanContent = trimmedLine
+        .replace(/^[-*]\s+/, "")
+        .replace(/^\d+\.\s+/, "")
+        .replace(/\*\*/g, "")
+        .replace(/\*/g, "")
+        .replace(/^_/, "")
+        .replace(/_$/, "")
+        .trim();
+
+      currentBullets.push(cleanContent);
+      continue;
+    }
+
+    // Handle paragraph text
+    if (trimmedLine) {
+      // If we have pending bullets, add them first
+      if (currentBullets.length > 0) {
+        currentBullets.forEach((content) => {
+          blocks.push({ type: "bullet", content });
+        });
+        currentBullets = [];
+      }
+
+      // Clean the paragraph content
+      const cleanContent = trimmedLine
+        .replace(/\*\*/g, "")
+        .replace(/\*/g, "")
+        .replace(/^_/, "")
+        .replace(/_$/, "")
+        .trim();
+
+      blocks.push({ type: "paragraph", content: cleanContent });
+    }
   }
-  if (t.includes("pregnan")) {
-    return "For pregnancy-related concerns, antenatal visits are essential. Eat balanced meals, take iron/folate as advised, and report bleeding or severe pain immediately.";
+
+  // Add any remaining bullets
+  if (currentBullets.length > 0) {
+    currentBullets.forEach((content) => {
+      blocks.push({ type: "bullet", content });
+    });
   }
-  if (t.includes("diarrh")) {
-    return "For diarrhea, prevent dehydration with oral rehydration solution (ORS). If there is blood, high fever, or persistent symptoms, go to the nearest clinic.";
-  }
-  return "Thank you for your question. Based on your message, I can share general guidance and when to seek care. For emergencies (trouble breathing, severe bleeding, fainting), contact local services immediately.";
+
+  return blocks;
+}
+
+const renderBlocks = (blocks: FormattedBlock[]) => {
+  return blocks.map((block, i) => {
+    switch (block.type) {
+      case "h1":
+        return (
+          <h1 key={i} className="font-bold text-xl my-2">
+            {block.content}
+          </h1>
+        );
+      case "h2":
+        return (
+          <h2 key={i} className="font-semibold text-lg my-1">
+            {block.content}
+          </h2>
+        );
+      case "bullet":
+        return (
+          <ul key={i} className="list-disc pl-5 my-1">
+            <li>{block.content}</li>
+          </ul>
+        );
+      case "paragraph":
+        return (
+          <p key={i} className="my-1">
+            {block.content}
+          </p>
+        );
+      default:
+        return (
+          <p key={i} className="my-1">
+            {block.content}
+          </p>
+        );
+    }
+  });
 };
 
 const HealthAI = () => {
@@ -156,7 +271,11 @@ const HealthAI = () => {
                         : "ml-auto max-w-[85%] rounded-lg bg-primary p-3 text-primary-foreground"
                     }
                   >
-                    <p className="text-sm leading-relaxed">{m.content}</p>
+                    {m.role === "assistant" ? (
+                      renderBlocks(parseAIContent(m.content))
+                    ) : (
+                      <p>{m.content}</p>
+                    )}
                   </div>
                 ))}
               </div>
