@@ -10,8 +10,8 @@ const SiteHeader = () => {
   const navigationItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Our Works", href: "/our-works" },
-    { name: "Get Involved", href: "/get-involved" },
+    { name: "Our Works", href: "#" },
+    { name: "Get Involved", href: "#" },
   ];
 
   return (
@@ -68,9 +68,11 @@ const SiteHeader = () => {
                     alt="OPHEG logo"
                     className="h-8 w-8 rounded-full"
                   />
-                  <span className="display-title text-lg font-semibold">OPHEG</span>
+                  <span className="display-title text-lg font-semibold">
+                    OPHEG
+                  </span>
                 </div>
-                
+
                 {navigationItems.map((item) => (
                   <NavLink
                     key={item.name}
@@ -87,12 +89,20 @@ const SiteHeader = () => {
                     {item.name}
                   </NavLink>
                 ))}
-                
+
                 <div className="flex flex-col gap-3 pt-4 border-t">
-                  <Button asChild variant="outline" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button
+                    asChild
+                    variant="outline"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <Link to="#">Chat with Health AI</Link>
                   </Button>
-                  <Button asChild variant="hero" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button
+                    asChild
+                    variant="hero"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <Link to="#">Book Appointment</Link>
                   </Button>
                 </div>
