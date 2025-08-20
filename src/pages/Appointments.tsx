@@ -16,7 +16,10 @@ const AppointmentSchema = z.object({
   reason: z.string().min(5),
 });
 
-type Appointment = z.infer<typeof AppointmentSchema> & { id: string; createdAt: number };
+type Appointment = z.infer<typeof AppointmentSchema> & {
+  id: string;
+  createdAt: number;
+};
 
 const storageKey = "opheg_appointments";
 
@@ -43,9 +46,14 @@ const Appointments = () => {
     localStorage.setItem(storageKey, JSON.stringify(items));
   }, [items]);
 
-  const upcoming = useMemo(() => items.sort((a,b) => a.date.localeCompare(b.date)), [items]);
+  const upcoming = useMemo(
+    () => items.sort((a, b) => a.date.localeCompare(b.date)),
+    [items]
+  );
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   };
@@ -54,15 +62,32 @@ const Appointments = () => {
     e.preventDefault();
     const parsed = AppointmentSchema.safeParse(form);
     if (!parsed.success) {
-      toast({ title: "Please fix the highlighted fields", description: parsed.error.issues.map(i=>i.path.join("."))+"" });
+      toast({
+        title: "Please fix the highlighted fields",
+        description: parsed.error.issues.map((i) => i.path.join(".")) + "",
+      });
       return;
     }
     setItems((prev) => [form, ...prev]);
-    toast({ title: "Appointment scheduled", description: `${form.fullName} · ${form.date} ${form.time}` });
-    setForm({ id: crypto.randomUUID(), fullName: "", email: "", phone: "", date: "", time: "", location: "Kumba", reason: "", createdAt: Date.now() });
+    toast({
+      title: "Appointment scheduled",
+      description: `${form.fullName} · ${form.date} ${form.time}`,
+    });
+    setForm({
+      id: crypto.randomUUID(),
+      fullName: "",
+      email: "",
+      phone: "",
+      date: "",
+      time: "",
+      location: "Kumba",
+      reason: "",
+      createdAt: Date.now(),
+    });
   };
 
-  const remove = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id));
+  const remove = (id: string) =>
+    setItems((prev) => prev.filter((i) => i.id !== id));
 
   return (
     <>
@@ -82,42 +107,86 @@ const Appointments = () => {
         <section className="rounded-lg border bg-card p-6 shadow-sm">
           <h1 className="display-title mb-1 text-3xl">Book an Appointment</h1>
           <p className="mb-6 text-sm text-muted-foreground">
-            We’ll confirm via phone or email. This is a demo without server storage yet.
+            We’ll confirm via phone or email.
           </p>
           <form onSubmit={submit} className="grid gap-4">
             <div>
-              <label className="mb-1 block text-sm font-medium">Full name</label>
-              <Input name="fullName" value={form.fullName} onChange={onChange} required />
+              <label className="mb-1 block text-sm font-medium">
+                Full name
+              </label>
+              <Input
+                name="fullName"
+                value={form.fullName}
+                onChange={onChange}
+                required
+              />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-sm font-medium">Email</label>
-                <Input name="email" type="email" value={form.email} onChange={onChange} placeholder="optional" />
+                <Input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={onChange}
+                  placeholder="optional"
+                />
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium">Phone</label>
-                <Input name="phone" value={form.phone} onChange={onChange} required />
+                <Input
+                  name="phone"
+                  value={form.phone}
+                  onChange={onChange}
+                  required
+                />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-sm font-medium">Date</label>
-                <Input name="date" type="date" value={form.date} onChange={onChange} required />
+                <Input
+                  name="date"
+                  type="date"
+                  value={form.date}
+                  onChange={onChange}
+                  required
+                />
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium">Time</label>
-                <Input name="time" type="time" value={form.time} onChange={onChange} required />
+                <Input
+                  name="time"
+                  type="time"
+                  value={form.time}
+                  onChange={onChange}
+                  required
+                />
               </div>
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium">Location</label>
-              <Input name="location" value={form.location} onChange={onChange} placeholder="e.g., Kumba Health Center" required />
+              <Input
+                name="location"
+                value={form.location}
+                onChange={onChange}
+                placeholder="e.g., Kumba Health Center"
+                required
+              />
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium">Reason</label>
-              <Textarea name="reason" value={form.reason} onChange={onChange} rows={4} required />
+              <Textarea
+                name="reason"
+                value={form.reason}
+                onChange={onChange}
+                rows={4}
+                required
+              />
             </div>
-            <Button type="submit" variant="hero" className="mt-2">Schedule</Button>
+            <Button type="submit" variant="hero" className="mt-2">
+              Schedule
+            </Button>
           </form>
         </section>
 
@@ -134,16 +203,25 @@ const Appointments = () => {
           <div className="rounded-lg border bg-card p-6">
             <h2 className="display-title text-xl">Your Appointments</h2>
             {upcoming.length === 0 ? (
-              <p className="mt-2 text-sm text-muted-foreground">No appointments yet.</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                No appointments yet.
+              </p>
             ) : (
               <ul className="mt-4 space-y-3 text-sm">
                 {upcoming.map((a) => (
-                  <li key={a.id} className="flex items-center justify-between rounded-md border p-3">
+                  <li
+                    key={a.id}
+                    className="flex items-center justify-between rounded-md border p-3"
+                  >
                     <div>
                       <div className="font-medium">{a.fullName}</div>
-                      <div className="text-muted-foreground">{a.date} · {a.time} · {a.location}</div>
+                      <div className="text-muted-foreground">
+                        {a.date} · {a.time} · {a.location}
+                      </div>
                     </div>
-                    <Button variant="outline" onClick={() => remove(a.id)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => remove(a.id)}>
+                      Cancel
+                    </Button>
                   </li>
                 ))}
               </ul>

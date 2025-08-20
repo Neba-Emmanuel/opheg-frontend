@@ -46,10 +46,10 @@ const SiteHeader = () => {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="outline" className="hidden md:inline-flex">
-            <Link to="#">Chat with Health AI</Link>
+            <Link to="/health-ai">Chat with Health AI</Link>
           </Button>
           <Button asChild variant="hero" className="hidden sm:inline-flex">
-            <Link to="#">Book Appointment</Link>
+            <Link to="/appointments">Book Appointment</Link>
           </Button>
 
           {/* Mobile Menu */}
@@ -96,14 +96,14 @@ const SiteHeader = () => {
                     variant="outline"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Link to="#">Chat with Health AI</Link>
+                    <Link to="/health-ai">Chat with Health AI</Link>
                   </Button>
                   <Button
                     asChild
                     variant="hero"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Link to="#">Book Appointment</Link>
+                    <Link to="/appointments">Book Appointment</Link>
                   </Button>
                 </div>
               </nav>

@@ -41,7 +41,10 @@ const SiteFooter = () => {
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a
+                href="/appointments"
+                className="hover:text-foreground transition-colors"
+              >
                 Book Appointment
               </a>
             </li>

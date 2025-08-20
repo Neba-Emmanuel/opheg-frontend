@@ -180,16 +180,19 @@ const HealthAI = () => {
     setMessages((m) => [...m, assistant]);
 
     try {
-      const res = await fetch("http://localhost:28906/api/ophegai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [
-            ...messages.map((m) => ({ role: m.role, content: m.content })),
-            { role: "user", content },
-          ],
-        }),
-      });
+      const res = await fetch(
+        "https://healthbank-backend.vercel.app/api/ophegai",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [
+              ...messages.map((m) => ({ role: m.role, content: m.content })),
+              { role: "user", content },
+            ],
+          }),
+        }
+      );
 
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();

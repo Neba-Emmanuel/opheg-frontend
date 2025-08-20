@@ -142,7 +142,7 @@ const Home = () => {
               variant="hero"
               className="text-lg px-8 py-4"
             >
-              <Link to="#">Book an Appointment</Link>
+              <Link to="/appointments">Book an Appointment</Link>
             </Button>
             <Button
               asChild
@@ -150,7 +150,7 @@ const Home = () => {
               variant="outline"
               className="text-lg px-8 py-4"
             >
-              <Link to="#">Chat with Health AI</Link>
+              <Link to="/health-ai">Chat with Health AI</Link>
             </Button>
           </div>
           <p
@@ -267,7 +267,7 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" variant="hero">
-              <Link to="#">Schedule Your Appointment</Link>
+              <Link to="/appointments">Schedule Your Appointment</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="#">Get Involved</Link>

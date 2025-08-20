@@ -27,14 +27,14 @@ const Index = () => {
     slogan: "Clean health · Clean society",
     foundingDate: "2022-11-22",
     areaServed: "Cameroon and Africa",
-    url: typeof window !== 'undefined' ? window.location.origin : "",
+    url: typeof window !== "undefined" ? window.location.origin : "",
     logo: "/lovable-uploads/92dab1df-9e55-4782-b39c-46e58e19e16c.png",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Kumba",
       addressRegion: "Southwest Region",
-      addressCountry: "Cameroon"
-    }
+      addressCountry: "Cameroon",
+    },
   };
 
   return (
@@ -58,7 +58,8 @@ const Index = () => {
             Optimum Health Global (OPHEG)
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
-            Taking health to the communities and ensuring a clean health and clean society.
+            Taking health to the communities and ensuring a clean health and
+            clean society.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" variant="hero">
@@ -68,7 +69,9 @@ const Index = () => {
               <Link to="/health-ai">Chat with Health AI</Link>
             </Button>
           </div>
-          <p className="text-xs text-muted-foreground">Motto: Clean health · Clean society</p>
+          <p className="text-xs text-muted-foreground">
+            Motto: Clean health · Clean society
+          </p>
         </div>
       </section>
 
@@ -77,13 +80,18 @@ const Index = () => {
           <article className="rounded-lg border bg-card p-6 shadow-sm">
             <h2 className="display-title mb-2 text-2xl">Vision</h2>
             <p className="text-muted-foreground">
-              Helping Humanity and saving lives from common and endemic diseases, coupled with negative health stigmas that puts a threat to human lives through identifying, educating, empowering and helping the masses make positive health decisions to adopt a healthy behavior, thereby attaining health at its optimum.
+              Helping Humanity and saving lives from common and endemic
+              diseases, coupled with negative health stigmas that puts a threat
+              to human lives through identifying, educating, empowering and
+              helping the masses make positive health decisions to adopt a
+              healthy behavior, thereby attaining health at its optimum.
             </p>
           </article>
           <article className="rounded-lg border bg-card p-6 shadow-sm">
             <h2 className="display-title mb-2 text-2xl">Mission</h2>
             <p className="text-muted-foreground">
-              Taking health to the communities and ensuring a clean health and clean society.
+              Taking health to the communities and ensuring a clean health and
+              clean society.
             </p>
           </article>
         </section>
@@ -92,13 +100,31 @@ const Index = () => {
           <h2 className="display-title text-2xl">Our VITAL Core Values</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {[
-              { title: "Vision", desc: "We act with purpose to build a healthier, equitable future." },
-              { title: "Innovation", desc: "We embrace new ideas and technology to expand access and impact." },
-              { title: "Transparency", desc: "We are open, honest, and accountable in every action." },
-              { title: "Accessibility", desc: "We break barriers so essential services reach everyone." },
-              { title: "Love", desc: "We serve with compassion and empathy—humanity first." },
+              {
+                title: "Vision",
+                desc: "We act with purpose to build a healthier, equitable future.",
+              },
+              {
+                title: "Innovation",
+                desc: "We embrace new ideas and technology to expand access and impact.",
+              },
+              {
+                title: "Transparency",
+                desc: "We are open, honest, and accountable in every action.",
+              },
+              {
+                title: "Accessibility",
+                desc: "We break barriers so essential services reach everyone.",
+              },
+              {
+                title: "Love",
+                desc: "We serve with compassion and empathy—humanity first.",
+              },
             ].map((v) => (
-              <div key={v.title} className="rounded-lg border bg-card p-5 shadow-sm transition-shadow hover:shadow-[var(--shadow-elegant)]">
+              <div
+                key={v.title}
+                className="rounded-lg border bg-card p-5 shadow-sm transition-shadow hover:shadow-[var(--shadow-elegant)]"
+              >
                 <h3 className="font-semibold">{v.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{v.desc}</p>
               </div>
@@ -139,7 +165,10 @@ const Index = () => {
               "Advisors",
               "Human Resource Personnel",
             ].map((role) => (
-              <div key={role} className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">
+              <div
+                key={role}
+                className="rounded-lg border bg-card p-4 text-sm text-muted-foreground"
+              >
                 {role}
               </div>
             ))}
@@ -147,9 +176,12 @@ const Index = () => {
         </section>
 
         <section className="rounded-xl border bg-secondary/20 p-8 text-center">
-          <h2 className="display-title text-2xl">Ready to take a positive health step?</h2>
+          <h2 className="display-title text-2xl">
+            Ready to take a positive health step?
+          </h2>
           <p className="mt-2 text-muted-foreground">
-            Book an appointment with our team or get instant guidance from our Health AI.
+            Book an appointment with our team or get instant guidance from our
+            Health AI.
           </p>
           <div className="mt-4 flex justify-center gap-3">
             <Button asChild variant="hero">
