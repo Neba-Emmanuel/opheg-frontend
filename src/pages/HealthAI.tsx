@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown"; // ✅ import renderer
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,138 +10,6 @@ interface ChatMsg {
   content: string;
   ts: number;
 }
-
-interface FormattedBlock {
-  type: "h1" | "h2" | "bullet" | "paragraph";
-  content: string;
-}
-
-function parseAIContent(text: string): FormattedBlock[] {
-  // If it's just the typing indicator, return as paragraph
-  if (text === "…") {
-    return [{ type: "paragraph", content: text }];
-  }
-
-  const lines = text.split("\n").filter(Boolean);
-  const blocks: FormattedBlock[] = [];
-  let currentBullets: string[] = [];
-
-  for (const line of lines) {
-    const trimmedLine = line.trim();
-
-    // Handle headings
-    if (trimmedLine.startsWith("# ")) {
-      // If we have pending bullets, add them first
-      if (currentBullets.length > 0) {
-        currentBullets.forEach((content) => {
-          blocks.push({ type: "bullet", content });
-        });
-        currentBullets = [];
-      }
-      blocks.push({ type: "h1", content: trimmedLine.slice(2).trim() });
-      continue;
-    }
-
-    if (trimmedLine.startsWith("## ")) {
-      // If we have pending bullets, add them first
-      if (currentBullets.length > 0) {
-        currentBullets.forEach((content) => {
-          blocks.push({ type: "bullet", content });
-        });
-        currentBullets = [];
-      }
-      blocks.push({ type: "h2", content: trimmedLine.slice(3).trim() });
-      continue;
-    }
-
-    // Handle bullet points (with various markdown formats)
-    if (
-      trimmedLine.startsWith("- ") ||
-      trimmedLine.startsWith("* ") ||
-      /^\d+\./.test(trimmedLine)
-    ) {
-      // Clean the content by removing markdown formatting
-      let cleanContent = trimmedLine
-        .replace(/^[-*]\s+/, "")
-        .replace(/^\d+\.\s+/, "")
-        .replace(/\*\*/g, "")
-        .replace(/\*/g, "")
-        .replace(/^_/, "")
-        .replace(/_$/, "")
-        .trim();
-
-      currentBullets.push(cleanContent);
-      continue;
-    }
-
-    // Handle paragraph text
-    if (trimmedLine) {
-      // If we have pending bullets, add them first
-      if (currentBullets.length > 0) {
-        currentBullets.forEach((content) => {
-          blocks.push({ type: "bullet", content });
-        });
-        currentBullets = [];
-      }
-
-      // Clean the paragraph content
-      const cleanContent = trimmedLine
-        .replace(/\*\*/g, "")
-        .replace(/\*/g, "")
-        .replace(/^_/, "")
-        .replace(/_$/, "")
-        .trim();
-
-      blocks.push({ type: "paragraph", content: cleanContent });
-    }
-  }
-
-  // Add any remaining bullets
-  if (currentBullets.length > 0) {
-    currentBullets.forEach((content) => {
-      blocks.push({ type: "bullet", content });
-    });
-  }
-
-  return blocks;
-}
-
-const renderBlocks = (blocks: FormattedBlock[]) => {
-  return blocks.map((block, i) => {
-    switch (block.type) {
-      case "h1":
-        return (
-          <h1 key={i} className="font-bold text-xl my-2">
-            {block.content}
-          </h1>
-        );
-      case "h2":
-        return (
-          <h2 key={i} className="font-semibold text-lg my-1">
-            {block.content}
-          </h2>
-        );
-      case "bullet":
-        return (
-          <ul key={i} className="list-disc pl-5 my-1">
-            <li>{block.content}</li>
-          </ul>
-        );
-      case "paragraph":
-        return (
-          <p key={i} className="my-1">
-            {block.content}
-          </p>
-        );
-      default:
-        return (
-          <p key={i} className="my-1">
-            {block.content}
-          </p>
-        );
-    }
-  });
-};
 
 const HealthAI = () => {
   const [messages, setMessages] = useState<ChatMsg[]>([
@@ -166,15 +35,13 @@ const HealthAI = () => {
     const content = input.trim();
     if (!content) return;
 
-    // Add user message
     const user: ChatMsg = { role: "user", content, ts: Date.now() };
     setMessages((m) => [...m, user]);
     setInput("");
 
-    // Add placeholder assistant message (with typing dots)
     const assistant: ChatMsg = {
       role: "assistant",
-      content: "…", // typing indicator
+      content: "…",
       ts: Date.now(),
     };
     setMessages((m) => [...m, assistant]);
@@ -196,7 +63,6 @@ const HealthAI = () => {
 
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
-
       if (!reader) return;
 
       let fullText = "";
@@ -214,7 +80,6 @@ const HealthAI = () => {
             if (data.token) {
               fullText += data.token;
 
-              // Update the last assistant message
               setMessages((m) => {
                 const updated = [...m];
                 updated[updated.length - 1] = {
@@ -224,7 +89,6 @@ const HealthAI = () => {
                 return updated;
               });
 
-              // Auto-scroll while streaming
               listRef.current?.scrollTo({
                 top: listRef.current.scrollHeight,
                 behavior: "smooth",
@@ -270,18 +134,19 @@ const HealthAI = () => {
                     key={i}
                     className={
                       m.role === "assistant"
-                        ? "mr-auto max-w-[85%] rounded-lg border bg-secondary/40 p-3"
+                        ? "mr-auto max-w-[85%] rounded-lg border bg-secondary/40 p-3 prose prose-sm"
                         : "ml-auto max-w-[85%] rounded-lg bg-primary p-3 text-primary-foreground"
                     }
                   >
                     {m.role === "assistant" ? (
-                      renderBlocks(parseAIContent(m.content))
+                      <ReactMarkdown>{m.content}</ReactMarkdown>
                     ) : (
                       <p>{m.content}</p>
                     )}
                   </div>
                 ))}
               </div>
+
               <form
                 onSubmit={send}
                 className="flex items-center gap-2 border-t p-3"
