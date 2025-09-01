@@ -182,6 +182,11 @@ const HealthAI = () => {
               <p className="mt-2 text-sm text-muted-foreground">
                 If you have severe symptoms (difficulty breathing, severe
                 bleeding, fainting), seek emergency care immediately.
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                  <li>📞 Health Support: +237 676 395 082 </li>
+                  <li>🌐 Location: Kumba, Cameroon</li>
+                  <li>📧 Email: support@opheg.com </li>
+                </ul>
               </p>
             </div>
           </aside>
