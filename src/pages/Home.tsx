@@ -125,7 +125,7 @@ const Home = () => {
           <div
             className={`space-y-4 transform transition-all duration-700 ${isVisible ? "animate-fade-in stagger-1" : "opacity-0 translate-y-10"}`}
           >
-            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl text-white animate-gradient-shift bg-gradient-to-r from-white via-blue-100 to-white bg-[length:200%_100%]">
+            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl text-white animate-gradient-shift bg-gradient-to-r from-white via-white/60 to-white bg-[length:200%_100%]">
               Optimum Health Global
             </h1>
             <p className="text-lg text-white/90 font-medium animate-bounce-subtle">OPHEG</p>
@@ -147,7 +147,7 @@ const Home = () => {
               asChild
               size="lg"
               variant="hero"
-              className="text-lg px-8 py-4 btn-hover press-effect transform hover:scale-110 transition-all duration-300 animate-heartbeat"
+              className="text-lg px-8 py-4 btn-hover press-effect transform hover:scale-110 transition-all duration-300"
             >
               <Link to="/appointments">Book an Appointment</Link>
             </Button>
