@@ -28,7 +28,7 @@ const Index = () => {
     foundingDate: "2022-11-22",
     areaServed: "Cameroon and Africa",
     url: typeof window !== "undefined" ? window.location.origin : "",
-    logo: "/lovable-uploads/92dab1df-9e55-4782-b39c-46e58e19e16c.png",
+    logo: "/logo.png",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Kumba",
@@ -49,7 +49,7 @@ const Index = () => {
       <section ref={heroRef} className="bg-hero">
         <div className="container flex min-h-[70vh] flex-col items-center justify-center gap-6 py-16 text-center">
           <img
-            src="/lovable-uploads/92dab1df-9e55-4782-b39c-46e58e19e16c.png"
+            src="/logo.png"
             alt="Optimum Health Global logo"
             className="h-20 w-20 rounded-full"
             loading="eager"

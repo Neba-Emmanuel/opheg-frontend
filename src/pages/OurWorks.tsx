@@ -19,7 +19,7 @@ import mobileSurgicalTeamImg from "@/assets/mobile-surgical-team.jpg";
 import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
 import communityOutreachImg from "@/assets/outreach.jpg";
-import ourWorksHeroImg from "@/assets/our-works-hero.jpg";
+import ourWorksHeroImg from "@/assets/home-hero.jpg";
 
 const OurWorks = () => {
   const objectives = [
@@ -90,23 +90,23 @@ const OurWorks = () => {
   ];
 
   const programs = [
+    // {
+    //   title: "Mobile Surgical Program",
+    //   description:
+    //     "Our mobile surgical teams bring life-saving procedures directly to remote communities.",
+    //   image: mobileSurgicalTeamImg,
+    //   stats: "50+ surgeries performed",
+    //   features: [
+    //     "Emergency procedures",
+    //     "Specialized equipment",
+    //     "Trained surgical teams",
+    //     "Post-operative care",
+    //   ],
+    // },
     {
-      title: "Mobile Surgical Program",
+      title: "Health Flix",
       description:
-        "Our mobile surgical teams bring life-saving procedures directly to remote communities.",
-      image: mobileSurgicalTeamImg,
-      stats: "50+ surgeries performed",
-      features: [
-        "Emergency procedures",
-        "Specialized equipment",
-        "Trained surgical teams",
-        "Post-operative care",
-      ],
-    },
-    {
-      title: "Health Professional Training",
-      description:
-        "Comprehensive training programs for healthcare workers across Africa.",
+        "Comprehensive training programs for healthcare workers across Cameroon.",
       image: medicalTrainingImg,
       stats: "100+ professionals trained",
       features: [
@@ -117,15 +117,15 @@ const OurWorks = () => {
       ],
     },
     {
-      title: "Community Health Centers",
-      description:
-        "Establishing modern healthcare facilities in underserved communities.",
+      title: "Diagnostic Center",
+      description: "Established a modern healthcare facility in the community.",
       image: healthFacilityImg,
-      stats: "20+ facilities established",
+      // stats: "20+ facilities established",
       features: [
         "Primary healthcare",
         "Preventive services",
         "Health education",
+        "Research & Innovation",
         "Community wellness",
       ],
     },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,6 +43,22 @@ const GetInvolved = () => {
     message: "",
   });
   const { toast } = useToast();
+
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (activeForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [activeForm]);
+
+  const handleCancel = () => {
+    setActiveForm(null);
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   const volunteerOpportunities = [
     {
@@ -232,7 +248,7 @@ const GetInvolved = () => {
 
       <div className="container py-16 space-y-16">
         {/* Overview Cards */}
-        <section className="grid gap-8 md:grid-cols-2">
+        <section ref={topRef} className="grid gap-8 md:grid-cols-2">
           <Card className="card-hover overflow-hidden">
             <div className="aspect-video overflow-hidden">
               <img
@@ -433,7 +449,7 @@ const GetInvolved = () => {
 
         {/* Application Forms */}
         {activeForm && (
-          <section className="max-w-2xl mx-auto">
+          <section ref={formRef} className="max-w-2xl mx-auto">
             <Card>
               <CardHeader>
                 <CardTitle>
@@ -545,7 +561,7 @@ const GetInvolved = () => {
                   >
                     Submit Application
                   </Button>
-                  <Button variant="outline" onClick={() => setActiveForm(null)}>
+                  <Button variant="outline" onClick={handleCancel}>
                     Cancel
                   </Button>
                 </div>
