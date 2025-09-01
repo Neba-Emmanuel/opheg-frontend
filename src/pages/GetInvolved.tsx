@@ -6,12 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { 
-  UserCheck, 
-  Building2, 
-  Heart, 
-  Microscope, 
-  GraduationCap, 
+import {
+  UserCheck,
+  Building2,
+  Heart,
+  Microscope,
+  GraduationCap,
   Stethoscope,
   Users,
   Handshake,
@@ -20,7 +20,7 @@ import {
   Mail,
   Phone,
   MapPin,
-  CheckCircle
+  CheckCircle,
 } from "lucide-react";
 import volunteersWorkingImg from "@/assets/volunteers-working.jpg";
 import partnershipsImg from "@/assets/partnerships.jpg";
@@ -28,17 +28,19 @@ import getInvolvedHeroImg from "@/assets/get-involved-hero.jpg";
 import { useToast } from "@/hooks/use-toast";
 
 const GetInvolved = () => {
-  const [activeForm, setActiveForm] = useState<'volunteer' | 'partner' | null>(null);
+  const [activeForm, setActiveForm] = useState<"volunteer" | "partner" | null>(
+    null
+  );
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    location: '',
-    experience: '',
-    motivation: '',
-    organization: '',
-    partnershipType: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    experience: "",
+    motivation: "",
+    organization: "",
+    partnershipType: "",
+    message: "",
   });
   const { toast } = useToast();
 
@@ -46,100 +48,155 @@ const GetInvolved = () => {
     {
       icon: Stethoscope,
       title: "Medical Volunteers",
-      description: "Doctors, nurses, and medical specialists providing direct patient care",
-      requirements: ["Valid medical license", "2+ years experience", "Commitment to community service"],
+      description:
+        "Doctors, nurses, and medical specialists providing direct patient care",
+      requirements: [
+        "Valid medical license",
+        "2+ years experience",
+        "Commitment to community service",
+      ],
       commitment: "3-6 months",
-      urgency: "high"
+      urgency: "high",
     },
     {
       icon: Users,
       title: "Community Health Workers",
-      description: "Support community outreach programs and health education initiatives",
-      requirements: ["Health education background", "Local language skills", "Community engagement experience"],
+      description:
+        "Support community outreach programs and health education initiatives",
+      requirements: [
+        "Health education background",
+        "Local language skills",
+        "Community engagement experience",
+      ],
       commitment: "6-12 months",
-      urgency: "medium"
+      urgency: "medium",
     },
     {
       icon: FileText,
       title: "Administrative Support",
-      description: "Help with project management, documentation, and operational support",
-      requirements: ["Administrative experience", "Computer skills", "Organizational abilities"],
+      description:
+        "Help with project management, documentation, and operational support",
+      requirements: [
+        "Administrative experience",
+        "Computer skills",
+        "Organizational abilities",
+      ],
       commitment: "3+ months",
-      urgency: "medium"
+      urgency: "medium",
     },
     {
       icon: Microscope,
       title: "Field Researchers",
-      description: "Conduct health research and data collection in community settings",
-      requirements: ["Research background", "Data analysis skills", "Field work experience"],
+      description:
+        "Conduct health research and data collection in community settings",
+      requirements: [
+        "Research background",
+        "Data analysis skills",
+        "Field work experience",
+      ],
       commitment: "6+ months",
-      urgency: "low"
+      urgency: "low",
     },
     {
       icon: GraduationCap,
       title: "Training Coordinators",
-      description: "Develop and deliver training programs for healthcare professionals",
-      requirements: ["Education/training background", "Curriculum development", "Teaching experience"],
+      description:
+        "Develop and deliver training programs for healthcare professionals",
+      requirements: [
+        "Education/training background",
+        "Curriculum development",
+        "Teaching experience",
+      ],
       commitment: "6+ months",
-      urgency: "medium"
-    }
+      urgency: "medium",
+    },
   ];
 
-  const partnershipTypes = [
-    {
-      icon: Building2,
-      title: "Healthcare Institutions",
-      description: "Hospitals, clinics, and medical centers seeking collaboration",
-      benefits: ["Resource sharing", "Knowledge exchange", "Expanded reach"],
-      examples: ["Medical equipment sharing", "Staff exchange programs", "Joint research initiatives"]
-    },
-    {
-      icon: GraduationCap,
-      title: "Educational Organizations",
-      description: "Universities, schools, and training institutions",
-      benefits: ["Research collaboration", "Student placements", "Curriculum development"],
-      examples: ["Medical student rotations", "Research partnerships", "Educational programs"]
-    },
-    {
-      icon: Globe,
-      title: "International NGOs",
-      description: "Global organizations working in healthcare and development",
-      benefits: ["Funding opportunities", "Best practice sharing", "Advocacy support"],
-      examples: ["Joint grant applications", "Program implementation", "Policy advocacy"]
-    },
-    {
-      icon: Building2,
-      title: "Corporate Sponsors",
-      description: "Businesses supporting healthcare initiatives through CSR",
-      benefits: ["Funding support", "Equipment donations", "Employee volunteering"],
-      examples: ["Medical equipment donations", "Infrastructure funding", "Skills-based volunteering"]
-    }
-  ];
+  // const partnershipTypes = [
+  //   {
+  //     icon: Building2,
+  //     title: "Healthcare Institutions",
+  //     description: "Hospitals, clinics, and medical centers seeking collaboration",
+  //     benefits: ["Resource sharing", "Knowledge exchange", "Expanded reach"],
+  //     examples: ["Medical equipment sharing", "Staff exchange programs", "Joint research initiatives"]
+  //   },
+  //   {
+  //     icon: GraduationCap,
+  //     title: "Educational Organizations",
+  //     description: "Universities, schools, and training institutions",
+  //     benefits: ["Research collaboration", "Student placements", "Curriculum development"],
+  //     examples: ["Medical student rotations", "Research partnerships", "Educational programs"]
+  //   },
+  //   {
+  //     icon: Globe,
+  //     title: "International NGOs",
+  //     description: "Global organizations working in healthcare and development",
+  //     benefits: ["Funding opportunities", "Best practice sharing", "Advocacy support"],
+  //     examples: ["Joint grant applications", "Program implementation", "Policy advocacy"]
+  //   },
+  //   {
+  //     icon: Building2,
+  //     title: "Corporate Sponsors",
+  //     description: "Businesses supporting healthcare initiatives through CSR",
+  //     benefits: ["Funding support", "Equipment donations", "Employee volunteering"],
+  //     examples: ["Medical equipment donations", "Infrastructure funding", "Skills-based volunteering"]
+  //   }
+  // ];
 
   const currentNeeds = [
-    { category: "Medical Equipment", items: ["Surgical instruments", "Diagnostic equipment", "Mobile clinic vehicles"] },
-    { category: "Human Resources", items: ["Experienced surgeons", "Nurse educators", "Community health coordinators"] },
-    { category: "Funding", items: ["Program implementation", "Infrastructure development", "Training materials"] },
-    { category: "Partnerships", items: ["Technology providers", "Educational institutions", "Government agencies"] }
+    {
+      category: "Medical Equipment",
+      items: [
+        "Surgical instruments",
+        "Diagnostic equipment",
+        "Mobile clinic vehicles",
+      ],
+    },
+    {
+      category: "Human Resources",
+      items: [
+        "Experienced surgeons",
+        "Nurse educators",
+        "Community health coordinators",
+      ],
+    },
+    {
+      category: "Funding",
+      items: [
+        "Program implementation",
+        "Infrastructure development",
+        "Training materials",
+      ],
+    },
+    {
+      category: "Partnerships",
+      items: [
+        "Technology providers",
+        "Educational institutions",
+        "Government agencies",
+      ],
+    },
   ];
 
-  const handleFormSubmit = (type: 'volunteer' | 'partner') => {
+  const handleFormSubmit = (type: "volunteer" | "partner") => {
     // Simulate form submission
     toast({
       title: "Application Submitted Successfully!",
-      description: `Thank you for your interest in ${type === 'volunteer' ? 'volunteering' : 'partnering'} with OPHEG. We'll contact you within 48 hours.`,
+      description: `Thank you for your interest in ${
+        type === "volunteer" ? "volunteering" : "partnering"
+      } with OPHEG. We'll contact you within 48 hours.`,
     });
     setActiveForm(null);
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      location: '',
-      experience: '',
-      motivation: '',
-      organization: '',
-      partnershipType: '',
-      message: ''
+      name: "",
+      email: "",
+      phone: "",
+      location: "",
+      experience: "",
+      motivation: "",
+      organization: "",
+      partnershipType: "",
+      message: "",
     });
   };
 
@@ -154,24 +211,26 @@ const GetInvolved = () => {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src={getInvolvedHeroImg} 
+          <img
+            src={getInvolvedHeroImg}
             alt="Get involved with OPHEG - Join our mission hero image"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
         </div>
         <div className="relative z-10 text-center text-white space-y-6 container animate-fade-in">
-          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">Get Involved</h1>
+          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">
+            Get Involved
+          </h1>
           <p className="text-xl max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Join our mission to transform healthcare in Africa. Whether you're an individual looking to volunteer 
-            or an organization seeking partnership opportunities, there's a place for you in our community.
+            Join our mission to transform healthcare in Africa. Whether you're
+            an individual looking to volunteer or an organization seeking
+            partnership opportunities, there's a place for you in our community.
           </p>
         </div>
       </section>
 
       <div className="container py-16 space-y-16">
-
         {/* Overview Cards */}
         <section className="grid gap-8 md:grid-cols-2">
           <Card className="card-hover overflow-hidden">
@@ -190,10 +249,11 @@ const GetInvolved = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
-                Make a direct impact on communities by contributing your skills and time to our healthcare initiatives.
+                Make a direct impact on communities by contributing your skills
+                and time to our healthcare initiatives.
               </p>
-              <Button 
-                onClick={() => setActiveForm('volunteer')} 
+              <Button
+                onClick={() => setActiveForm("volunteer")}
                 className="w-full"
                 variant="default"
               >
@@ -218,10 +278,11 @@ const GetInvolved = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
-                Collaborate with us to expand healthcare access and create sustainable health solutions.
+                Collaborate with us to expand healthcare access and create
+                sustainable health solutions.
               </p>
-              <Button 
-                onClick={() => setActiveForm('partner')} 
+              <Button
+                onClick={() => setActiveForm("partner")}
                 className="w-full"
                 variant="outline"
               >
@@ -234,19 +295,31 @@ const GetInvolved = () => {
         {/* Volunteer Opportunities */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Volunteer Opportunities</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Volunteer Opportunities
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Use your skills and passion to make a lasting impact on healthcare delivery in African communities.
+              Use your skills and passion to make a lasting impact on healthcare
+              delivery in African communities.
             </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {volunteerOpportunities.map((opportunity, index) => (
-              <Card key={opportunity.title} className={`card-hover fade-in-up stagger-${(index % 5) + 1}`}>
+              <Card
+                key={opportunity.title}
+                className={`card-hover fade-in-up stagger-${(index % 5) + 1}`}
+              >
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <opportunity.icon className="h-8 w-8 text-primary" />
-                    <Badge 
-                      variant={opportunity.urgency === 'high' ? 'destructive' : opportunity.urgency === 'medium' ? 'default' : 'secondary'}
+                    <Badge
+                      variant={
+                        opportunity.urgency === "high"
+                          ? "destructive"
+                          : opportunity.urgency === "medium"
+                          ? "default"
+                          : "secondary"
+                      }
                     >
                       {opportunity.urgency} priority
                     </Badge>
@@ -258,7 +331,9 @@ const GetInvolved = () => {
                     {opportunity.description}
                   </p>
                   <div>
-                    <h4 className="font-semibold text-sm mb-2">Requirements:</h4>
+                    <h4 className="font-semibold text-sm mb-2">
+                      Requirements:
+                    </h4>
                     <ul className="text-sm text-muted-foreground space-y-1">
                       {opportunity.requirements.map((req) => (
                         <li key={req} className="flex items-start gap-2">
@@ -279,7 +354,7 @@ const GetInvolved = () => {
         </section>
 
         {/* Partnership Types */}
-        <section>
+        {/* <section>
           <div className="text-center mb-12">
             <h2 className="display-title text-3xl font-bold mb-4">Partnership Opportunities</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -324,12 +399,14 @@ const GetInvolved = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Current Needs */}
         <section className="bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-8">
           <div className="text-center mb-8">
-            <h2 className="display-title text-3xl font-bold mb-4">Current Needs</h2>
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Current Needs
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Areas where we're actively seeking support to expand our impact.
             </p>
@@ -360,7 +437,9 @@ const GetInvolved = () => {
             <Card>
               <CardHeader>
                 <CardTitle>
-                  {activeForm === 'volunteer' ? 'Volunteer Application' : 'Partnership Inquiry'}
+                  {activeForm === "volunteer"
+                    ? "Volunteer Application"
+                    : "Partnership Inquiry"}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -370,7 +449,9 @@ const GetInvolved = () => {
                     <Input
                       id="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       placeholder="Your full name"
                     />
                   </div>
@@ -380,7 +461,9 @@ const GetInvolved = () => {
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       placeholder="your@email.com"
                     />
                   </div>
@@ -391,7 +474,9 @@ const GetInvolved = () => {
                     <Input
                       id="phone"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       placeholder="+237 XXX XXX XXX"
                     />
                   </div>
@@ -400,33 +485,45 @@ const GetInvolved = () => {
                     <Input
                       id="location"
                       value={formData.location}
-                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, location: e.target.value })
+                      }
                       placeholder="City, Country"
                     />
                   </div>
                 </div>
-                {activeForm === 'partner' && (
+                {activeForm === "partner" && (
                   <div>
                     <Label htmlFor="organization">Organization</Label>
                     <Input
                       id="organization"
                       value={formData.organization}
-                      onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          organization: e.target.value,
+                        })
+                      }
                       placeholder="Organization name"
                     />
                   </div>
                 )}
                 <div>
                   <Label htmlFor="experience">
-                    {activeForm === 'volunteer' ? 'Relevant Experience' : 'Partnership Interest'}
+                    {activeForm === "volunteer"
+                      ? "Relevant Experience"
+                      : "Partnership Interest"}
                   </Label>
                   <Textarea
                     id="experience"
                     value={formData.experience}
-                    onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                    placeholder={activeForm === 'volunteer' 
-                      ? "Describe your relevant skills and experience" 
-                      : "Describe your partnership interests and goals"
+                    onChange={(e) =>
+                      setFormData({ ...formData, experience: e.target.value })
+                    }
+                    placeholder={
+                      activeForm === "volunteer"
+                        ? "Describe your relevant skills and experience"
+                        : "Describe your partnership interests and goals"
                     }
                   />
                 </div>
@@ -435,21 +532,20 @@ const GetInvolved = () => {
                   <Textarea
                     id="message"
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     placeholder="Any additional information you'd like to share"
                   />
                 </div>
                 <div className="flex gap-4">
-                  <Button 
-                    onClick={() => handleFormSubmit(activeForm)} 
+                  <Button
+                    onClick={() => handleFormSubmit(activeForm)}
                     className="flex-1"
                   >
                     Submit Application
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setActiveForm(null)}
-                  >
+                  <Button variant="outline" onClick={() => setActiveForm(null)}>
                     Cancel
                   </Button>
                 </div>
@@ -462,16 +558,17 @@ const GetInvolved = () => {
         <section className="text-center">
           <h2 className="display-title text-3xl font-bold mb-4">Questions?</h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Have questions about volunteering or partnership opportunities? We're here to help.
+            Have questions about volunteering or partnership opportunities?
+            We're here to help.
           </p>
           <div className="grid gap-4 md:grid-cols-3 max-w-2xl mx-auto">
             <div className="flex items-center gap-2 justify-center">
               <Mail className="h-4 w-4 text-primary" />
-              <span className="text-sm">volunteer@opheg.org</span>
+              <span className="text-sm">volunteer@opheg.com</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
               <Phone className="h-4 w-4 text-primary" />
-              <span className="text-sm">+237 XXX XXX XXX</span>
+              <span className="text-sm">+237 676 395 082</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
               <MapPin className="h-4 w-4 text-primary" />

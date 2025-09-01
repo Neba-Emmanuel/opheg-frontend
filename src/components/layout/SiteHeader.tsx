@@ -10,8 +10,8 @@ const SiteHeader = () => {
   const navigationItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Our Works", href: "#" },
-    { name: "Get Involved", href: "#" },
+    { name: "Our Works", href: "/our-works" },
+    { name: "Get Involved", href: "/get-involved" },
   ];
 
   return (

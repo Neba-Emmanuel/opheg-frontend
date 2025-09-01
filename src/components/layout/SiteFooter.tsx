@@ -31,12 +31,18 @@ const SiteFooter = () => {
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a
+                href="/our-works"
+                className="hover:text-foreground transition-colors"
+              >
                 Our Works
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a
+                href="/get-involved"
+                className="hover:text-foreground transition-colors"
+              >
                 Get Involved
               </a>
             </li>

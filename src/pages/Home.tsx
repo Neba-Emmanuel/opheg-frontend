@@ -44,12 +44,12 @@ const Home = () => {
   ];
 
   const services = [
-    {
-      icon: Stethoscope,
-      title: "Medical Consultations",
-      description:
-        "Expert healthcare consultations from qualified professionals",
-    },
+    // {
+    //   icon: Stethoscope,
+    //   title: "Medical Consultations",
+    //   description:
+    //     "Expert healthcare consultations from qualified professionals",
+    // },
     {
       icon: Heart,
       title: "Community Outreach",
@@ -202,7 +202,7 @@ const Home = () => {
               needs of African communities.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service, index) => (
               <div
                 key={service.title}
@@ -242,7 +242,7 @@ const Home = () => {
                 <Link to="/about">Learn More About Us</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link to="#">See Our Work</Link>
+                <Link to="/our-works">See Our Work</Link>
               </Button>
             </div>
           </div>
@@ -270,7 +270,7 @@ const Home = () => {
               <Link to="/appointments">Schedule Your Appointment</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="#">Get Involved</Link>
+              <Link to="/get-involved">Get Involved</Link>
             </Button>
           </div>
         </section>
