@@ -124,14 +124,60 @@ All colors MUST be HSL.
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+  
+  /* Enhanced Interactive Elements */
   .card-hover {
     transition: var(--transition-smooth);
-    transition-property: transform, box-shadow;
+    transition-property: transform, box-shadow, scale;
   }
   .card-hover:hover {
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-4px);
+    scale: 1.02;
     box-shadow: var(--shadow-glow);
   }
+  
+  .btn-hover {
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-hover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: hsl(var(--primary-foreground) / 0.1);
+    transition: width 0.6s, height 0.6s;
+    transform: translate(-50%, -50%);
+  }
+  .btn-hover:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .nav-link {
+    position: relative;
+    transition: var(--transition-smooth);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 50%;
+    background: hsl(var(--primary));
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-50%);
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  
+  /* Animation Classes */
   .floating-element {
     animation: float 6s ease-in-out infinite;
   }
@@ -143,11 +189,48 @@ All colors MUST be HSL.
     opacity: 0;
     transform: translateY(30px);
   }
+  
+  /* Mobile-Optimized Animations */
+  .mobile-slide-in {
+    animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .mobile-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+  
+  /* Scroll Trigger Animations */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Loading & Skeleton */
+  .skeleton-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Interactive States */
+  .press-effect {
+    transition: transform 0.1s ease;
+  }
+  .press-effect:active {
+    transform: scale(0.95);
+  }
+  
+  /* Stagger Delays */
   .stagger-1 { animation-delay: 0.1s; }
   .stagger-2 { animation-delay: 0.2s; }
   .stagger-3 { animation-delay: 0.3s; }
   .stagger-4 { animation-delay: 0.4s; }
   .stagger-5 { animation-delay: 0.5s; }
+  .stagger-6 { animation-delay: 0.6s; }
+  .stagger-7 { animation-delay: 0.7s; }
+  .stagger-8 { animation-delay: 0.8s; }
 }
 
 @keyframes float {
@@ -165,4 +248,52 @@ All colors MUST be HSL.
 @keyframes countUp {
   from { opacity: 0; transform: scale(0.5); }
   to { opacity: 1; transform: scale(1); }
+}
+
+/* Additional Animation Keyframes */
+@keyframes slideInLeft {
+  0% { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  0% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes bounceSubtle {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+  60% { transform: translateY(-2px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+  50% { box-shadow: 0 0 30px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.4); }
+}
+
+@keyframes heartbeat {
+  0%, 50%, 100% { transform: scale(1); }
+  25%, 75% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
 }

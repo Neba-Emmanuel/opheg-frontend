@@ -12,10 +12,17 @@ import {
 } from "lucide-react";
 import communityOutreachImg from "@/assets/outreach.jpg";
 import heroHomeImg from "@/assets/home-hero.jpg";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 const Home = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+
+  // Scroll animation hooks
+  const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
+  const { elementRef: servicesRef, isVisible: servicesVisible } = useScrollAnimation();
+  const { elementRef: impactRef, isVisible: impactVisible } = useScrollAnimation();
+  const { containerRef: statsContainerRef, visibleItems: visibleStats } = useStaggeredAnimation(4, 150);
 
   useEffect(() => {
     const el = heroRef.current;
@@ -107,40 +114,40 @@ const Home = () => {
         }}
       >
         <div className="container flex min-h-[80vh] flex-col items-center justify-center gap-8 py-16 text-center relative z-10">
-          <div className={`floating-element ${isVisible ? "fade-in-up" : ""}`}>
+          <div className={`floating-element transform transition-all duration-1000 ${isVisible ? "animate-scale-in" : "opacity-0"}`}>
             <img
               src="/logo.png"
               alt="Optimum Health Global logo"
-              className="h-24 w-24 rounded-full shadow-lg"
+              className="h-24 w-24 rounded-full shadow-lg animate-pulse-glow"
               loading="eager"
             />
           </div>
           <div
-            className={`space-y-4 ${isVisible ? "fade-in-up stagger-1" : ""}`}
+            className={`space-y-4 transform transition-all duration-700 ${isVisible ? "animate-fade-in stagger-1" : "opacity-0 translate-y-10"}`}
           >
-            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl text-white">
+            <h1 className="display-title text-4xl font-extrabold md:text-6xl lg:text-7xl text-white animate-gradient-shift bg-gradient-to-r from-white via-blue-100 to-white bg-[length:200%_100%]">
               Optimum Health Global
             </h1>
-            <p className="text-lg text-white/90 font-medium">OPHEG</p>
+            <p className="text-lg text-white/90 font-medium animate-bounce-subtle">OPHEG</p>
           </div>
           <p
-            className={`max-w-3xl text-lg text-white/90 md:text-xl leading-relaxed ${
-              isVisible ? "fade-in-up stagger-2" : ""
+            className={`max-w-3xl text-lg text-white/90 md:text-xl leading-relaxed transform transition-all duration-700 ${
+              isVisible ? "animate-fade-in stagger-2" : "opacity-0 translate-y-10"
             }`}
           >
             Taking health to the communities and ensuring a clean health and
             clean society across Africa.
           </p>
           <div
-            className={`flex flex-col gap-4 sm:flex-row ${
-              isVisible ? "fade-in-up stagger-3" : ""
+            className={`flex flex-col gap-4 sm:flex-row transform transition-all duration-700 ${
+              isVisible ? "animate-fade-in stagger-3" : "opacity-0 translate-y-10"
             }`}
           >
             <Button
               asChild
               size="lg"
               variant="hero"
-              className="text-lg px-8 py-4"
+              className="text-lg px-8 py-4 btn-hover press-effect transform hover:scale-110 transition-all duration-300 animate-heartbeat"
             >
               <Link to="/appointments">Book an Appointment</Link>
             </Button>
@@ -148,14 +155,14 @@ const Home = () => {
               asChild
               size="lg"
               variant="outline"
-              className="text-lg px-8 py-4"
+              className="text-lg px-8 py-4 btn-hover press-effect transform hover:scale-110 transition-all duration-300 hover:animate-shake"
             >
               <Link to="/health-ai">Chat with Health AI</Link>
             </Button>
           </div>
           <p
-            className={`text-sm text-white/80 italic ${
-              isVisible ? "fade-in-up stagger-4" : ""
+            className={`text-sm text-white/80 italic transform transition-all duration-700 ${
+              isVisible ? "animate-fade-in stagger-4" : "opacity-0 translate-y-10"
             }`}
           >
             Motto: Clean health · Clean society
@@ -165,22 +172,22 @@ const Home = () => {
 
       <main className="container space-y-24 py-20">
         {/* Statistics Section */}
-        <section className="text-center">
-          <h2 className="display-title text-3xl font-bold mb-4">Our Impact</h2>
+        <section ref={statsRef as any} className={`text-center transform transition-all duration-1000 ${statsVisible ? 'animate-fade-in' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="display-title text-3xl font-bold mb-4 animate-gradient-shift bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent">Our Impact</h2>
           <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">
             Making a real difference in communities across Africa through
             dedicated healthcare services.
           </p>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div ref={statsContainerRef as any} className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className={`card-hover rounded-xl bg-card p-8 shadow-sm fade-in-up stagger-${
-                  index + 1
+                className={`card-hover rounded-xl bg-card p-8 shadow-sm transform transition-all duration-700 ${
+                  visibleStats.includes(index) ? 'animate-scale-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                 }`}
               >
-                <stat.icon className="h-12 w-12 mx-auto mb-4 text-primary" />
-                <div className="text-3xl font-bold text-primary counter-animation">
+                <stat.icon className={`h-12 w-12 mx-auto mb-4 text-primary transition-all duration-500 ${visibleStats.includes(index) ? 'animate-bounce-subtle' : ''}`} />
+                <div className={`text-3xl font-bold text-primary transition-all duration-700 ${visibleStats.includes(index) ? 'counter-animation' : ''}`}>
                   {stat.number}
                 </div>
                 <div className="text-sm text-muted-foreground mt-2">
@@ -192,9 +199,9 @@ const Home = () => {
         </section>
 
         {/* Services Section */}
-        <section>
+        <section ref={servicesRef as any} className={`transform transition-all duration-1000 ${servicesVisible ? 'animate-fade-in' : 'opacity-0 translate-y-20'}`}>
           <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">
+            <h2 className="display-title text-3xl font-bold mb-4 animate-gradient-shift bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent">
               Our Services
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -206,11 +213,11 @@ const Home = () => {
             {services.map((service, index) => (
               <div
                 key={service.title}
-                className={`card-hover rounded-xl bg-card p-6 shadow-sm fade-in-up stagger-${
-                  index + 1
+                className={`card-hover rounded-xl bg-card p-6 shadow-sm transform transition-all duration-700 hover:rotate-1 ${
+                  servicesVisible ? `animate-slide-in-up stagger-${index + 1}` : 'opacity-0 translate-y-10'
                 }`}
               >
-                <service.icon className="h-10 w-10 text-primary mb-4" />
+                <service.icon className="h-10 w-10 text-primary mb-4 animate-float" />
                 <h3 className="font-semibold mb-2">{service.title}</h3>
                 <p className="text-sm text-muted-foreground">
                   {service.description}
@@ -221,9 +228,9 @@ const Home = () => {
         </section>
 
         {/* Community Impact Section */}
-        <section className="grid gap-12 md:grid-cols-2 items-center">
-          <div className="space-y-6">
-            <h2 className="display-title text-3xl font-bold">
+        <section ref={impactRef as any} className={`grid gap-12 md:grid-cols-2 items-center transform transition-all duration-1000 ${impactVisible ? 'animate-fade-in' : 'opacity-0 translate-y-20'}`}>
+          <div className={`space-y-6 transform transition-all duration-700 ${impactVisible ? 'animate-slide-in-left' : 'opacity-0 -translate-x-10'}`}>
+            <h2 className="display-title text-3xl font-bold animate-gradient-shift bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent">
               Transforming Communities
             </h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -238,26 +245,26 @@ const Home = () => {
               lasting positive impact.
             </p>
             <div className="flex gap-4">
-              <Button asChild variant="default">
+              <Button asChild variant="default" className="btn-hover press-effect transform hover:scale-105 transition-all duration-300">
                 <Link to="/about">Learn More About Us</Link>
               </Button>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="btn-hover press-effect transform hover:scale-105 transition-all duration-300">
                 <Link to="/our-works">See Our Work</Link>
               </Button>
             </div>
           </div>
-          <div className="card-hover">
+          <div className={`card-hover transform transition-all duration-700 hover:rotate-2 ${impactVisible ? 'animate-slide-in-right' : 'opacity-0 translate-x-10'}`}>
             <img
               src={communityOutreachImg}
               alt="OPHEG community health outreach"
-              className="rounded-xl shadow-lg w-full h-[400px] object-cover"
+              className="rounded-xl shadow-lg w-full h-[400px] object-cover animate-pulse-glow"
             />
           </div>
         </section>
 
         {/* Call to Action */}
-        <section className="rounded-2xl bg-gradient-to-tr from-primary/10 to-accent/10 p-12 text-center">
-          <h2 className="display-title text-3xl font-bold mb-4">
+        <section className="rounded-2xl bg-gradient-to-tr from-primary/10 to-accent/10 p-12 text-center transform transition-all duration-1000 hover:scale-105 animate-gradient-shift">
+          <h2 className="display-title text-3xl font-bold mb-4 animate-bounce-subtle">
             Ready to Make a Difference?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
@@ -266,10 +273,10 @@ const Home = () => {
             our cause, we're here to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" variant="hero">
+            <Button asChild size="lg" variant="hero" className="btn-hover press-effect transform hover:scale-110 transition-all duration-300 animate-pulse-glow">
               <Link to="/appointments">Schedule Your Appointment</Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="btn-hover press-effect transform hover:scale-110 transition-all duration-300 hover:animate-shake">
               <Link to="/get-involved">Get Involved</Link>
             </Button>
           </div>

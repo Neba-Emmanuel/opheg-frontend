@@ -28,15 +28,17 @@ const SiteHeader = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden gap-6 md:flex">
+        <nav className="hidden gap-8 md:flex">
           {navigationItems.map((item) => (
             <NavLink
               key={item.name}
               to={item.href}
               className={({ isActive }) =>
-                isActive
-                  ? "text-primary"
-                  : "text-foreground/80 hover:text-foreground transition-colors"
+                `nav-link font-medium transition-all duration-300 hover:scale-105 ${
+                  isActive
+                    ? "text-primary"
+                    : "text-foreground/80 hover:text-foreground"
+                }`
               }
             >
               {item.name}
@@ -44,11 +46,11 @@ const SiteHeader = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Button asChild variant="outline" className="hidden md:inline-flex">
+        <div className="flex items-center gap-3">
+          <Button asChild variant="outline" className="hidden md:inline-flex btn-hover press-effect transform hover:scale-105 transition-all duration-300">
             <Link to="/health-ai">Chat with Health AI</Link>
           </Button>
-          <Button asChild variant="hero" className="hidden sm:inline-flex">
+          <Button asChild variant="hero" className="hidden sm:inline-flex btn-hover press-effect animate-pulse-glow transform hover:scale-105 transition-all duration-300">
             <Link to="/appointments">Book Appointment</Link>
           </Button>
 
@@ -60,29 +62,29 @@ const SiteHeader = () => {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] mobile-slide-in">
               <nav className="flex flex-col gap-4">
-                <div className="flex items-center gap-3 pb-4 border-b">
+                <div className="flex items-center gap-3 pb-4 border-b mobile-fade-in">
                   <img
                     src="/logo.png"
                     alt="OPHEG logo"
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8 rounded-full animate-bounce-subtle"
                   />
                   <span className="display-title text-lg font-semibold">
                     OPHEG
                   </span>
                 </div>
 
-                {navigationItems.map((item) => (
+                {navigationItems.map((item, index) => (
                   <NavLink
                     key={item.name}
                     to={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
-                      `text-lg py-2 px-3 rounded-md transition-colors ${
+                      `nav-link text-lg py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 press-effect mobile-fade-in stagger-${index + 1} ${
                         isActive
-                          ? "text-primary bg-primary/10"
-                          : "text-foreground/80 hover:text-foreground hover:bg-accent"
+                          ? "text-primary bg-primary/15 shadow-sm"
+                          : "text-foreground/80 hover:text-foreground hover:bg-accent/50"
                       }`
                     }
                   >
@@ -90,10 +92,11 @@ const SiteHeader = () => {
                   </NavLink>
                 ))}
 
-                <div className="flex flex-col gap-3 pt-4 border-t">
+                <div className="flex flex-col gap-3 pt-4 border-t mobile-fade-in stagger-5">
                   <Button
                     asChild
                     variant="outline"
+                    className="btn-hover press-effect transform hover:scale-105 transition-all duration-300"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Link to="/health-ai">Chat with Health AI</Link>
@@ -101,6 +104,7 @@ const SiteHeader = () => {
                   <Button
                     asChild
                     variant="hero"
+                    className="btn-hover press-effect transform hover:scale-105 transition-all duration-300 animate-pulse-glow"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Link to="/appointments">Book Appointment</Link>
