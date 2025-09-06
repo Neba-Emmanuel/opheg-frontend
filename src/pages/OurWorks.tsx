@@ -314,6 +314,115 @@ const OurWorks = () => {
           </div>
         </section>
 
+        {/* Our Flagship Programs */}
+        <section>
+          <div className="text-center mb-12">
+            <h2 className="display-title text-3xl font-bold mb-4">
+              Our Flagship Programs
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Specialized programs targeting critical health challenges and community needs across Africa.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <Card className="card-hover fade-in-up stagger-1">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-rose-100 text-rose-700">
+                    <Heart className="h-5 w-5" />
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    Annual Program
+                  </Badge>
+                </div>
+                <CardTitle className="text-lg">Annual Cervical Cancer Education & Screening</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Comprehensive cervical cancer awareness, education, and free screening services for women in underserved communities.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-hover fade-in-up stagger-2">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-blue-100 text-blue-700">
+                    <Users className="h-5 w-5" />
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    Annual Festival
+                  </Badge>
+                </div>
+                <CardTitle className="text-lg">The Florence Nightingale Nurses Week Festival</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Celebrating and honoring nursing professionals while promoting excellence in nursing practice and education.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-hover fade-in-up stagger-3">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-red-100 text-red-700">
+                    <Microscope className="h-5 w-5" />
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    Health Campaign
+                  </Badge>
+                </div>
+                <CardTitle className="text-lg">Sickle Cell Campaign & Genotype Drive</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Raising awareness about sickle cell disease and providing free genotype testing to promote informed health decisions.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-hover fade-in-up stagger-4">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-purple-100 text-purple-700">
+                    <BookOpen className="h-5 w-5" />
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    Annual Conference
+                  </Badge>
+                </div>
+                <CardTitle className="text-lg">Pastors Health Conference (PHC)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Specialized health education and wellness programs designed for religious leaders and their communities.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-hover fade-in-up stagger-5 md:col-span-2 lg:col-span-1">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-green-100 text-green-700">
+                    <Globe className="h-5 w-5" />
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    Ongoing Project
+                  </Badge>
+                </div>
+                <CardTitle className="text-lg">H.O.P.E Project</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">(Health Outreach for People Everywhere)</p>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Comprehensive health outreach initiative bringing essential healthcare services and education to underserved populations everywhere.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
         {/* Success Stories Placeholder */}
         <section className="bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12">
           <div className="text-center space-y-6">
