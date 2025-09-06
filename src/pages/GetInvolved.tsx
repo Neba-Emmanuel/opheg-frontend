@@ -67,7 +67,7 @@ const GetInvolved = () => {
       description:
         "Doctors, nurses, and medical specialists providing direct patient care",
       requirements: [
-        "Valid medical license",
+        "Valid medical license or proof of study from an institution",
         "2+ years experience",
         "Commitment to community service",
       ],
@@ -328,7 +328,7 @@ const GetInvolved = () => {
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <opportunity.icon className="h-8 w-8 text-primary" />
-                    <Badge
+                    {/* <Badge
                       variant={
                         opportunity.urgency === "high"
                           ? "destructive"
@@ -338,7 +338,7 @@ const GetInvolved = () => {
                       }
                     >
                       {opportunity.urgency} priority
-                    </Badge>
+                    </Badge> */}
                   </div>
                   <CardTitle className="text-lg">{opportunity.title}</CardTitle>
                 </CardHeader>

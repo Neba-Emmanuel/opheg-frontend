@@ -152,7 +152,6 @@ const OurWorks = () => {
       label: "Healthcare Workers Trained",
       icon: GraduationCap,
     },
-    { number: "20+", label: "Health Facilities", icon: Hospital },
     { number: "50+", label: "Surgical Procedures", icon: Stethoscope },
     { number: "15+", label: "Research Projects", icon: Microscope },
   ];
@@ -199,7 +198,7 @@ const OurWorks = () => {
               access and quality.
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {impact.map((stat, index) => (
               <Card
                 key={stat.label}
