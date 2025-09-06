@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown"; // ✅ import renderer
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/SEO";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 interface ChatMsg {
   role: "assistant" | "user";
@@ -12,6 +13,9 @@ interface ChatMsg {
 }
 
 const HealthAI = () => {
+  const { elementRef: chatRef, isVisible: chatVisible } = useScrollAnimation();
+  const { elementRef: sidebarRef, isVisible: sidebarVisible } = useScrollAnimation();
+  
   const [messages, setMessages] = useState<ChatMsg[]>([
     {
       role: "assistant",
@@ -123,7 +127,7 @@ const HealthAI = () => {
         <h1 className="display-title text-3xl">Health AI Chat</h1>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <section className="md:col-span-2">
+          <section ref={chatRef} className={`md:col-span-2 transition-all duration-700 ${chatVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
             <div className="flex h-[60vh] flex-col rounded-lg border bg-card">
               <div
                 ref={listRef}
@@ -168,7 +172,7 @@ const HealthAI = () => {
             </p>
           </section>
 
-          <aside className="space-y-3">
+          <aside ref={sidebarRef} className={`space-y-3 transition-all duration-700 ${sidebarVisible ? 'animate-fade-in' : 'opacity-0 translate-x-8'}`}>
             <div className="rounded-lg border bg-card p-4">
               <h3 className="font-semibold">Quick tips</h3>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">

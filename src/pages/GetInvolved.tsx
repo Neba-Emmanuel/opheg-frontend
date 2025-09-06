@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import SEO from "@/components/SEO";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,10 @@ import getInvolvedHeroImg from "@/assets/get-involved-hero.jpg";
 import { useToast } from "@/hooks/use-toast";
 
 const GetInvolved = () => {
+  const { elementRef: overviewRef, isVisible: overviewVisible } = useScrollAnimation();
+  const { containerRef: opportunitiesRef, visibleItems: visibleOpportunities } = useStaggeredAnimation(5, 120);
+  const { elementRef: needsRef, isVisible: needsVisible } = useScrollAnimation();
+
   const [activeForm, setActiveForm] = useState<"volunteer" | "partner" | null>(
     null
   );
@@ -248,7 +253,7 @@ const GetInvolved = () => {
 
       <div className="container py-16 space-y-16">
         {/* Overview Cards */}
-        <section ref={topRef} className="grid gap-8 md:grid-cols-2">
+        <section ref={overviewRef} className={`grid gap-8 md:grid-cols-2 transition-all duration-700 ${overviewVisible ? 'animate-fade-in' : 'opacity-0 translate-y-8'}`}>
           <Card className="card-hover overflow-hidden">
             <div className="aspect-video overflow-hidden">
               <img
@@ -319,11 +324,11 @@ const GetInvolved = () => {
               delivery in African communities.
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+          <div ref={opportunitiesRef as any} className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {volunteerOpportunities.map((opportunity, index) => (
               <Card
                 key={opportunity.title}
-                className={`card-hover fade-in-up stagger-${(index % 5) + 1}`}
+                className={`card-hover transition-all duration-700 ${visibleOpportunities.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
               >
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
@@ -418,7 +423,7 @@ const GetInvolved = () => {
         </section> */}
 
         {/* Current Needs */}
-        <section className="bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-8">
+        <section ref={needsRef} className={`bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-8 transition-all duration-700 ${needsVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
           <div className="text-center mb-8">
             <h2 className="display-title text-3xl font-bold mb-4">
               Current Needs

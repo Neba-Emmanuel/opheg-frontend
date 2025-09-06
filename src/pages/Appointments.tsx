@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SEO from "@/components/SEO";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const AppointmentSchema = z.object({
   fullName: z.string().min(2),
@@ -24,6 +25,8 @@ type Appointment = z.infer<typeof AppointmentSchema> & {
 const storageKey = "opheg_appointments";
 
 const Appointments = () => {
+  const { elementRef: formRef, isVisible: formVisible } = useScrollAnimation();
+  const { elementRef: sidebarRef, isVisible: sidebarVisible } = useScrollAnimation();
   const { toast } = useToast();
   const [form, setForm] = useState<Appointment>({
     id: crypto.randomUUID(),
@@ -104,7 +107,7 @@ const Appointments = () => {
       />
 
       <div className="container grid gap-10 py-12 md:grid-cols-2">
-        <section className="rounded-lg border bg-card p-6 shadow-sm">
+        <section ref={formRef} className={`rounded-lg border bg-card p-6 shadow-sm transition-all duration-700 ${formVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
           <h1 className="display-title mb-1 text-3xl">Book an Appointment</h1>
           <p className="mb-6 text-sm text-muted-foreground">
             We’ll confirm via phone or email.
@@ -190,7 +193,7 @@ const Appointments = () => {
           </form>
         </section>
 
-        <aside className="space-y-4">
+        <aside ref={sidebarRef} className={`space-y-4 transition-all duration-700 ${sidebarVisible ? 'animate-fade-in' : 'opacity-0 translate-y-8'}`}>
           <div className="rounded-lg border bg-secondary/30 p-6">
             <h2 className="display-title text-xl">What to expect</h2>
             <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">

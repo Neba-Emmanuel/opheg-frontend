@@ -11,6 +11,7 @@ import {
   Users,
   Handshake,
 } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 import executiveCEO from "@/assets/executive-ceo.jpg";
 import executiveDirectorGeneral from "@/assets/executive-director-general.jpg";
 import executiveSecretaryGeneral from "@/assets/executive-secretary-general.jpg";
@@ -20,6 +21,12 @@ import executiveCommunications from "@/assets/executive-communications.jpg";
 import aboutHeroImg from "@/assets/about-hero.jpg";
 
 const About = () => {
+  const { elementRef: detailsRef, isVisible: detailsVisible } = useScrollAnimation();
+  const { elementRef: visionRef, isVisible: visionVisible } = useScrollAnimation();
+  const { containerRef: valuesRef, visibleItems: visibleValues } = useStaggeredAnimation(5, 150);
+  const { containerRef: teamRef, visibleItems: visibleTeam } = useStaggeredAnimation(10, 100);
+  const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
+
   const coreValues = [
     {
       icon: Eye,
@@ -143,7 +150,7 @@ const About = () => {
 
       <div className="container py-16 space-y-16">
         {/* Organization Details */}
-        <section className="grid gap-8 md:grid-cols-3">
+        <section ref={detailsRef} className={`grid gap-8 md:grid-cols-3 transition-all duration-700 ${detailsVisible ? 'animate-fade-in' : 'opacity-0 translate-y-8'}`}>
           <Card className="card-hover">
             <CardHeader className="text-center">
               <Calendar className="h-12 w-12 mx-auto text-primary mb-4" />
@@ -186,7 +193,7 @@ const About = () => {
         </section>
 
         {/* Vision & Mission */}
-        <section className="grid gap-8 md:grid-cols-2">
+        <section ref={visionRef} className={`grid gap-8 md:grid-cols-2 transition-all duration-700 ${visionVisible ? 'animate-fade-in' : 'opacity-0 translate-y-8'}`}>
           <Card className="card-hover border-l-4 border-l-primary">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -232,11 +239,11 @@ const About = () => {
               communities across Africa.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div ref={valuesRef as any} className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {coreValues.map((value, index) => (
               <Card
                 key={value.title}
-                className={`card-hover fade-in-up stagger-${index + 1}`}
+                className={`card-hover transition-all duration-700 ${visibleValues.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
               >
                 <CardHeader className="text-center pb-4">
                   <value.icon
@@ -265,13 +272,11 @@ const About = () => {
               guide OPHEG's mission.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div ref={teamRef as any} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {executiveTeam.map((member, index) => (
               <Card
                 key={member.role}
-                className={`card-hover text-center fade-in-up stagger-${
-                  (index % 5) + 1
-                }`}
+                className={`card-hover text-center transition-all duration-700 ${visibleTeam.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
               >
                 <CardContent className="pt-6">
                   {member.image ? (
@@ -295,7 +300,7 @@ const About = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="text-center bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12">
+        <section ref={ctaRef} className={`text-center bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12 transition-all duration-700 ${ctaVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
           <h2 className="display-title text-3xl font-bold mb-4">
             Join Our Mission
           </h2>
