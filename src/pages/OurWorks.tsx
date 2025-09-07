@@ -15,7 +15,10 @@ import {
   BookOpen,
   Stethoscope,
 } from "lucide-react";
-import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
+import {
+  useScrollAnimation,
+  useStaggeredAnimation,
+} from "@/hooks/useScrollAnimation";
 import mobileSurgicalTeamImg from "@/assets/mobile-surgical-team.jpg";
 import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
@@ -23,11 +26,16 @@ import communityOutreachImg from "@/assets/outreach.jpg";
 import ourWorksHeroImg from "@/assets/home-hero.jpg";
 
 const OurWorks = () => {
-  const { containerRef: impactRef, visibleItems: visibleImpact } = useStaggeredAnimation(5, 120);
-  const { containerRef: objectivesRef, visibleItems: visibleObjectives } = useStaggeredAnimation(8, 100);
-  const { containerRef: programsRef, visibleItems: visiblePrograms } = useStaggeredAnimation(4, 150);
-  const { containerRef: flagshipRef, visibleItems: visibleFlagship } = useStaggeredAnimation(5, 130);
-  const { elementRef: successRef, isVisible: successVisible } = useScrollAnimation();
+  const { containerRef: impactRef, visibleItems: visibleImpact } =
+    useStaggeredAnimation(5, 120);
+  const { containerRef: objectivesRef, visibleItems: visibleObjectives } =
+    useStaggeredAnimation(8, 100);
+  const { containerRef: programsRef, visibleItems: visiblePrograms } =
+    useStaggeredAnimation(4, 150);
+  const { containerRef: flagshipRef, visibleItems: visibleFlagship } =
+    useStaggeredAnimation(5, 130);
+  const { elementRef: successRef, isVisible: successVisible } =
+    useScrollAnimation();
 
   const objectives = [
     {
@@ -195,7 +203,7 @@ const OurWorks = () => {
 
       <div className="container py-16 space-y-16">
         {/* Impact Statistics */}
-        <section>
+        {/* <section>
           <div className="text-center mb-12">
             <h2 className="display-title text-3xl font-bold mb-4">
               Our Impact
@@ -223,7 +231,7 @@ const OurWorks = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Core Objectives */}
         <section>
@@ -236,11 +244,18 @@ const OurWorks = () => {
               community needs.
             </p>
           </div>
-          <div ref={objectivesRef as any} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div
+            ref={objectivesRef as any}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
             {objectives.map((objective, index) => (
               <Card
                 key={objective.title}
-                className={`card-hover transition-all duration-700 ${visibleObjectives.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
+                className={`card-hover transition-all duration-700 ${
+                  visibleObjectives.includes(index)
+                    ? "animate-fade-in animate-scale-in"
+                    : "opacity-0 translate-y-8 scale-95"
+                }`}
               >
                 <CardHeader>
                   <div className="flex items-center gap-3 mb-2">
@@ -278,7 +293,11 @@ const OurWorks = () => {
             {programs.map((program, index) => (
               <Card
                 key={program.title}
-                className={`card-hover overflow-hidden transition-all duration-700 ${visiblePrograms.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
+                className={`card-hover overflow-hidden transition-all duration-700 ${
+                  visiblePrograms.includes(index)
+                    ? "animate-fade-in animate-scale-in"
+                    : "opacity-0 translate-y-8 scale-95"
+                }`}
               >
                 <div className="aspect-video overflow-hidden">
                   <img
@@ -324,11 +343,21 @@ const OurWorks = () => {
               Our Flagship Programs
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Specialized programs targeting critical health challenges and community needs across Africa.
+              Specialized programs targeting critical health challenges and
+              community needs across Africa.
             </p>
           </div>
-          <div ref={flagshipRef as any} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card className={`card-hover transition-all duration-700 ${visibleFlagship.includes(0) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+          <div
+            ref={flagshipRef as any}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            <Card
+              className={`card-hover transition-all duration-700 ${
+                visibleFlagship.includes(0)
+                  ? "animate-fade-in animate-scale-in"
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-lg bg-rose-100 text-rose-700">
@@ -338,16 +367,25 @@ const OurWorks = () => {
                     Annual Program
                   </Badge>
                 </div>
-                <CardTitle className="text-lg">Annual Cervical Cancer Education & Screening</CardTitle>
+                <CardTitle className="text-lg">
+                  Annual Cervical Cancer Education & Screening
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Comprehensive cervical cancer awareness, education, and free screening services for women in underserved communities.
+                  Comprehensive cervical cancer awareness, education, and free
+                  screening services for women in underserved communities.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className={`card-hover transition-all duration-700 ${visibleFlagship.includes(1) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+            <Card
+              className={`card-hover transition-all duration-700 ${
+                visibleFlagship.includes(1)
+                  ? "animate-fade-in animate-scale-in"
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-lg bg-blue-100 text-blue-700">
@@ -357,16 +395,25 @@ const OurWorks = () => {
                     Annual Festival
                   </Badge>
                 </div>
-                <CardTitle className="text-lg">The Florence Nightingale Nurses Week Festival</CardTitle>
+                <CardTitle className="text-lg">
+                  The Florence Nightingale Nurses Week Festival
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Celebrating and honoring nursing professionals while promoting excellence in nursing practice and education.
+                  Celebrating and honoring nursing professionals while promoting
+                  excellence in nursing practice and education.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className={`card-hover transition-all duration-700 ${visibleFlagship.includes(2) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+            <Card
+              className={`card-hover transition-all duration-700 ${
+                visibleFlagship.includes(2)
+                  ? "animate-fade-in animate-scale-in"
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-lg bg-red-100 text-red-700">
@@ -376,16 +423,25 @@ const OurWorks = () => {
                     Health Campaign
                   </Badge>
                 </div>
-                <CardTitle className="text-lg">Sickle Cell Campaign & Genotype Drive</CardTitle>
+                <CardTitle className="text-lg">
+                  Sickle Cell Campaign & Genotype Drive
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Raising awareness about sickle cell disease and providing free genotype testing to promote informed health decisions.
+                  Raising awareness about sickle cell disease and providing free
+                  genotype testing to promote informed health decisions.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className={`card-hover transition-all duration-700 ${visibleFlagship.includes(3) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+            <Card
+              className={`card-hover transition-all duration-700 ${
+                visibleFlagship.includes(3)
+                  ? "animate-fade-in animate-scale-in"
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-lg bg-purple-100 text-purple-700">
@@ -395,16 +451,25 @@ const OurWorks = () => {
                     Annual Conference
                   </Badge>
                 </div>
-                <CardTitle className="text-lg">Pastors Health Conference (PHC)</CardTitle>
+                <CardTitle className="text-lg">
+                  Pastors Health Conference (PHC)
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Specialized health education and wellness programs designed for religious leaders and their communities.
+                  Specialized health education and wellness programs designed
+                  for religious leaders and their communities.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className={`card-hover md:col-span-2 lg:col-span-1 transition-all duration-700 ${visibleFlagship.includes(4) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+            <Card
+              className={`card-hover md:col-span-2 lg:col-span-1 transition-all duration-700 ${
+                visibleFlagship.includes(4)
+                  ? "animate-fade-in animate-scale-in"
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-lg bg-green-100 text-green-700">
@@ -415,11 +480,15 @@ const OurWorks = () => {
                   </Badge>
                 </div>
                 <CardTitle className="text-lg">H.O.P.E Project</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">(Health Outreach for People Everywhere)</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  (Health Outreach for People Everywhere)
+                </p>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Comprehensive health outreach initiative bringing essential healthcare services and education to underserved populations everywhere.
+                  Comprehensive health outreach initiative bringing essential
+                  healthcare services and education to underserved populations
+                  everywhere.
                 </p>
               </CardContent>
             </Card>
@@ -427,7 +496,14 @@ const OurWorks = () => {
         </section>
 
         {/* Success Stories Placeholder */}
-        <section ref={successRef} className={`bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12 transition-all duration-700 ${successVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+        <section
+          ref={successRef}
+          className={`bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12 transition-all duration-700 ${
+            successVisible
+              ? "animate-fade-in animate-scale-in"
+              : "opacity-0 translate-y-8 scale-95"
+          }`}
+        >
           <div className="text-center space-y-6">
             <h2 className="display-title text-3xl font-bold">
               Success Stories
