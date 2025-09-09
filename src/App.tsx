@@ -10,6 +10,7 @@ import GetInvolved from "./pages/GetInvolved";
 import NotFound from "./pages/NotFound";
 import Appointments from "./pages/Appointments";
 import HealthAI from "./pages/HealthAI";
+import ProgramDetail from "./pages/ProgramDetails";
 import SiteHeader from "./components/layout/SiteHeader";
 import SiteFooter from "./components/layout/SiteFooter";
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/get-involved" element={<GetInvolved />} />
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/health-ai" element={<HealthAI />} />
+            <Route path="/programs/:slug" element={<ProgramDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

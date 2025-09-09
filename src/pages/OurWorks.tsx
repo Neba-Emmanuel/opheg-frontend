@@ -19,6 +19,7 @@ import {
   useScrollAnimation,
   useStaggeredAnimation,
 } from "@/hooks/useScrollAnimation";
+import { Link } from "react-router-dom";
 import mobileSurgicalTeamImg from "@/assets/mobile-surgical-team.jpg";
 import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
@@ -105,20 +106,8 @@ const OurWorks = () => {
   ];
 
   const programs = [
-    // {
-    //   title: "Mobile Surgical Program",
-    //   description:
-    //     "Our mobile surgical teams bring life-saving procedures directly to remote communities.",
-    //   image: mobileSurgicalTeamImg,
-    //   stats: "50+ surgeries performed",
-    //   features: [
-    //     "Emergency procedures",
-    //     "Specialized equipment",
-    //     "Trained surgical teams",
-    //     "Post-operative care",
-    //   ],
-    // },
     {
+      slug: "health-flix", // ✅ unique slug
       title: "Health Flix",
       description:
         "Comprehensive training programs for healthcare workers across Cameroon.",
@@ -132,10 +121,10 @@ const OurWorks = () => {
       ],
     },
     {
+      slug: "diagnostic-center",
       title: "Diagnostic Center",
       description: "Established a modern healthcare facility in the community.",
       image: healthFacilityImg,
-      // stats: "20+ facilities established",
       features: [
         "Primary healthcare",
         "Preventive services",
@@ -145,6 +134,7 @@ const OurWorks = () => {
       ],
     },
     {
+      slug: "outreach-initiatives",
       title: "Outreach Initiatives",
       description:
         "Regular community health outreach programs promoting preventive care.",
@@ -157,18 +147,6 @@ const OurWorks = () => {
         "Disease prevention",
       ],
     },
-  ];
-
-  const impact = [
-    { number: "50+", label: "Communities Served", icon: Users },
-    { number: "5,000+", label: "Lives Impacted", icon: Heart },
-    {
-      number: "100+",
-      label: "Healthcare Workers Trained",
-      icon: GraduationCap,
-    },
-    { number: "50+", label: "Surgical Procedures", icon: Stethoscope },
-    { number: "15+", label: "Research Projects", icon: Microscope },
   ];
 
   return (
@@ -202,37 +180,6 @@ const OurWorks = () => {
       </section>
 
       <div className="container py-16 space-y-16">
-        {/* Impact Statistics */}
-        {/* <section>
-          <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">
-              Our Impact
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Measurable results from our commitment to improving healthcare
-              access and quality.
-            </p>
-          </div>
-          <div ref={impactRef as any} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {impact.map((stat, index) => (
-              <Card
-                key={stat.label}
-                className={`card-hover text-center transition-all duration-700 ${visibleImpact.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
-              >
-                <CardContent className="pt-6">
-                  <stat.icon className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <div className="text-2xl font-bold text-primary counter-animation">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    {stat.label}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section> */}
-
         {/* Core Objectives */}
         <section>
           <div className="text-center mb-12">
@@ -285,53 +232,61 @@ const OurWorks = () => {
               Key Programs
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our flagship programs delivering transformative healthcare
-              solutions across communities.
+              Our key programs delivering transformative healthcare solutions
+              across communities.
             </p>
           </div>
           <div ref={programsRef as any} className="grid gap-8 lg:grid-cols-2">
             {programs.map((program, index) => (
-              <Card
-                key={program.title}
-                className={`card-hover overflow-hidden transition-all duration-700 ${
-                  visiblePrograms.includes(index)
-                    ? "animate-fade-in animate-scale-in"
-                    : "opacity-0 translate-y-8 scale-95"
-                }`}
-              >
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={program.image}
-                    alt={program.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-xl">{program.title}</CardTitle>
-                    <Badge variant="secondary">{program.stats}</Badge>
+              <Link key={program.slug} to={`/programs/${program.slug}`}>
+                <Card
+                  className={`card-hover overflow-hidden transition-all duration-700 ${
+                    visiblePrograms.includes(index)
+                      ? "animate-fade-in animate-scale-in"
+                      : "opacity-0 translate-y-8 scale-95"
+                  }`}
+                >
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={program.image}
+                      alt={program.title}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {program.description}
-                  </p>
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-sm">Key Features:</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {program.features.map((feature) => (
-                        <div
-                          key={feature}
-                          className="flex items-center gap-2 text-sm text-muted-foreground"
-                        >
-                          <div className="h-1.5 w-1.5 bg-primary rounded-full" />
-                          {feature}
-                        </div>
-                      ))}
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-xl">{program.title}</CardTitle>
+                      {program.stats && (
+                        <Badge variant="secondary">{program.stats}</Badge>
+                      )}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {program.description}
+                    </p>
+                  </CardContent>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {program.description}
+                    </p>
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-sm">Key Features:</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {program.features.map((feature) => (
+                          <div
+                            key={feature}
+                            className="flex items-center gap-2 text-sm text-muted-foreground"
+                          >
+                            <div className="h-1.5 w-1.5 bg-primary rounded-full" />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </section>
@@ -495,42 +450,6 @@ const OurWorks = () => {
           </div>
         </section>
 
-        {/* OPHEG Organization Arms */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12 text-foreground">OPHEG Organization Arms</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-8 hover:shadow-lg transition-shadow cursor-pointer">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Heart className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Health Flix</h3>
-                <p className="text-muted-foreground">Digital health content creation and media production</p>
-              </div>
-            </Card>
-
-            <Card className="p-8 hover:shadow-lg transition-shadow cursor-pointer">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Microscope className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Diagnostic Center</h3>
-                <p className="text-muted-foreground">Comprehensive health screening and diagnostic services</p>
-              </div>
-            </Card>
-
-            <Card className="p-8 hover:shadow-lg transition-shadow cursor-pointer">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Community Outreach Division</h3>
-                <p className="text-muted-foreground">Grassroots health education and community engagement</p>
-              </div>
-            </Card>
-          </div>
-        </div>
-
         {/* Success Stories */}
         <section
           ref={successRef}
@@ -544,13 +463,12 @@ const OurWorks = () => {
             Success Stories
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-            Together, our programs have created measurable change across communities.
+            Together, our programs have created measurable change across
+            communities.
           </p>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">
-                7,000+
-              </div>
+              <div className="text-3xl font-bold text-primary mb-2">7,000+</div>
               <div className="text-sm text-muted-foreground">
                 Total Lives Impacted
               </div>
