@@ -1,0 +1,207 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Users, 
+  Calendar, 
+  Mail, 
+  FileText, 
+  UserPlus, 
+  Handshake,
+  LogOut,
+  BarChart3,
+  Bell
+} from "lucide-react";
+import SEO from "@/components/SEO";
+import NewsletterManager from "@/components/admin/NewsletterManager";
+import AppointmentsManager from "@/components/admin/AppointmentsManager";
+import ApplicationsManager from "@/components/admin/ApplicationsManager";
+import PostsManager from "@/components/admin/PostsManager";
+
+const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("overview");
+
+  useEffect(() => {
+    // Check if admin is authenticated
+    const token = localStorage.getItem("opheg_admin_token");
+    if (!token) {
+      navigate("/admin/login");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("opheg_admin_token");
+    navigate("/admin/login");
+  };
+
+  const stats = [
+    { title: "Newsletter Subscribers", value: "1,248", icon: Mail, change: "+12%" },
+    { title: "Pending Appointments", value: "23", icon: Calendar, change: "+5%" },
+    { title: "Volunteer Applications", value: "15", icon: UserPlus, change: "+8%" },
+    { title: "Partner Requests", value: "7", icon: Handshake, change: "+2%" },
+    { title: "Published Posts", value: "42", icon: FileText, change: "+18%" },
+    { title: "Active Programs", value: "8", icon: BarChart3, change: "0%" },
+  ];
+
+  return (
+    <>
+      <SEO 
+        title="Admin Dashboard - OPHEG"
+        description="OPHEG administration dashboard for managing operations"
+      />
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-primary">OPHEG Admin</h1>
+              <p className="text-muted-foreground">Dashboard & Management</p>
+            </div>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          </div>
+        </header>
+
+        <div className="container mx-auto px-4 py-8">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-5">
+              <TabsTrigger value="overview" className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="newsletter" className="flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                Newsletter
+              </TabsTrigger>
+              <TabsTrigger value="appointments" className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                Appointments
+              </TabsTrigger>
+              <TabsTrigger value="applications" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Applications
+              </TabsTrigger>
+              <TabsTrigger value="posts" className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                Posts
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {stats.map((stat, index) => (
+                  <Card key={index}>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-sm font-medium text-muted-foreground">
+                        {stat.title}
+                      </CardTitle>
+                      <stat.icon className="h-4 w-4 text-primary" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stat.value}</div>
+                      <p className="text-xs text-muted-foreground">
+                        <span className={stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                          {stat.change}
+                        </span>{' '}
+                        from last month
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Bell className="h-5 w-5" />
+                      Recent Activities
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                      <div>
+                        <p className="text-sm font-medium">New volunteer application</p>
+                        <p className="text-xs text-muted-foreground">John Doe applied for Health Outreach - 2 hours ago</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                      <div>
+                        <p className="text-sm font-medium">Newsletter sent successfully</p>
+                        <p className="text-xs text-muted-foreground">Monthly health tips to 1,248 subscribers - 1 day ago</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                      <div>
+                        <p className="text-sm font-medium">New partnership inquiry</p>
+                        <p className="text-xs text-muted-foreground">Regional Medical Center - 2 days ago</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Quick Actions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Button 
+                      className="w-full justify-start" 
+                      variant="outline"
+                      onClick={() => setActiveTab("newsletter")}
+                    >
+                      <Mail className="mr-2 h-4 w-4" />
+                      Send Newsletter
+                    </Button>
+                    <Button 
+                      className="w-full justify-start" 
+                      variant="outline"
+                      onClick={() => setActiveTab("appointments")}
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Review Appointments
+                    </Button>
+                    <Button 
+                      className="w-full justify-start" 
+                      variant="outline"
+                      onClick={() => setActiveTab("posts")}
+                    >
+                      <FileText className="mr-2 h-4 w-4" />
+                      Create New Post
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="newsletter">
+              <NewsletterManager />
+            </TabsContent>
+
+            <TabsContent value="appointments">
+              <AppointmentsManager />
+            </TabsContent>
+
+            <TabsContent value="applications">
+              <ApplicationsManager />
+            </TabsContent>
+
+            <TabsContent value="posts">
+              <PostsManager />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default AdminDashboard;
