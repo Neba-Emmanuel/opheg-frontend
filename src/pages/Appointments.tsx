@@ -6,11 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SEO from "@/components/SEO";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useCreateAppointment } from "@/hooks/useAppointments";
 
 const AppointmentSchema = z.object({
   fullName: z.string().min(2),
-  email: z.string().email().optional().or(z.literal("")),
-  phone: z.string().min(6),
+  email: z.string().email().or(z.literal("")),
+  phone: z.string().min(8).optional(),
   date: z.string().min(1),
   time: z.string().min(1),
   location: z.string().min(2),
@@ -26,8 +27,11 @@ const storageKey = "opheg_appointments";
 
 const Appointments = () => {
   const { elementRef: formRef, isVisible: formVisible } = useScrollAnimation();
-  const { elementRef: sidebarRef, isVisible: sidebarVisible } = useScrollAnimation();
+  const { elementRef: sidebarRef, isVisible: sidebarVisible } =
+    useScrollAnimation();
   const { toast } = useToast();
+  const createAppointment = useCreateAppointment();
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<Appointment>({
     id: crypto.randomUUID(),
     fullName: "",
@@ -35,7 +39,7 @@ const Appointments = () => {
     phone: "",
     date: "",
     time: "",
-    location: "Kumba",
+    location: "Optimum Health Global Center",
     reason: "",
     createdAt: Date.now(),
   });
@@ -61,32 +65,65 @@ const Appointments = () => {
     setForm((f) => ({ ...f, [name]: value }));
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = AppointmentSchema.safeParse(form);
+
     if (!parsed.success) {
+      const fieldErrors: Record<string, string> = {};
+      parsed.error.issues.forEach((issue) => {
+        const field = issue.path[0] as string;
+        fieldErrors[field] = issue.message;
+      });
+      setErrors(fieldErrors);
+
       toast({
         title: "Please fix the highlighted fields",
-        description: parsed.error.issues.map((i) => i.path.join(".")) + "",
+        description: "Some fields are invalid.",
+        variant: "destructive",
       });
       return;
     }
-    setItems((prev) => [form, ...prev]);
-    toast({
-      title: "Appointment scheduled",
-      description: `${form.fullName} · ${form.date} ${form.time}`,
-    });
-    setForm({
-      id: crypto.randomUUID(),
-      fullName: "",
-      email: "",
-      phone: "",
-      date: "",
-      time: "",
-      location: "Kumba",
-      reason: "",
-      createdAt: Date.now(),
-    });
+
+    try {
+      setErrors({});
+      // 🔗 call backend
+      await createAppointment.mutateAsync({
+        name: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+        reason: form.reason,
+      });
+
+      // Keep local storage in sync for offline feel
+      setItems((prev) => [form, ...prev]);
+
+      toast({
+        title: "Appointment scheduled",
+        description: `${form.fullName} · ${form.date} ${form.time}`,
+      });
+
+      setForm({
+        id: crypto.randomUUID(),
+        fullName: "",
+        email: "",
+        phone: "",
+        date: "",
+        time: "",
+        location: "Optimum Health Global Center",
+        reason: "",
+        createdAt: Date.now(),
+      });
+    } catch (err: any) {
+      toast({
+        title: "Submission failed",
+        description: err.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const remove = (id: string) =>
@@ -107,7 +144,14 @@ const Appointments = () => {
       />
 
       <div className="container grid gap-10 py-12 md:grid-cols-2">
-        <section ref={formRef} className={`rounded-lg border bg-card p-6 shadow-sm transition-all duration-700 ${formVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+        <section
+          ref={formRef}
+          className={`rounded-lg border bg-card p-6 shadow-sm transition-all duration-700 ${
+            formVisible
+              ? "animate-fade-in animate-scale-in"
+              : "opacity-0 translate-y-8 scale-95"
+          }`}
+        >
           <h1 className="display-title mb-1 text-3xl">Book an Appointment</h1>
           <p className="mb-6 text-sm text-muted-foreground">
             We’ll confirm via phone or email.
@@ -122,8 +166,13 @@ const Appointments = () => {
                 value={form.fullName}
                 onChange={onChange}
                 required
+                className={errors.fullName ? "border-red-500" : ""}
               />
+              {errors.fullName && (
+                <p className="mt-1 text-sm text-red-500">{errors.fullName}</p>
+              )}
             </div>
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-sm font-medium">Email</label>
@@ -132,8 +181,12 @@ const Appointments = () => {
                   type="email"
                   value={form.email}
                   onChange={onChange}
-                  placeholder="optional"
+                  required
+                  className={errors.email ? "border-red-500" : ""}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium">Phone</label>
@@ -142,7 +195,11 @@ const Appointments = () => {
                   value={form.phone}
                   onChange={onChange}
                   required
+                  className={errors.phone ? "border-red-500" : ""}
                 />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -154,7 +211,11 @@ const Appointments = () => {
                   value={form.date}
                   onChange={onChange}
                   required
+                  className={errors.date ? "border-red-500" : ""}
                 />
+                {errors.date && (
+                  <p className="mt-1 text-sm text-red-500">{errors.date}</p>
+                )}
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium">Time</label>
@@ -164,7 +225,11 @@ const Appointments = () => {
                   value={form.time}
                   onChange={onChange}
                   required
+                  className={errors.time ? "border-red-500" : ""}
                 />
+                {errors.time && (
+                  <p className="mt-1 text-sm text-red-500">{errors.time}</p>
+                )}
               </div>
             </div>
             <div>
@@ -175,7 +240,11 @@ const Appointments = () => {
                 onChange={onChange}
                 placeholder="e.g., Kumba Health Center"
                 required
+                className={errors.location ? "border-red-500" : ""}
               />
+              {errors.location && (
+                <p className="mt-1 text-sm text-red-500">{errors.location}</p>
+              )}
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium">Reason</label>
@@ -185,15 +254,32 @@ const Appointments = () => {
                 onChange={onChange}
                 rows={4}
                 required
+                className={errors.reason ? "border-red-500" : ""}
               />
+              {errors.reason && (
+                <p className="mt-1 text-sm text-red-500">{errors.reason}</p>
+              )}
             </div>
-            <Button type="submit" variant="hero" className="mt-2">
-              Schedule
+
+            <Button
+              type="submit"
+              variant="hero"
+              className="mt-2"
+              disabled={createAppointment.isPending}
+            >
+              {createAppointment.isPending
+                ? "Scheduling..."
+                : "Shedule Appointment"}
             </Button>
           </form>
         </section>
 
-        <aside ref={sidebarRef} className={`space-y-4 transition-all duration-700 ${sidebarVisible ? 'animate-fade-in' : 'opacity-0 translate-y-8'}`}>
+        <aside
+          ref={sidebarRef}
+          className={`space-y-4 transition-all duration-700 ${
+            sidebarVisible ? "animate-fade-in" : "opacity-0 translate-y-8"
+          }`}
+        >
           <div className="rounded-lg border bg-secondary/30 p-6">
             <h2 className="display-title text-xl">What to expect</h2>
             <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
@@ -221,10 +307,11 @@ const Appointments = () => {
                       <div className="text-muted-foreground">
                         {a.date} · {a.time} · {a.location}
                       </div>
+                      <div className="text-muted-foreground">{a.reason}</div>
                     </div>
-                    <Button variant="outline" onClick={() => remove(a.id)}>
+                    {/* <Button variant="outline" onClick={() => remove(a.id)}>
                       Cancel
-                    </Button>
+                    </Button> */}
                   </li>
                 ))}
               </ul>

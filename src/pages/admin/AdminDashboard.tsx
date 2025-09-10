@@ -3,26 +3,36 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Users, 
-  Calendar, 
-  Mail, 
-  FileText, 
-  UserPlus, 
+import {
+  Users,
+  Calendar,
+  Mail,
+  FileText,
+  UserPlus,
   Handshake,
   LogOut,
   BarChart3,
-  Bell
+  Bell,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import NewsletterManager from "@/components/admin/NewsletterManager";
 import AppointmentsManager from "@/components/admin/AppointmentsManager";
 import ApplicationsManager from "@/components/admin/ApplicationsManager";
 import PostsManager from "@/components/admin/PostsManager";
+import { useApplications } from "@/hooks/useApplications";
+import { useAppointments } from "@/hooks/useAppointments";
+import { useSubscribers } from "@/hooks/useNewsletter";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
+  const { data: subscribers } = useSubscribers();
+  const { data: appointments } = useAppointments();
+  const volunteerQuery = useApplications("volunteer");
+  const partnerQuery = useApplications("partner");
+
+  // show latest 3
+  const recent = appointments.slice(0, 3);
 
   useEffect(() => {
     // Check if admin is authenticated
@@ -38,17 +48,29 @@ const AdminDashboard = () => {
   };
 
   const stats = [
-    { title: "Newsletter Subscribers", value: "1,248", icon: Mail, change: "+12%" },
-    { title: "Pending Appointments", value: "23", icon: Calendar, change: "+5%" },
-    { title: "Volunteer Applications", value: "15", icon: UserPlus, change: "+8%" },
-    { title: "Partner Requests", value: "7", icon: Handshake, change: "+2%" },
-    { title: "Published Posts", value: "42", icon: FileText, change: "+18%" },
-    { title: "Active Programs", value: "8", icon: BarChart3, change: "0%" },
+    { title: "Newsletter Subscribers", value: subscribers?.length, icon: Mail },
+    {
+      title: "Pending Appointments",
+      value: appointments?.length,
+      icon: Calendar,
+    },
+    {
+      title: "Volunteer Applications",
+      value: volunteerQuery?.data?.length,
+      icon: UserPlus,
+    },
+    {
+      title: "Partner Requests",
+      value: partnerQuery?.data?.length,
+      icon: Handshake,
+    },
+    { title: "Published Posts", value: "0", icon: FileText },
+    { title: "Active Programs", value: "0", icon: BarChart3 },
   ];
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Admin Dashboard - OPHEG"
         description="OPHEG administration dashboard for managing operations"
       />
@@ -68,21 +90,34 @@ const AdminDashboard = () => {
         </header>
 
         <div className="container mx-auto px-4 py-8">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="space-y-6"
+          >
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview" className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="newsletter" className="flex items-center gap-2">
+              <TabsTrigger
+                value="newsletter"
+                className="flex items-center gap-2"
+              >
                 <Mail className="h-4 w-4" />
                 Newsletter
               </TabsTrigger>
-              <TabsTrigger value="appointments" className="flex items-center gap-2">
+              <TabsTrigger
+                value="appointments"
+                className="flex items-center gap-2"
+              >
                 <Calendar className="h-4 w-4" />
                 Appointments
               </TabsTrigger>
-              <TabsTrigger value="applications" className="flex items-center gap-2">
+              <TabsTrigger
+                value="applications"
+                className="flex items-center gap-2"
+              >
                 <Users className="h-4 w-4" />
                 Applications
               </TabsTrigger>
@@ -104,12 +139,18 @@ const AdminDashboard = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="text-2xl font-bold">{stat.value}</div>
-                      <p className="text-xs text-muted-foreground">
-                        <span className={stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                      {/* <p className="text-xs text-muted-foreground">
+                        <span
+                          className={
+                            stat.change.startsWith("+")
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }
+                        >
                           {stat.change}
-                        </span>{' '}
+                        </span>{" "}
                         from last month
-                      </p>
+                      </p> */}
                     </CardContent>
                   </Card>
                 ))}
@@ -120,31 +161,43 @@ const AdminDashboard = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Bell className="h-5 w-5" />
-                      Recent Activities
+                      Recent Appointments
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                      <div>
-                        <p className="text-sm font-medium">New volunteer application</p>
-                        <p className="text-xs text-muted-foreground">John Doe applied for Health Outreach - 2 hours ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                      <div>
-                        <p className="text-sm font-medium">Newsletter sent successfully</p>
-                        <p className="text-xs text-muted-foreground">Monthly health tips to 1,248 subscribers - 1 day ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                      <div>
-                        <p className="text-sm font-medium">New partnership inquiry</p>
-                        <p className="text-xs text-muted-foreground">Regional Medical Center - 2 days ago</p>
-                      </div>
-                    </div>
+                    {recent.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">
+                        No recent appointments
+                      </p>
+                    ) : (
+                      recent.map((appt) => (
+                        <div
+                          key={appt.id}
+                          className="flex items-start space-x-3"
+                        >
+                          <div
+                            className={`w-2 h-2 rounded-full mt-2 ${
+                              appt.status === "completed"
+                                ? "bg-green-500"
+                                : appt.status === "cancelled"
+                                ? "bg-red-500"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <div>
+                            <p className="text-sm font-medium">
+                              {appt.name} – {appt.reason}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {new Date(appt.date).toLocaleDateString()} at{" "}
+                              {appt.time} ·{" "}
+                              {appt.status.charAt(0).toUpperCase() +
+                                appt.status.slice(1)}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </CardContent>
                 </Card>
 
@@ -153,24 +206,24 @@ const AdminDashboard = () => {
                     <CardTitle>Quick Actions</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Button 
-                      className="w-full justify-start" 
+                    <Button
+                      className="w-full justify-start"
                       variant="outline"
                       onClick={() => setActiveTab("newsletter")}
                     >
                       <Mail className="mr-2 h-4 w-4" />
                       Send Newsletter
                     </Button>
-                    <Button 
-                      className="w-full justify-start" 
+                    <Button
+                      className="w-full justify-start"
                       variant="outline"
-                      onClick={() => setActiveTab("appointments")}
+                      onClick={() => setActiveTab("applications")}
                     >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      Review Appointments
+                      <Users className="mr-2 h-4 w-4" />
+                      Review Applications
                     </Button>
-                    <Button 
-                      className="w-full justify-start" 
+                    <Button
+                      className="w-full justify-start"
                       variant="outline"
                       onClick={() => setActiveTab("posts")}
                     >

@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import SEO from "@/components/SEO";
-import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
+import {
+  useScrollAnimation,
+  useStaggeredAnimation,
+} from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,24 +30,29 @@ import volunteersWorkingImg from "@/assets/volunteers-working.jpg";
 import partnershipsImg from "@/assets/partnerships.jpg";
 import getInvolvedHeroImg from "@/assets/get-involved-hero.jpg";
 import { useToast } from "@/hooks/use-toast";
+import { useCreateApplication } from "@/hooks/useApplications";
 
 const GetInvolved = () => {
-  const { elementRef: overviewRef, isVisible: overviewVisible } = useScrollAnimation();
-  const { containerRef: opportunitiesRef, visibleItems: visibleOpportunities } = useStaggeredAnimation(5, 120);
-  const { elementRef: needsRef, isVisible: needsVisible } = useScrollAnimation();
+  const { elementRef: overviewRef, isVisible: overviewVisible } =
+    useScrollAnimation();
+  const { containerRef: opportunitiesRef, visibleItems: visibleOpportunities } =
+    useStaggeredAnimation(5, 120);
+  const { elementRef: needsRef, isVisible: needsVisible } =
+    useScrollAnimation();
 
   const [activeForm, setActiveForm] = useState<"volunteer" | "partner" | null>(
     null
   );
+  const createApplication = useCreateApplication();
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     location: "",
     experience: "",
-    motivation: "",
     organization: "",
-    partnershipType: "",
     message: "",
   });
   const { toast } = useToast();
@@ -133,37 +141,6 @@ const GetInvolved = () => {
     },
   ];
 
-  // const partnershipTypes = [
-  //   {
-  //     icon: Building2,
-  //     title: "Healthcare Institutions",
-  //     description: "Hospitals, clinics, and medical centers seeking collaboration",
-  //     benefits: ["Resource sharing", "Knowledge exchange", "Expanded reach"],
-  //     examples: ["Medical equipment sharing", "Staff exchange programs", "Joint research initiatives"]
-  //   },
-  //   {
-  //     icon: GraduationCap,
-  //     title: "Educational Organizations",
-  //     description: "Universities, schools, and training institutions",
-  //     benefits: ["Research collaboration", "Student placements", "Curriculum development"],
-  //     examples: ["Medical student rotations", "Research partnerships", "Educational programs"]
-  //   },
-  //   {
-  //     icon: Globe,
-  //     title: "International NGOs",
-  //     description: "Global organizations working in healthcare and development",
-  //     benefits: ["Funding opportunities", "Best practice sharing", "Advocacy support"],
-  //     examples: ["Joint grant applications", "Program implementation", "Policy advocacy"]
-  //   },
-  //   {
-  //     icon: Building2,
-  //     title: "Corporate Sponsors",
-  //     description: "Businesses supporting healthcare initiatives through CSR",
-  //     benefits: ["Funding support", "Equipment donations", "Employee volunteering"],
-  //     examples: ["Medical equipment donations", "Infrastructure funding", "Skills-based volunteering"]
-  //   }
-  // ];
-
   const currentNeeds = [
     {
       category: "Medical Equipment",
@@ -199,26 +176,69 @@ const GetInvolved = () => {
     },
   ];
 
-  const handleFormSubmit = (type: "volunteer" | "partner") => {
-    // Simulate form submission
-    toast({
-      title: "Application Submitted Successfully!",
-      description: `Thank you for your interest in ${
-        type === "volunteer" ? "volunteering" : "partnering"
-      } with OPHEG. We'll contact you within 48 hours.`,
-    });
-    setActiveForm(null);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      location: "",
-      experience: "",
-      motivation: "",
-      organization: "",
-      partnershipType: "",
-      message: "",
-    });
+  const validateForm = (type: "volunteer" | "partner") => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) newErrors.name = "Full Name is required.";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email format.";
+    }
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
+    if (!formData.location.trim()) newErrors.location = "Location is required.";
+
+    if (type === "partner" && !formData.organization.trim()) {
+      newErrors.organization = "Organization is required.";
+    }
+    if (type === "volunteer" && !formData.experience.trim()) {
+      newErrors.experience = "Relevant experience is required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleFormSubmit = async (type: "volunteer" | "partner") => {
+    if (!validateForm(type)) return;
+
+    try {
+      await createApplication.mutateAsync({
+        type,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        organization: formData.organization,
+        interest: formData.experience,
+        message: formData.message,
+      });
+
+      toast({
+        title: "Application Submitted Successfully!",
+        description: `Thank you for your interest in ${
+          type === "volunteer" ? "volunteering" : "partnering"
+        } with OPHEG. We'll contact you within 48 hours.`,
+      });
+
+      setActiveForm(null);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        location: "",
+        experience: "",
+        organization: "",
+        message: "",
+      });
+      setErrors({});
+    } catch (err: any) {
+      toast({
+        title: "Submission Failed",
+        description: err.message || "Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -253,7 +273,12 @@ const GetInvolved = () => {
 
       <div className="container py-16 space-y-16">
         {/* Overview Cards */}
-        <section ref={overviewRef} className={`grid gap-8 md:grid-cols-2 transition-all duration-700 ${overviewVisible ? 'animate-fade-in' : 'opacity-0 translate-y-8'}`}>
+        <section
+          ref={overviewRef}
+          className={`grid gap-8 md:grid-cols-2 transition-all duration-700 ${
+            overviewVisible ? "animate-fade-in" : "opacity-0 translate-y-8"
+          }`}
+        >
           <Card className="card-hover overflow-hidden">
             <div className="aspect-video overflow-hidden">
               <img
@@ -324,26 +349,22 @@ const GetInvolved = () => {
               delivery in African communities.
             </p>
           </div>
-          <div ref={opportunitiesRef as any} className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+          <div
+            ref={opportunitiesRef as any}
+            className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3"
+          >
             {volunteerOpportunities.map((opportunity, index) => (
               <Card
                 key={opportunity.title}
-                className={`card-hover transition-all duration-700 ${visibleOpportunities.includes(index) ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}
+                className={`card-hover transition-all duration-700 ${
+                  visibleOpportunities.includes(index)
+                    ? "animate-fade-in animate-scale-in"
+                    : "opacity-0 translate-y-8 scale-95"
+                }`}
               >
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <opportunity.icon className="h-8 w-8 text-primary" />
-                    {/* <Badge
-                      variant={
-                        opportunity.urgency === "high"
-                          ? "destructive"
-                          : opportunity.urgency === "medium"
-                          ? "default"
-                          : "secondary"
-                      }
-                    >
-                      {opportunity.urgency} priority
-                    </Badge> */}
                   </div>
                   <CardTitle className="text-lg">{opportunity.title}</CardTitle>
                 </CardHeader>
@@ -374,56 +395,15 @@ const GetInvolved = () => {
           </div>
         </section>
 
-        {/* Partnership Types */}
-        {/* <section>
-          <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Partnership Opportunities</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Collaborate with OPHEG to amplify impact and create sustainable healthcare solutions.
-            </p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2">
-            {partnershipTypes.map((partnership, index) => (
-              <Card key={partnership.title} className={`card-hover fade-in-up stagger-${(index % 4) + 1}`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <partnership.icon className="h-6 w-6 text-primary" />
-                    {partnership.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">
-                    {partnership.description}
-                  </p>
-                  <div>
-                    <h4 className="font-semibold mb-2">Benefits:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {partnership.benefits.map((benefit) => (
-                        <Badge key={benefit} variant="secondary" className="text-xs">
-                          {benefit}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Examples:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      {partnership.examples.map((example) => (
-                        <li key={example} className="flex items-start gap-2">
-                          <Heart className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-                          {example}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section> */}
-
         {/* Current Needs */}
-        <section ref={needsRef} className={`bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-8 transition-all duration-700 ${needsVisible ? 'animate-fade-in animate-scale-in' : 'opacity-0 translate-y-8 scale-95'}`}>
+        <section
+          ref={needsRef}
+          className={`bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-8 transition-all duration-700 ${
+            needsVisible
+              ? "animate-fade-in animate-scale-in"
+              : "opacity-0 translate-y-8 scale-95"
+          }`}
+        >
           <div className="text-center mb-8">
             <h2 className="display-title text-3xl font-bold mb-4">
               Current Needs
@@ -475,7 +455,11 @@ const GetInvolved = () => {
                       }
                       placeholder="Your full name"
                     />
+                    {errors.name && (
+                      <p className="text-sm text-red-500 mt-1">{errors.name}</p>
+                    )}
                   </div>
+
                   <div>
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -487,9 +471,13 @@ const GetInvolved = () => {
                       }
                       placeholder="your@email.com"
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
+
                   <div>
                     <Label htmlFor="phone">Phone</Label>
                     <Input
@@ -500,7 +488,13 @@ const GetInvolved = () => {
                       }
                       placeholder="+237 XXX XXX XXX"
                     />
+                    {errors.phone && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
+
                   <div>
                     <Label htmlFor="location">Location</Label>
                     <Input
@@ -511,42 +505,59 @@ const GetInvolved = () => {
                       }
                       placeholder="City, Country"
                     />
+                    {errors.location && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.location}
+                      </p>
+                    )}
                   </div>
-                </div>
-                {activeForm === "partner" && (
+
+                  {activeForm === "partner" && (
+                    <div>
+                      <Label htmlFor="organization">Organization</Label>
+                      <Input
+                        id="organization"
+                        value={formData.organization}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            organization: e.target.value,
+                          })
+                        }
+                        placeholder="Organization name"
+                      />
+                      {errors.organization && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.organization}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   <div>
-                    <Label htmlFor="organization">Organization</Label>
-                    <Input
-                      id="organization"
-                      value={formData.organization}
+                    <Label htmlFor="experience">
+                      {activeForm === "volunteer"
+                        ? "Relevant Experience"
+                        : "Partnership Interest"}
+                    </Label>
+                    <Textarea
+                      id="experience"
+                      value={formData.experience}
                       onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          organization: e.target.value,
-                        })
+                        setFormData({ ...formData, experience: e.target.value })
                       }
-                      placeholder="Organization name"
+                      placeholder={
+                        activeForm === "volunteer"
+                          ? "Describe your relevant skills and experience"
+                          : "Describe your partnership interests and goals"
+                      }
                     />
+                    {errors.experience && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.experience}
+                      </p>
+                    )}
                   </div>
-                )}
-                <div>
-                  <Label htmlFor="experience">
-                    {activeForm === "volunteer"
-                      ? "Relevant Experience"
-                      : "Partnership Interest"}
-                  </Label>
-                  <Textarea
-                    id="experience"
-                    value={formData.experience}
-                    onChange={(e) =>
-                      setFormData({ ...formData, experience: e.target.value })
-                    }
-                    placeholder={
-                      activeForm === "volunteer"
-                        ? "Describe your relevant skills and experience"
-                        : "Describe your partnership interests and goals"
-                    }
-                  />
                 </div>
                 <div>
                   <Label htmlFor="message">Additional Message</Label>
@@ -563,11 +574,11 @@ const GetInvolved = () => {
                   <Button
                     onClick={() => handleFormSubmit(activeForm)}
                     className="flex-1"
+                    disabled={createApplication.isPending}
                   >
-                    Submit Application
-                  </Button>
-                  <Button variant="outline" onClick={handleCancel}>
-                    Cancel
+                    {createApplication.isPending
+                      ? "Submitting..."
+                      : "Submit Application"}
                   </Button>
                 </div>
               </CardContent>

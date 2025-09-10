@@ -1,7 +1,40 @@
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSubscribe } from "@/hooks/useNewsletter";
 
 const SiteFooter = () => {
+  const [email, setEmail] = useState("");
+  const { mutate } = useSubscribe();
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email) {
+      toast({
+        title: "",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await mutate({ email });
+      toast({
+        title: "Subscribed",
+        description: "You have successfully subscribed to our newsletter.",
+      });
+      setEmail("");
+    } catch (error) {
+      toast({
+        title: "Subscription Failed",
+        description: "An error occurred while subscribing. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <footer className="border-t bg-secondary/30">
       <div className="container grid gap-6 py-10 md:grid-cols-4">
@@ -71,17 +104,13 @@ const SiteFooter = () => {
           <p className="mt-2 text-sm text-muted-foreground">
             Subscribe to receive updates, tips, and health information.
           </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              // Handle newsletter submit
-            }}
-            className="mt-3 flex gap-2"
-          >
+          <form onSubmit={handleNewsletterSubmit} className="mt-3 flex gap-2">
             <Input
               type="email"
               placeholder="Your email"
               className="flex-1"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Button type="submit" variant="hero">

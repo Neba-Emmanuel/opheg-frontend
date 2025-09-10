@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Lock } from "lucide-react";
+import { useApiMutation } from "@/hooks/useApi";
 import SEO from "@/components/SEO";
 
 const AdminLogin = () => {
@@ -15,32 +16,45 @@ const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Move the hook call to the top level
+  const mutation = useApiMutation<
+    { accessToken: string },
+    { email: string; password: string; role?: string }
+  >("/auth/login", "POST");
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isLoading) return;
+
     setIsLoading(true);
 
-    // Mock authentication - replace with your backend API
-    if (email === "admin@opheg.org" && password === "admin123") {
-      localStorage.setItem("opheg_admin_token", "mock_admin_token");
+    try {
+      const response = await mutation.mutateAsync({
+        email,
+        password,
+        role: "admin",
+      });
+      localStorage.setItem("opheg_admin_token", response.accessToken);
       toast({
         title: "Login successful",
         description: "Welcome to OPHEG Admin Panel",
       });
       navigate("/admin/dashboard");
-    } else {
+    } catch (error) {
       toast({
         title: "Login failed",
-        description: "Invalid credentials. Use admin@opheg.org / admin123",
+        description: "Invalid credentials.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Admin Login - OPHEG"
         description="Admin panel login for OPHEG organization"
       />
@@ -66,6 +80,7 @@ const AdminLogin = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  disabled={isLoading}
                 />
               </div>
               <div className="space-y-2">
@@ -78,6 +93,7 @@ const AdminLogin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    disabled={isLoading}
                   />
                   <Button
                     type="button"
@@ -85,6 +101,7 @@ const AdminLogin = () => {
                     size="sm"
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
+                    disabled={isLoading}
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -94,17 +111,14 @@ const AdminLogin = () => {
                   </Button>
                 </div>
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading || mutation.isPending}
+              >
+                {isLoading || mutation.isPending ? "Signing in..." : "Sign In"}
               </Button>
             </form>
-            <div className="mt-4 p-3 bg-muted rounded-md">
-              <p className="text-sm text-muted-foreground">
-                <strong>Demo credentials:</strong><br />
-                Email: admin@opheg.org<br />
-                Password: admin123
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
