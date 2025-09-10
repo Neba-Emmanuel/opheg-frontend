@@ -157,114 +157,119 @@ const AppointmentsManager = () => {
             Appointments Management
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Patient Info</TableHead>
-                <TableHead>Contact</TableHead>
-                <TableHead>Appointment Details</TableHead>
-                <TableHead>Reason</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {appointments.map((appointment) => (
-                <TableRow key={appointment.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <p className="font-medium">{appointment.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {appointment.email}
-                        </p>
+        <CardContent className="px-2 sm:px-6">
+          <div className="overflow-x-auto">
+            <Table className="min-w-[800px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">Patient Info</TableHead>
+                  <TableHead className="min-w-[120px] hidden sm:table-cell">Contact</TableHead>
+                  <TableHead className="min-w-[180px]">Appointment Details</TableHead>
+                  <TableHead className="min-w-[150px] hidden md:table-cell">Reason</TableHead>
+                  <TableHead className="min-w-[100px]">Status</TableHead>
+                  <TableHead className="min-w-[120px]">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {appointments.map((appointment) => (
+                  <TableRow key={appointment.id}>
+                    <TableCell>
+                      <div className="flex items-start gap-2">
+                        <User className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-medium text-sm">{appointment.name}</p>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {appointment.email}
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground sm:hidden mt-1">
+                            <Phone className="h-3 w-3" />
+                            {appointment.phone}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1 text-sm">
-                      <Phone className="h-3 w-3" />
-                      {appointment.phone}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <div className="flex items-center gap-1 text-sm">
-                        <Calendar className="h-3 w-3" />
-                        {appointment.date}
+                        <Phone className="h-3 w-3" />
+                        <span className="truncate">{appointment.phone}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-sm">
-                        <Clock className="h-3 w-3" />
-                        {appointment.time}
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-sm">
+                          <Calendar className="h-3 w-3" />
+                          <span className="text-xs">{appointment.date}</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-sm">
+                          <Clock className="h-3 w-3" />
+                          <span className="text-xs">{appointment.time}</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-sm">
+                          <MapPin className="h-3 w-3" />
+                          <span className="text-xs truncate">{appointment.location}</span>
+                        </div>
+                        <div className="md:hidden mt-2">
+                          <p className="text-xs text-muted-foreground truncate" title={appointment.reason}>
+                            {appointment.reason}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1 text-sm">
-                        <MapPin className="h-3 w-3" />
-                        {appointment.location}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className="max-w-xs">
-                    <p className="text-sm truncate" title={appointment.reason}>
-                      {appointment.reason}
-                    </p>
-                  </TableCell>
-                  <TableCell>{getStatusBadge(appointment.status)}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      {/* <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          toast({
-                            title: "Viewing appointment",
-                            description: `Opening details for ${appointment.name}`,
-                          });
-                        }}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button> */}
-                      {appointment.status === "pending" && (
-                        <>
+                    </TableCell>
+                    <TableCell className="max-w-xs hidden md:table-cell">
+                      <p className="text-sm truncate" title={appointment.reason}>
+                        {appointment.reason}
+                      </p>
+                    </TableCell>
+                    <TableCell>{getStatusBadge(appointment.status)}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-0.5">
+                        {appointment.status === "pending" && (
+                          <>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                              title="Approve"
+                              onClick={() =>
+                                handleStatusUpdate(appointment.id, "approved")
+                              }
+                            >
+                              <CheckCircle className="h-4 w-4 text-green-600" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                              title="Cancel"
+                              onClick={() =>
+                                handleStatusUpdate(appointment.id, "cancelled")
+                              }
+                            >
+                              <XCircle className="h-4 w-4 text-red-600" />
+                            </Button>
+                          </>
+                        )}
+
+                        {appointment.status === "approved" && (
                           <Button
                             variant="ghost"
                             size="sm"
+                            className="h-8 w-8 p-0"
+                            title="Mark Complete"
                             onClick={() =>
-                              handleStatusUpdate(appointment.id, "approved")
+                              handleStatusUpdate(appointment.id, "completed")
                             }
                           >
                             <CheckCircle className="h-4 w-4 text-green-600" />
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() =>
-                              handleStatusUpdate(appointment.id, "cancelled")
-                            }
-                          >
-                            <XCircle className="h-4 w-4 text-red-600" />
-                          </Button>
-                        </>
-                      )}
-
-                      {appointment.status === "approved" && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() =>
-                            handleStatusUpdate(appointment.id, "completed")
-                          }
-                        >
-                          <CheckCircle className="h-4 w-4 text-green-600" />
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

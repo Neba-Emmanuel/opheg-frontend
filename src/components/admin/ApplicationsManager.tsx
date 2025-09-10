@@ -147,14 +147,16 @@ const ApplicationsManager = () => {
       </div>
 
       <Tabs defaultValue="volunteers" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="volunteers" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
+          <TabsTrigger value="volunteers" className="flex items-center gap-2 px-2 sm:px-3">
             <UserPlus className="h-4 w-4" />
-            Volunteer Applications
+            <span className="hidden xs:inline">Volunteer</span>
+            <span className="xs:hidden">Vol.</span>
           </TabsTrigger>
-          <TabsTrigger value="partnerships" className="flex items-center gap-2">
+          <TabsTrigger value="partnerships" className="flex items-center gap-2 px-2 sm:px-3">
             <Handshake className="h-4 w-4" />
-            Partnership Requests
+            <span className="hidden xs:inline">Partnership</span>
+            <span className="xs:hidden">Part.</span>
           </TabsTrigger>
         </TabsList>
 
@@ -164,95 +166,112 @@ const ApplicationsManager = () => {
             <CardHeader>
               <CardTitle>Volunteer Applications</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-2 sm:px-6">
               {volunteerQuery.isLoading ? (
                 <p>Loading...</p>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Applicant</TableHead>
-                      <TableHead>Interest</TableHead>
-                      <TableHead>Applied Date</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {volunteerApplications.map((application) => (
-                      <TableRow key={application.id}>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">{application.name}</p>
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                              <Mail className="h-3 w-3" />
-                              {application.email}
-                            </div>
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                              <Phone className="h-3 w-3" />
-                              {application.phone}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {application.interest}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1 text-sm">
-                            <Calendar className="h-3 w-3" />
-                            {new Date(
-                              application.createdAt
-                            ).toLocaleDateString()}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {getStatusBadge(application.status)}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setSelectedApp(application)}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                            {application.status === "pending" && (
-                              <>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() =>
-                                    handleStatusUpdate(
-                                      application.id,
-                                      "approved",
-                                      "volunteer"
-                                    )
-                                  }
-                                >
-                                  <CheckCircle className="h-4 w-4 text-green-600" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() =>
-                                    handleStatusUpdate(
-                                      application.id,
-                                      "rejected",
-                                      "volunteer"
-                                    )
-                                  }
-                                >
-                                  <XCircle className="h-4 w-4 text-red-600" />
-                                </Button>
-                              </>
-                            )}
-                          </div>
-                        </TableCell>
+                <div className="overflow-x-auto">
+                  <Table className="min-w-[600px]">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[200px]">Applicant</TableHead>
+                        <TableHead className="min-w-[120px] hidden md:table-cell">Interest</TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">Applied Date</TableHead>
+                        <TableHead className="min-w-[80px]">Status</TableHead>
+                        <TableHead className="min-w-[120px]">Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {volunteerApplications.map((application) => (
+                        <TableRow key={application.id}>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium text-sm">{application.name}</p>
+                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <Mail className="h-3 w-3" />
+                                <span className="truncate">{application.email}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <Phone className="h-3 w-3" />
+                                {application.phone}
+                              </div>
+                              <div className="md:hidden mt-2">
+                                <p className="text-xs font-medium text-muted-foreground">
+                                  {application.interest}
+                                </p>
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                                  <Calendar className="h-3 w-3" />
+                                  {new Date(application.createdAt).toLocaleDateString()}
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-medium hidden md:table-cell">
+                            {application.interest}
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="h-3 w-3" />
+                              {new Date(
+                                application.createdAt
+                              ).toLocaleDateString()}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {getStatusBadge(application.status)}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-0.5">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0"
+                                title="View Details"
+                                onClick={() => setSelectedApp(application)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                              {application.status === "pending" && (
+                                <>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                    title="Approve"
+                                    onClick={() =>
+                                      handleStatusUpdate(
+                                        application.id,
+                                        "approved",
+                                        "volunteer"
+                                      )
+                                    }
+                                  >
+                                    <CheckCircle className="h-4 w-4 text-green-600" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                    title="Reject"
+                                    onClick={() =>
+                                      handleStatusUpdate(
+                                        application.id,
+                                        "rejected",
+                                        "volunteer"
+                                      )
+                                    }
+                                  >
+                                    <XCircle className="h-4 w-4 text-red-600" />
+                                  </Button>
+                                </>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </CardContent>
           </Card>
@@ -264,93 +283,109 @@ const ApplicationsManager = () => {
             <CardHeader>
               <CardTitle>Partnership Requests</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-2 sm:px-6">
               {partnerQuery.isLoading ? (
                 <p>Loading...</p>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Organization</TableHead>
-                      <TableHead>Contact Person</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Applied Date</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {partnershipApplications.map((application) => (
-                      <TableRow key={application.id}>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">
-                              {application.organization}
-                            </p>
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                              <Mail className="h-3 w-3" />
-                              {application.email}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>{application.name}</TableCell>
-                        <TableCell>{application.interest}</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1 text-sm">
-                            <Calendar className="h-3 w-3" />
-                            {new Date(
-                              application.createdAt
-                            ).toLocaleDateString()}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {getStatusBadge(application.status)}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setSelectedApp(application)}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                            {application.status === "pending" && (
-                              <>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() =>
-                                    handleStatusUpdate(
-                                      application.id,
-                                      "approved",
-                                      "partner"
-                                    )
-                                  }
-                                >
-                                  <CheckCircle className="h-4 w-4 text-green-600" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() =>
-                                    handleStatusUpdate(
-                                      application.id,
-                                      "rejected",
-                                      "partner"
-                                    )
-                                  }
-                                >
-                                  <XCircle className="h-4 w-4 text-red-600" />
-                                </Button>
-                              </>
-                            )}
-                          </div>
-                        </TableCell>
+                <div className="overflow-x-auto">
+                  <Table className="min-w-[700px]">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[180px]">Organization</TableHead>
+                        <TableHead className="min-w-[120px] hidden md:table-cell">Contact Person</TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">Type</TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">Applied Date</TableHead>
+                        <TableHead className="min-w-[80px]">Status</TableHead>
+                        <TableHead className="min-w-[120px]">Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {partnershipApplications.map((application) => (
+                        <TableRow key={application.id}>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium text-sm">
+                                {application.organization}
+                              </p>
+                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <Mail className="h-3 w-3" />
+                                <span className="truncate">{application.email}</span>
+                              </div>
+                              <div className="md:hidden mt-2 space-y-1">
+                                <p className="text-xs font-medium">Contact: {application.name}</p>
+                                <p className="text-xs text-muted-foreground">{application.interest}</p>
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Calendar className="h-3 w-3" />
+                                  {new Date(application.createdAt).toLocaleDateString()}
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">{application.name}</TableCell>
+                          <TableCell className="hidden sm:table-cell">{application.interest}</TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="h-3 w-3" />
+                              {new Date(
+                                application.createdAt
+                              ).toLocaleDateString()}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {getStatusBadge(application.status)}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-0.5">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0"
+                                title="View Details"
+                                onClick={() => setSelectedApp(application)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                              {application.status === "pending" && (
+                                <>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                    title="Approve"
+                                    onClick={() =>
+                                      handleStatusUpdate(
+                                        application.id,
+                                        "approved",
+                                        "partner"
+                                      )
+                                    }
+                                  >
+                                    <CheckCircle className="h-4 w-4 text-green-600" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                    title="Reject"
+                                    onClick={() =>
+                                      handleStatusUpdate(
+                                        application.id,
+                                        "rejected",
+                                        "partner"
+                                      )
+                                    }
+                                  >
+                                    <XCircle className="h-4 w-4 text-red-600" />
+                                  </Button>
+                                </>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </CardContent>
           </Card>

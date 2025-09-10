@@ -286,65 +286,84 @@ const PostsManager = () => {
             Posts Management
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Author</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Publish Date</TableHead>
-                <TableHead>Views</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {posts.map((post) => (
-                <TableRow key={post.id}>
-                  <TableCell>
-                    <div>
-                      <p className="font-medium">{post.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {post.excerpt}
-                      </p>
-                    </div>
-                  </TableCell>
-                  <TableCell>{post.author}</TableCell>
-                  <TableCell>{post.category}</TableCell>
-                  <TableCell>
-                    {getStatusBadge(post.status)}
-                  </TableCell>
-                  <TableCell>
-                    {post.publishDate || '-'}
-                  </TableCell>
-                  <TableCell>{post.views}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      {post.status === 'draft' && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleStatusUpdate(post.id, 'published')}
-                        >
-                          Publish
-                        </Button>
-                      )}
-                      <Button variant="ghost" size="sm">
-                        <Trash2 className="h-4 w-4 text-red-600" />
-                      </Button>
-                    </div>
-                  </TableCell>
+        <CardContent className="px-2 sm:px-6">
+          <div className="overflow-x-auto">
+            <Table className="min-w-[900px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[250px]">Title</TableHead>
+                  <TableHead className="min-w-[120px] hidden md:table-cell">Author</TableHead>
+                  <TableHead className="min-w-[120px] hidden sm:table-cell">Category</TableHead>
+                  <TableHead className="min-w-[80px]">Status</TableHead>
+                  <TableHead className="min-w-[100px] hidden sm:table-cell">Publish Date</TableHead>
+                  <TableHead className="min-w-[80px] hidden md:table-cell">Views</TableHead>
+                  <TableHead className="min-w-[140px]">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {posts.map((post) => (
+                  <TableRow key={post.id}>
+                    <TableCell>
+                      <div>
+                        <p className="font-medium text-sm">{post.title}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                          {post.excerpt}
+                        </p>
+                        <div className="md:hidden mt-2 space-y-1">
+                          <p className="text-xs text-muted-foreground">
+                            <span className="font-medium">Author:</span> {post.author}
+                          </p>
+                          <div className="sm:hidden">
+                            <p className="text-xs text-muted-foreground">
+                              <span className="font-medium">Category:</span> {post.category}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              <span className="font-medium">Published:</span> {post.publishDate || '-'}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              <span className="font-medium">Views:</span> {post.views}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm">{post.author}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{post.category}</TableCell>
+                    <TableCell>
+                      {getStatusBadge(post.status)}
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">
+                      {post.publishDate || '-'}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm">{post.views}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-0.5">
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="View">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="Edit">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        {post.status === 'draft' && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 px-2 text-xs"
+                            onClick={() => handleStatusUpdate(post.id, 'published')}
+                          >
+                            Publish
+                          </Button>
+                        )}
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="Delete">
+                          <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

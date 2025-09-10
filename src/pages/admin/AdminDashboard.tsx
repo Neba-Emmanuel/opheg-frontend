@@ -95,35 +95,35 @@ const AdminDashboard = () => {
             onValueChange={setActiveTab}
             className="space-y-6"
           >
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="overview" className="flex items-center gap-2">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 h-auto p-1">
+              <TabsTrigger value="overview" className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3">
                 <BarChart3 className="h-4 w-4" />
-                Overview
+                <span className="hidden sm:inline">Overview</span>
               </TabsTrigger>
               <TabsTrigger
                 value="newsletter"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3"
               >
                 <Mail className="h-4 w-4" />
-                Newsletter
+                <span className="hidden sm:inline">Newsletter</span>
               </TabsTrigger>
               <TabsTrigger
                 value="appointments"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3"
               >
                 <Calendar className="h-4 w-4" />
-                Appointments
+                <span className="hidden sm:inline">Appointments</span>
               </TabsTrigger>
               <TabsTrigger
                 value="applications"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3"
               >
                 <Users className="h-4 w-4" />
-                Applications
+                <span className="hidden sm:inline">Applications</span>
               </TabsTrigger>
-              <TabsTrigger value="posts" className="flex items-center gap-2">
+              <TabsTrigger value="posts" className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3">
                 <FileText className="h-4 w-4" />
-                Posts
+                <span className="hidden sm:inline">Posts</span>
               </TabsTrigger>
             </TabsList>
 

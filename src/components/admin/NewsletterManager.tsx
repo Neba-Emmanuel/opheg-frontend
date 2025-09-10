@@ -149,41 +149,50 @@ const NewsletterManager = () => {
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Email</TableHead>
-                <TableHead>Subscribed At</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {subscribers?.map((subscriber) => (
-                <TableRow key={subscriber.id}>
-                  <TableCell>{subscriber.email}</TableCell>
-                  <TableCell>
-                    {formatTimestampShort(subscriber.createdAt)}
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        subscriber.isActive === true ? "default" : "secondary"
-                      }
-                    >
-                      {subscriber.isActive === true ? "Active" : "Paused"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
+        <CardContent className="px-2 sm:px-6">
+          <div className="overflow-x-auto">
+            <Table className="min-w-[500px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">Email</TableHead>
+                  <TableHead className="min-w-[120px] hidden sm:table-cell">Subscribed At</TableHead>
+                  <TableHead className="min-w-[80px]">Status</TableHead>
+                  <TableHead className="min-w-[80px]">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {subscribers?.map((subscriber) => (
+                  <TableRow key={subscriber.id}>
+                    <TableCell className="text-sm">
+                      <div>
+                        <span className="truncate block">{subscriber.email}</span>
+                        <div className="sm:hidden text-xs text-muted-foreground mt-1">
+                          {formatTimestampShort(subscriber.createdAt)}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">
+                      {formatTimestampShort(subscriber.createdAt)}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          subscriber.isActive === true ? "default" : "secondary"
+                        }
+                      >
+                        {subscriber.isActive === true ? "Active" : "Paused"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="Delete">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>
