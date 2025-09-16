@@ -147,20 +147,20 @@ const ApplicationsManager = () => {
       </div>
 
       <Tabs defaultValue="volunteers" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
+        <TabsList className="flex w-full gap-2">
           <TabsTrigger
             value="volunteers"
-            className="flex items-center gap-2 px-2 sm:px-3"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm"
           >
             <UserPlus className="h-4 w-4" />
-            <span className="hidden xs:inline">Volunteer</span>
+            <span className="hidden sm:inline">Volunteer</span>
           </TabsTrigger>
           <TabsTrigger
             value="partnerships"
-            className="flex items-center gap-2 px-2 sm:px-3"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm"
           >
             <Handshake className="h-4 w-4" />
-            <span className="hidden xs:inline">Partnership</span>
+            <span className="hidden sm:inline">Partnership</span>
           </TabsTrigger>
         </TabsList>
 
