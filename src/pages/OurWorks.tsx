@@ -501,19 +501,19 @@ const OurWorks = () => {
           </p>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">7,000+</div>
+              <div className="text-3xl font-bold text-primary mb-2">700+</div>
               <div className="text-sm text-muted-foreground">
                 Total Lives Impacted
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">65+</div>
+              <div className="text-3xl font-bold text-primary mb-2">25+</div>
               <div className="text-sm text-muted-foreground">
                 Communities Reached
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">350+</div>
+              <div className="text-3xl font-bold text-primary mb-2">150+</div>
               <div className="text-sm text-muted-foreground">
                 Healthcare Workers Trained
               </div>

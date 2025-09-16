@@ -15,6 +15,7 @@ import {
   Bell,
 } from "lucide-react";
 import SEO from "@/components/SEO";
+import logo from "/logo.png";
 import NewsletterManager from "@/components/admin/NewsletterManager";
 import AppointmentsManager from "@/components/admin/AppointmentsManager";
 import ApplicationsManager from "@/components/admin/ApplicationsManager";
@@ -22,6 +23,7 @@ import PostsManager from "@/components/admin/PostsManager";
 import { useApplications } from "@/hooks/useApplications";
 import { useAppointments } from "@/hooks/useAppointments";
 import { useSubscribers } from "@/hooks/useNewsletter";
+import Footer from "@/components/admin/Footer";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -86,17 +88,26 @@ const AdminDashboard = () => {
         {/* Header */}
         <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-primary">OPHEG Admin</h1>
-              <p className="text-muted-foreground">Dashboard & Management</p>
+            <div className="flex items-center gap-3">
+              <img
+                src={logo}
+                alt="OPHEG Logo"
+                className="h-14 w-14 object-contain"
+              />
+              <div>
+                <h1 className="text-2xl font-bold text-primary">OPHEG Admin</h1>
+                <p className="text-muted-foreground text-sm">
+                  Dashboard & Management
+                </p>
+              </div>
             </div>
+
             <Button variant="outline" onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline ml-2">Logout</span>
             </Button>
           </div>
         </header>
-
         <div className="container mx-auto px-4 py-8">
           <Tabs
             value={activeTab}
@@ -255,6 +266,8 @@ const AdminDashboard = () => {
             </TabsContent>
           </Tabs>
         </div>
+        {/* Footer */}
+        <Footer />
       </div>
     </>
   );
