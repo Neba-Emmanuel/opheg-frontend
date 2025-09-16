@@ -163,9 +163,15 @@ const AppointmentsManager = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="min-w-[200px]">Patient Info</TableHead>
-                  <TableHead className="min-w-[120px] hidden sm:table-cell">Contact</TableHead>
-                  <TableHead className="min-w-[180px]">Appointment Details</TableHead>
-                  <TableHead className="min-w-[150px] hidden md:table-cell">Reason</TableHead>
+                  <TableHead className="min-w-[120px] hidden sm:table-cell">
+                    Contact
+                  </TableHead>
+                  <TableHead className="min-w-[180px]">
+                    Appointment Details
+                  </TableHead>
+                  <TableHead className="min-w-[150px] hidden md:table-cell">
+                    Reason
+                  </TableHead>
                   <TableHead className="min-w-[100px]">Status</TableHead>
                   <TableHead className="min-w-[120px]">Actions</TableHead>
                 </TableRow>
@@ -177,7 +183,9 @@ const AppointmentsManager = () => {
                       <div className="flex items-start gap-2">
                         <User className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                         <div>
-                          <p className="font-medium text-sm">{appointment.name}</p>
+                          <p className="font-medium text-sm">
+                            {appointment.name}
+                          </p>
                           <p className="text-xs text-muted-foreground truncate">
                             {appointment.email}
                           </p>
@@ -206,17 +214,25 @@ const AppointmentsManager = () => {
                         </div>
                         <div className="flex items-center gap-1 text-sm">
                           <MapPin className="h-3 w-3" />
-                          <span className="text-xs truncate">{appointment.location}</span>
+                          <span className="text-xs truncate">
+                            {appointment.location}
+                          </span>
                         </div>
                         <div className="md:hidden mt-2">
-                          <p className="text-xs text-muted-foreground truncate" title={appointment.reason}>
+                          <p
+                            className="text-xs text-muted-foreground truncate"
+                            title={appointment.reason}
+                          >
                             {appointment.reason}
                           </p>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell className="max-w-xs hidden md:table-cell">
-                      <p className="text-sm truncate" title={appointment.reason}>
+                      <p
+                        className="text-sm truncate"
+                        title={appointment.reason}
+                      >
                         {appointment.reason}
                       </p>
                     </TableCell>

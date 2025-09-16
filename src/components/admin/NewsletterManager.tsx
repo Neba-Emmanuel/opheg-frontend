@@ -155,9 +155,11 @@ const NewsletterManager = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="min-w-[200px]">Email</TableHead>
-                  <TableHead className="min-w-[120px] hidden sm:table-cell">Subscribed At</TableHead>
+                  <TableHead className="min-w-[120px] hidden sm:table-cell">
+                    Subscribed At
+                  </TableHead>
                   <TableHead className="min-w-[80px]">Status</TableHead>
-                  <TableHead className="min-w-[80px]">Actions</TableHead>
+                  {/* <TableHead className="min-w-[80px]">Actions</TableHead> */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -165,7 +167,9 @@ const NewsletterManager = () => {
                   <TableRow key={subscriber.id}>
                     <TableCell className="text-sm">
                       <div>
-                        <span className="truncate block">{subscriber.email}</span>
+                        <span className="truncate block">
+                          {subscriber.email}
+                        </span>
                         <div className="sm:hidden text-xs text-muted-foreground mt-1">
                           {formatTimestampShort(subscriber.createdAt)}
                         </div>
@@ -183,11 +187,11 @@ const NewsletterManager = () => {
                         {subscriber.isActive === true ? "Active" : "Paused"}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="Delete">
                         <Trash2 className="h-4 w-4" />
                       </Button>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

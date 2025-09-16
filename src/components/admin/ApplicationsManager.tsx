@@ -148,15 +148,19 @@ const ApplicationsManager = () => {
 
       <Tabs defaultValue="volunteers" className="space-y-4">
         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
-          <TabsTrigger value="volunteers" className="flex items-center gap-2 px-2 sm:px-3">
+          <TabsTrigger
+            value="volunteers"
+            className="flex items-center gap-2 px-2 sm:px-3"
+          >
             <UserPlus className="h-4 w-4" />
             <span className="hidden xs:inline">Volunteer</span>
-            <span className="xs:hidden">Vol.</span>
           </TabsTrigger>
-          <TabsTrigger value="partnerships" className="flex items-center gap-2 px-2 sm:px-3">
+          <TabsTrigger
+            value="partnerships"
+            className="flex items-center gap-2 px-2 sm:px-3"
+          >
             <Handshake className="h-4 w-4" />
             <span className="hidden xs:inline">Partnership</span>
-            <span className="xs:hidden">Part.</span>
           </TabsTrigger>
         </TabsList>
 
@@ -174,9 +178,15 @@ const ApplicationsManager = () => {
                   <Table className="min-w-[600px]">
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="min-w-[200px]">Applicant</TableHead>
-                        <TableHead className="min-w-[120px] hidden md:table-cell">Interest</TableHead>
-                        <TableHead className="min-w-[100px] hidden sm:table-cell">Applied Date</TableHead>
+                        <TableHead className="min-w-[200px]">
+                          Applicant
+                        </TableHead>
+                        <TableHead className="min-w-[120px] hidden md:table-cell">
+                          Interest
+                        </TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">
+                          Applied Date
+                        </TableHead>
                         <TableHead className="min-w-[80px]">Status</TableHead>
                         <TableHead className="min-w-[120px]">Actions</TableHead>
                       </TableRow>
@@ -186,10 +196,14 @@ const ApplicationsManager = () => {
                         <TableRow key={application.id}>
                           <TableCell>
                             <div>
-                              <p className="font-medium text-sm">{application.name}</p>
+                              <p className="font-medium text-sm">
+                                {application.name}
+                              </p>
                               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <Mail className="h-3 w-3" />
-                                <span className="truncate">{application.email}</span>
+                                <span className="truncate">
+                                  {application.email}
+                                </span>
                               </div>
                               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <Phone className="h-3 w-3" />
@@ -201,7 +215,9 @@ const ApplicationsManager = () => {
                                 </p>
                                 <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                                   <Calendar className="h-3 w-3" />
-                                  {new Date(application.createdAt).toLocaleDateString()}
+                                  {new Date(
+                                    application.createdAt
+                                  ).toLocaleDateString()}
                                 </div>
                               </div>
                             </div>
@@ -291,10 +307,18 @@ const ApplicationsManager = () => {
                   <Table className="min-w-[700px]">
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="min-w-[180px]">Organization</TableHead>
-                        <TableHead className="min-w-[120px] hidden md:table-cell">Contact Person</TableHead>
-                        <TableHead className="min-w-[100px] hidden sm:table-cell">Type</TableHead>
-                        <TableHead className="min-w-[100px] hidden sm:table-cell">Applied Date</TableHead>
+                        <TableHead className="min-w-[180px]">
+                          Organization
+                        </TableHead>
+                        <TableHead className="min-w-[120px] hidden md:table-cell">
+                          Contact Person
+                        </TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">
+                          Type
+                        </TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">
+                          Applied Date
+                        </TableHead>
                         <TableHead className="min-w-[80px]">Status</TableHead>
                         <TableHead className="min-w-[120px]">Actions</TableHead>
                       </TableRow>
@@ -309,20 +333,32 @@ const ApplicationsManager = () => {
                               </p>
                               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <Mail className="h-3 w-3" />
-                                <span className="truncate">{application.email}</span>
+                                <span className="truncate">
+                                  {application.email}
+                                </span>
                               </div>
                               <div className="md:hidden mt-2 space-y-1">
-                                <p className="text-xs font-medium">Contact: {application.name}</p>
-                                <p className="text-xs text-muted-foreground">{application.interest}</p>
+                                <p className="text-xs font-medium">
+                                  Contact: {application.name}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {application.interest}
+                                </p>
                                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                   <Calendar className="h-3 w-3" />
-                                  {new Date(application.createdAt).toLocaleDateString()}
+                                  {new Date(
+                                    application.createdAt
+                                  ).toLocaleDateString()}
                                 </div>
                               </div>
                             </div>
                           </TableCell>
-                          <TableCell className="hidden md:table-cell">{application.name}</TableCell>
-                          <TableCell className="hidden sm:table-cell">{application.interest}</TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            {application.name}
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            {application.interest}
+                          </TableCell>
                           <TableCell className="hidden sm:table-cell">
                             <div className="flex items-center gap-1 text-sm">
                               <Calendar className="h-3 w-3" />

@@ -25,14 +25,15 @@ import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
 import communityOutreachImg from "@/assets/outreach.jpg";
 import ourWorksHeroImg from "@/assets/home-hero.jpg";
-
+import mentorshipImg from "@/assets/mentorship.jpg";
+import trainingImg from "@/assets/training.jpg";
 const OurWorks = () => {
   const { containerRef: impactRef, visibleItems: visibleImpact } =
     useStaggeredAnimation(5, 120);
   const { containerRef: objectivesRef, visibleItems: visibleObjectives } =
     useStaggeredAnimation(8, 100);
   const { containerRef: programsRef, visibleItems: visiblePrograms } =
-    useStaggeredAnimation(4, 150);
+    useStaggeredAnimation(5, 150);
   const { containerRef: flagshipRef, visibleItems: visibleFlagship } =
     useStaggeredAnimation(5, 130);
   const { elementRef: successRef, isVisible: successVisible } =
@@ -97,42 +98,15 @@ const OurWorks = () => {
     },
     {
       icon: Truck,
-      title: "Mobile Surgical Team",
+      title: "Mobile Health Service",
       description:
-        "Providing essential surgical services through our mobile surgical units.",
+        "Provide mobile health services In Medicine, Laboratory, Ultrasonography, Pharmacy, Surgery... etc through our team of experts",
       color: "bg-emerald-100 text-emerald-700",
       category: "Mobile Care",
     },
   ];
 
   const programs = [
-    {
-      slug: "health-flix", // ✅ unique slug
-      title: "Health Flix",
-      description:
-        "Comprehensive training programs for healthcare workers across Cameroon.",
-      image: medicalTrainingImg,
-      stats: "100+ professionals trained",
-      features: [
-        "Modern curriculum",
-        "Hands-on practice",
-        "Certification programs",
-        "Continuing education",
-      ],
-    },
-    {
-      slug: "diagnostic-center",
-      title: "Diagnostic Center",
-      description: "Established a modern healthcare facility in the community.",
-      image: healthFacilityImg,
-      features: [
-        "Primary healthcare",
-        "Preventive services",
-        "Health education",
-        "Research & Innovation",
-        "Community wellness",
-      ],
-    },
     {
       slug: "outreach-initiatives",
       title: "Outreach Initiatives",
@@ -145,6 +119,68 @@ const OurWorks = () => {
         "Vaccination campaigns",
         "Health education",
         "Disease prevention",
+      ],
+    },
+    {
+      slug: "health-flix",
+      title: "Health Flix",
+      description:
+        "It's a digital platform meant for educating communities and Health workers alike on Health issues.",
+      image: medicalTrainingImg,
+      stats: "100+ professionals trained",
+      features: [
+        "Modern curriculum",
+        "Hands-on practice",
+        "Certification programs",
+        "Continuing education",
+      ],
+    },
+    {
+      slug: "health-facility",
+      title: "Health Facility",
+      description: "Established a modern healthcare facility in the community.",
+      image: healthFacilityImg,
+      features: [
+        `Advanced Diagnostics: laboratory and Ultrasonography`,
+        "Primary healthcare",
+        "Preventive services",
+        "Health consultations",
+        "Health education",
+        "Research & Innovation",
+        "Pharmacy services",
+        "Community wellness",
+      ],
+    },
+    {
+      slug: "mentorships",
+      title: "Mentorships",
+      description:
+        "Structured mentorship programs connecting experienced healthcare professionals with emerging practitioners.",
+      image: mentorshipImg,
+      stats: "20+ mentorship partnerships",
+      features: [
+        "One-on-one guidance",
+        "Career development",
+        "Clinical skills enhancement",
+        "Professional networking",
+        "Leadership training",
+        "Personalized growth plans",
+      ],
+    },
+    {
+      slug: "trainings",
+      title: "Trainings",
+      description:
+        "Comprehensive training programs for healthcare workers and community health volunteers.",
+      image: trainingImg,
+      stats: "50+ healthcare professionals trained",
+      features: [
+        "Skill-based workshops",
+        "Certification courses",
+        "Simulation training",
+        "Continuing medical education",
+        "Community health worker training",
+        "Emergency response training",
       ],
     },
   ];
@@ -238,7 +274,8 @@ const OurWorks = () => {
           </div>
           <div ref={programsRef as any} className="grid gap-8 lg:grid-cols-2">
             {programs.map((program, index) => (
-              <Link key={program.slug} to={`/programs/${program.slug}`}>
+              // <Link key={program.slug} to={`/programs/${program.slug}`}>
+              <Link key={program.slug} to={""}>
                 <Card
                   className={`card-hover overflow-hidden transition-all duration-700 ${
                     visiblePrograms.includes(index)
@@ -261,11 +298,7 @@ const OurWorks = () => {
                       )}
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
-                      {program.description}
-                    </p>
-                  </CardContent>
+
                   <CardContent>
                     <p className="text-muted-foreground mb-4 leading-relaxed">
                       {program.description}

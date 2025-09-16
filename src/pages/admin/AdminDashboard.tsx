@@ -32,7 +32,7 @@ const AdminDashboard = () => {
   const partnerQuery = useApplications("partner");
 
   // show latest 3
-  const recent = appointments.slice(0, 3);
+  const recent = appointments?.slice(0, 3);
 
   useEffect(() => {
     // Check if admin is authenticated
@@ -68,6 +68,14 @@ const AdminDashboard = () => {
     { title: "Active Programs", value: "0", icon: BarChart3 },
   ];
 
+  const tabs = [
+    { value: "overview", label: "Overview", icon: BarChart3 },
+    { value: "newsletter", label: "Newsletter", icon: Mail },
+    { value: "appointments", label: "Appointments", icon: Calendar },
+    { value: "applications", label: "Applications", icon: Users },
+    { value: "posts", label: "Posts", icon: FileText },
+  ];
+
   return (
     <>
       <SEO
@@ -95,37 +103,32 @@ const AdminDashboard = () => {
             onValueChange={setActiveTab}
             className="space-y-6"
           >
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 h-auto p-1">
-              <TabsTrigger value="overview" className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3">
-                <BarChart3 className="h-4 w-4" />
-                <span className="hidden sm:inline">Overview</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="newsletter"
-                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3"
-              >
-                <Mail className="h-4 w-4" />
-                <span className="hidden sm:inline">Newsletter</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="appointments"
-                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3"
-              >
-                <Calendar className="h-4 w-4" />
-                <span className="hidden sm:inline">Appointments</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="applications"
-                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3"
-              >
-                <Users className="h-4 w-4" />
-                <span className="hidden sm:inline">Applications</span>
-              </TabsTrigger>
-              <TabsTrigger value="posts" className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3">
-                <FileText className="h-4 w-4" />
-                <span className="hidden sm:inline">Posts</span>
-              </TabsTrigger>
+            <TabsList className="hidden md:grid w-full grid-cols-5">
+              {tabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.value}
+                  value={tab.value}
+                  className="flex items-center gap-2"
+                >
+                  <tab.icon className="h-4 w-4" />
+                  {tab.label}
+                </TabsTrigger>
+              ))}
             </TabsList>
+
+            <div className="md:hidden">
+              <select
+                value={activeTab}
+                onChange={(e) => setActiveTab(e.target.value)}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                {tabs.map((tab) => (
+                  <option key={tab.value} value={tab.value}>
+                    {tab.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <TabsContent value="overview" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -165,12 +168,12 @@ const AdminDashboard = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {recent.length === 0 ? (
+                    {recent?.length === 0 ? (
                       <p className="text-sm text-muted-foreground">
                         No recent appointments
                       </p>
                     ) : (
-                      recent.map((appt) => (
+                      recent?.map((appt) => (
                         <div
                           key={appt.id}
                           className="flex items-start space-x-3"
