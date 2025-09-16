@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { useApiMutation } from "@/hooks/useApi";
 import SEO from "@/components/SEO";
+import logo from "/logo.png";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -62,7 +63,12 @@ const AdminLogin = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="flex items-center justify-center mb-4">
-              <Lock className="h-8 w-8 text-primary" />
+              {/* <Lock className="h-8 w-8 text-primary" /> */}
+              <img
+                src={logo}
+                alt="OPHEG Logo"
+                className="h-14 w-14 object-contain"
+              />
             </div>
             <CardTitle className="text-2xl font-bold">Admin Panel</CardTitle>
             <p className="text-muted-foreground">
