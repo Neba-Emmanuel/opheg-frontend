@@ -14,7 +14,7 @@ import {
   ChevronRight,
   MessageCircle,
 } from "lucide-react";
-import logo from "/logo.png";
+import logo from "/new-logo.png";
 
 const SocialMediaPage = () => {
   const socialMediaPlatforms = [
@@ -134,7 +134,7 @@ const SocialMediaPage = () => {
                 <img
                   src={logo}
                   alt="OPHEG Logo"
-                  className="h-16 w-16 object-contain rounded-full"
+                  className="h-24 w-28 object-contain rounded-full"
                 />
               </div>
             </div>
