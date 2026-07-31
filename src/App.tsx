@@ -20,11 +20,16 @@ import SiteFooter from "./components/layout/SiteFooter";
 const queryClient = new QueryClient();
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  const shouldOverlapFooter = ["/", "/about", "/our-works", "/get-involved"].includes(location.pathname);
+
   return (
     <>
       <SiteHeader />
-      <main className="min-h-[calc(100vh-200px)]">{children}</main>
-      <SiteFooter />
+      <main className={`min-h-[calc(100vh-200px)] ${shouldOverlapFooter ? "pb-0" : "pb-12 sm:pb-16 lg:pb-20"}`}>
+        {children}
+      </main>
+      <SiteFooter overlap={shouldOverlapFooter} />
     </>
   );
 };
@@ -140,9 +145,7 @@ const App = () => (
           <Route
             path="*"
             element={
-              <MainLayout>
-                <NotFound />
-              </MainLayout>
+              <NotFound />
             }
           />
         </Routes>

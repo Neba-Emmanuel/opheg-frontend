@@ -1,11 +1,21 @@
+// SiteHeader.jsx - Redesigned Header with Glass Morphism
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
-import { useState } from "react";
+import { Menu, Sparkles, Stethoscope } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const SiteHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navigationItems = [
     { name: "Home", href: "/" },
@@ -15,29 +25,35 @@ const SiteHeader = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-3">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-lg shadow-slate-200/20"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        {/* Logo */}
+        <Link to="/" className="flex items-center group">
           <img
-            src="/logo.png"
-            alt="Optimum Health Global (OPHEG) logo showing a stethoscope around a globe"
-            className="h-9 w-9 rounded-full"
+            src="/logo-full.png"
+            alt="OPHEG Logo"
+            className="h-10 w-auto object-contain"
             loading="eager"
           />
-          <span className="display-title text-lg font-semibold">OPHEG</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden gap-8 md:flex">
+        <nav className="hidden gap-1 md:flex">
           {navigationItems.map((item) => (
             <NavLink
               key={item.name}
               to={item.href}
               className={({ isActive }) =>
-                `nav-link font-medium transition-all duration-300 hover:scale-105 ${
+                `relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
                   isActive
-                    ? "text-primary"
-                    : "text-foreground/80 hover:text-foreground"
+                    ? "text-blue-600 bg-blue-50"
+                    : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
                 }`
               }
             >
@@ -46,71 +62,104 @@ const SiteHeader = () => {
           ))}
         </nav>
 
+        {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          <Button asChild variant="outline" className="hidden md:inline-flex btn-hover press-effect transform hover:scale-105 transition-all duration-300">
-            <Link to="/health-ai">Chat with Health AI</Link>
+          <Button
+            asChild
+            variant="ghost"
+            className="hidden md:inline-flex hover:bg-blue-50 hover:text-blue-600 transition-all duration-300"
+          >
+            <Link to="/health-ai">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Health AI
+            </Link>
           </Button>
-          <Button asChild variant="hero" className="hidden sm:inline-flex btn-hover press-effect animate-pulse-glow transform hover:scale-105 transition-all duration-300">
-            <Link to="/appointments">Book Appointment</Link>
+          
+          <Button
+            asChild
+            className="hidden sm:inline-flex bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 rounded-xl"
+          >
+            <Link to="/appointments">
+              <Stethoscope className="mr-2 h-4 w-4" />
+              Book Appointment
+            </Link>
           </Button>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu Trigger */}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden hover:bg-slate-100 rounded-xl"
+              >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] mobile-slide-in">
-              <nav className="flex flex-col gap-4">
-                <div className="flex items-center gap-3 pb-4 border-b mobile-fade-in">
+            
+            <SheetContent
+              side="right"
+              className="w-[300px] sm:w-[400px] bg-gradient-to-b from-white to-blue-50 p-0"
+            >
+              <div className="flex flex-col h-full">
+                {/* Mobile Menu Header */}
+                <div className="flex items-center p-6 border-b border-slate-200">
                   <img
-                    src="/logo.png"
-                    alt="OPHEG logo"
-                    className="h-8 w-8 rounded-full animate-bounce-subtle"
+                    src="/logo-full.png"
+                    alt="OPHEG Logo"
+                    className="h-10 w-auto object-contain"
                   />
-                  <span className="display-title text-lg font-semibold">
-                    OPHEG
-                  </span>
                 </div>
 
-                {navigationItems.map((item, index) => (
-                  <NavLink
-                    key={item.name}
-                    to={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={({ isActive }) =>
-                      `nav-link text-lg py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 press-effect mobile-fade-in stagger-${index + 1} ${
-                        isActive
-                          ? "text-primary bg-primary/15 shadow-sm"
-                          : "text-foreground/80 hover:text-foreground hover:bg-accent/50"
-                      }`
-                    }
-                  >
-                    {item.name}
-                  </NavLink>
-                ))}
+                {/* Mobile Navigation */}
+                <nav className="flex-1 p-6 space-y-2">
+                  {navigationItems.map((item, index) => (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-4 py-3 rounded-xl text-lg font-semibold transition-all duration-300 ${
+                          isActive
+                            ? "bg-blue-500 text-white shadow-lg shadow-blue-500/25"
+                            : "text-slate-700 hover:bg-slate-100"
+                        }`
+                      }
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <div className="w-2 h-2 rounded-full bg-current" />
+                      {item.name}
+                    </NavLink>
+                  ))}
+                </nav>
 
-                <div className="flex flex-col gap-3 pt-4 border-t mobile-fade-in stagger-5">
+                {/* Mobile Action Buttons */}
+                <div className="p-6 space-y-3 border-t border-slate-200">
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/25 rounded-xl py-6 text-lg font-semibold"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Link to="/appointments">
+                      <Stethoscope className="mr-2 h-5 w-5" />
+                      Book Appointment
+                    </Link>
+                  </Button>
+                  
                   <Button
                     asChild
                     variant="outline"
-                    className="btn-hover press-effect transform hover:scale-105 transition-all duration-300"
+                    className="w-full border-2 border-blue-200 text-blue-600 hover:bg-blue-50 rounded-xl py-6 text-lg font-semibold"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Link to="/health-ai">Chat with Health AI</Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="hero"
-                    className="btn-hover press-effect transform hover:scale-105 transition-all duration-300 animate-pulse-glow"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Link to="/appointments">Book Appointment</Link>
+                    <Link to="/health-ai">
+                      <Sparkles className="mr-2 h-5 w-5" />
+                      Chat with Health AI
+                    </Link>
                   </Button>
                 </div>
-              </nav>
+              </div>
             </SheetContent>
           </Sheet>
         </div>

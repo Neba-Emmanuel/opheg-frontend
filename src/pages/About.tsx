@@ -1,5 +1,7 @@
+// About.jsx - Complete Redesign
 import SEO from "@/components/SEO";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import {
   MapPin,
   Calendar,
@@ -14,11 +16,12 @@ import {
   BookOpen,
   Globe,
   Quote,
+  ArrowRight,
+  Sparkles,
+  Star,
+  Zap,
+  ChevronRight,
 } from "lucide-react";
-import {
-  useScrollAnimation,
-  useStaggeredAnimation,
-} from "@/hooks/useScrollAnimation";
 import executiveCEO from "@/assets/executive-ceo.jpg";
 import executiveDirectorGeneral from "@/assets/executive-director-general.jpg";
 import executiveSecretaryGeneral from "@/assets/executive-secretary-general.jpg";
@@ -26,59 +29,60 @@ import executiveCFO from "@/assets/executive-cfo.jpg";
 import executiveProjectManager from "@/assets/executive-project-manager.jpg";
 import executiveCommunications from "@/assets/executive-communications.jpg";
 import aboutHeroImg from "@/assets/about-hero.jpg";
+import { useState, useEffect } from "react";
 
 const About = () => {
-  const { elementRef: detailsRef, isVisible: detailsVisible } =
-    useScrollAnimation();
-  const { elementRef: storyRef, isVisible: storyVisible } =
-    useScrollAnimation();
-  const { elementRef: founderRef, isVisible: founderVisible } =
-    useScrollAnimation();
-  const { elementRef: visionRef, isVisible: visionVisible } =
-    useScrollAnimation();
-  const { containerRef: valuesRef, visibleItems: visibleValues } =
-    useStaggeredAnimation(5, 150);
-  const { containerRef: pillarsRef, visibleItems: visiblePillars } =
-    useStaggeredAnimation(3, 150);
-  const { containerRef: teamRef, visibleItems: visibleTeam } =
-    useStaggeredAnimation(10, 100);
-  const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [activePillar, setActivePillar] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const coreValues = [
     {
       icon: Award,
       title: "Professionalism",
-      description:
-        "Upholding integrity, excellence, and standards in every service.",
-      color: "text-blue-600",
+      description: "Upholding integrity, excellence, and standards in every service.",
+      color: "from-blue-500 to-cyan-500",
+      gradient: "bg-gradient-to-br from-blue-50 to-cyan-50",
+      iconBg: "bg-gradient-to-br from-blue-500 to-cyan-500",
     },
     {
       icon: Lightbulb,
       title: "Innovation",
-      description:
-        "Creating new ways to solve health challenges through technology and creativity.",
-      color: "text-yellow-600",
+      description: "Creating new ways to solve health challenges through technology and creativity.",
+      color: "from-yellow-500 to-amber-500",
+      gradient: "bg-gradient-to-br from-yellow-50 to-amber-50",
+      iconBg: "bg-gradient-to-br from-yellow-500 to-amber-500",
     },
     {
       icon: Users,
       title: "Leadership",
-      description:
-        "Raising future health leaders through mentorship and training.",
-      color: "text-emerald-600",
+      description: "Raising future health leaders through mentorship and training.",
+      color: "from-emerald-500 to-teal-500",
+      gradient: "bg-gradient-to-br from-emerald-50 to-teal-50",
+      iconBg: "bg-gradient-to-br from-emerald-500 to-teal-500",
     },
     {
       icon: Globe,
       title: "Accessibility",
-      description:
-        "Ensuring healthcare, education, and resources reach everyone, everywhere.",
-      color: "text-purple-600",
+      description: "Ensuring healthcare, education, and resources reach everyone, everywhere.",
+      color: "from-purple-500 to-pink-500",
+      gradient: "bg-gradient-to-br from-purple-50 to-pink-50",
+      iconBg: "bg-gradient-to-br from-purple-500 to-pink-500",
     },
     {
       icon: Shield,
       title: "Resilience",
-      description:
-        "Standing strong with communities in the face of health challenges.",
-      color: "text-red-600",
+      description: "Standing strong with communities in the face of health challenges.",
+      color: "from-red-500 to-rose-500",
+      gradient: "bg-gradient-to-br from-red-50 to-rose-50",
+      iconBg: "bg-gradient-to-br from-red-500 to-rose-500",
     },
   ];
 
@@ -86,77 +90,37 @@ const About = () => {
     {
       icon: Heart,
       title: "Health (SDG 3)",
-      description:
-        "Community outreach programs for preventable diseases. Diagnostic excellence through the CHN. Campaigns against stigma (sickle cell, HIV, cervical cancer, mental health, etc.).",
-      color: "text-red-600",
+      description: "Community outreach programs for preventable diseases. Diagnostic excellence through the CHN. Campaigns against stigma.",
+      color: "from-rose-500 to-pink-500",
+      stats: ["50+ Communities", "5000+ Lives", "100+ Programs"],
     },
     {
       icon: BookOpen,
       title: "Education (SDG 4)",
-      description:
-        "OPHEG Academy (training health professionals and community members). HealthFlix Studios (education through storytelling & entertainment). Scholarships, mentorship, and youth empowerment.",
-      color: "text-blue-600",
+      description: "OPHEG Academy training health professionals. HealthFlix Studios for education through storytelling.",
+      color: "from-blue-500 to-cyan-500",
+      stats: ["100+ Trained", "10+ Courses", "5+ Studios"],
     },
     {
       icon: Handshake,
       title: "Partnerships (SDG 17)",
-      description:
-        "Collaborating with NGOs, governments, universities, and international organizations. Creating digital health networks. Building multi-sectoral partnerships for sustainability.",
-      color: "text-green-600",
+      description: "Collaborating with NGOs, governments, universities, and international organizations.",
+      color: "from-emerald-500 to-teal-500",
+      stats: ["20+ Partners", "5+ Countries", "Global Network"],
     },
   ];
 
   const executiveTeam = [
-    {
-      role: "Founder/Chief Executive Officer",
-      image: executiveCEO,
-      name: "Leadership Team",
-    },
-    {
-      role: "Director General",
-      image: executiveDirectorGeneral,
-      name: "Leadership Team",
-    },
-    {
-      role: "Secretary General",
-      image: executiveSecretaryGeneral,
-      name: "Leadership Team",
-    },
-    {
-      role: "Chief Financial Officer",
-      image: executiveCFO,
-      name: "Leadership Team",
-    },
-    {
-      role: "Chief Project Manager",
-      image: executiveProjectManager,
-      name: "Leadership Team",
-    },
-    {
-      role: "Communications Officer",
-      image: executiveCommunications,
-      name: "Leadership Team",
-    },
-    {
-      role: "Director of Outreaches",
-      image: null,
-      name: "Leadership Team",
-    },
-    {
-      role: "Auditors",
-      image: null,
-      name: "Support Team",
-    },
-    {
-      role: "Advisors",
-      image: null,
-      name: "Advisory Board",
-    },
-    {
-      role: "Human Resource Personnel",
-      image: null,
-      name: "Support Team",
-    },
+    { role: "Founder/CEO", image: executiveCEO, name: "OJ Nathaniel Eben", department: "Executive" },
+    { role: "Director General", image: executiveDirectorGeneral, name: "Leadership Team", department: "Executive" },
+    { role: "Secretary General", image: executiveSecretaryGeneral, name: "Leadership Team", department: "Executive" },
+    { role: "Chief Financial Officer", image: executiveCFO, name: "Leadership Team", department: "Finance" },
+    { role: "Chief Project Manager", image: executiveProjectManager, name: "Leadership Team", department: "Projects" },
+    { role: "Communications Officer", image: executiveCommunications, name: "Leadership Team", department: "Communications" },
+    { role: "Director of Outreaches", image: null, name: "Leadership Team", department: "Outreach" },
+    { role: "Auditors", image: null, name: "Support Team", department: "Finance" },
+    { role: "Advisors", image: null, name: "Advisory Board", department: "Advisory" },
+    { role: "Human Resource", image: null, name: "Support Team", department: "HR" },
   ];
 
   return (
@@ -167,420 +131,497 @@ const About = () => {
         canonical="/about"
       />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={aboutHeroImg}
-            alt="OPHEG healthcare team - About us hero image"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
-        </div>
-        <div className="relative z-10 text-center text-white space-y-6 container animate-fade-in">
-          <h1 className="display-title text-4xl font-bold md:text-6xl drop-shadow-lg">
-            About OPHEG
-          </h1>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Health, Empowerment, Innovation
-          </p>
-          <p className="text-lg max-w-4xl mx-auto leading-relaxed drop-shadow-md opacity-90">
-            From Silence to Voice, From Barriers to Bridges - Transforming
-            healthcare access across Africa through innovative
-            community-centered approaches and sustainable health solutions.
-          </p>
-        </div>
-      </section>
-
-      <div className="container py-16 space-y-16">
-        {/* Our Story */}
-        <section
-          ref={storyRef}
-          className={`transition-all duration-700 ${
-            storyVisible ? "animate-fade-in" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">Our Story</h2>
-            <p className="text-xl font-semibold text-primary mb-6">
-              From Silence to Voice, From Barriers to Bridges
-            </p>
+      <div className="relative overflow-hidden">
+        {/* Hero Section - Dramatic Overlay */}
+        <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+          {/* Background Image with Parallax */}
+          <div className="absolute inset-0">
+            <img
+              src={aboutHeroImg}
+              alt="OPHEG healthcare team"
+              className="w-full h-full object-cover scale-110 animate-subtle-zoom"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-blue-950/80 to-emerald-950/70" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
           </div>
-          <Card className="card-hover">
-            <CardContent className="pt-8">
-              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed space-y-6">
-                <p>
-                  In a world where health remains the greatest wealth, millions
-                  still suffer and die from preventable and treatable
-                  conditions. Too often, access to healthcare is a privilege
-                  instead of a right, and stigma is a silent killer — isolating
-                  patients, silencing families, and perpetuating needless loss.
+
+          {/* Floating Particles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(30)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${3 + Math.random() * 4}s`,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="container relative z-10 mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center space-y-8">
+              {/* Badge */}
+              {/* <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-sm animate-fade-in">
+                <Sparkles className="w-4 h-4 text-blue-400" />
+                <span>Established November 22, 2022</span>
+              </div> */}
+
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white animate-fade-in">
+                About{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 animate-gradient-x">
+                  OPHEG
+                </span>
+              </h1>
+
+              <div className="space-y-4 animate-fade-in delay-200">
+                <p className="text-2xl md:text-3xl font-bold text-white/90">
+                  Health, Empowerment, Innovation
                 </p>
-                <p>
-                  <strong className="text-primary">
-                    Optimum Health Global (OPHEG) was born to rewrite this
-                    story.
-                  </strong>
+                <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+                  From Silence to Voice, From Barriers to Bridges — Transforming 
+                  healthcare access across Africa through innovative 
+                  community-centered approaches and sustainable health solutions.
                 </p>
-                <p>
-                  What began in Meme Division, Southwest Cameroon, as passionate
-                  young health professionals walking into communities to raise
-                  awareness on cervical cancer, malaria, and sickle cell, has
-                  today grown into a dynamic, multi-dimensional health movement.
-                </p>
-                <p>
-                  OPHEG is more than an NGO. It is a health ecosystem — a family
-                  of healthcare workers, innovators, survivors, volunteers, and
-                  educators united by one heartbeat: to bring health to every
-                  community, break stigma, empower people, and ensure that no
-                  one is left behind.
-                </p>
-                <p>
-                  We believe that health is not just the absence of disease, but
-                  the presence of dignity, knowledge, and empowerment. Our work
-                  stretches across diagnostics, outreach, mentorship, research,
-                  innovation, and education. From the HealthFlix Studios that
-                  uses storytelling to educate, to the DINUP Nursing Project
-                  preparing future health leaders, to the Healthbank Digital
-                  System bridging gaps in medical access — OPHEG is building
-                  solutions that last.
-                </p>
-                <div className="bg-primary/5 p-6 rounded-lg border-l-4 border-l-primary">
-                  <h4 className="font-semibold text-primary mb-3">
-                    Our compass is the United Nations Sustainable Development
-                    Goals (SDGs):
-                  </h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <strong>SDG 3: Good Health and Well-being</strong> → by
-                      tackling preventable diseases, improving diagnostics,
-                      reducing stigma, and promoting universal access.
-                    </li>
-                    <li>
-                      <strong>SDG 4: Quality Education</strong> → by training
-                      nurses, empowering health workers, and using innovative
-                      learning tools.
-                    </li>
-                    <li>
-                      <strong>SDG 17: Partnerships for the Goals</strong> → by
-                      linking communities, governments, institutions, and
-                      international networks to achieve impact together.
-                    </li>
-                  </ul>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="flex flex-wrap justify-center gap-6 pt-8 animate-fade-in delay-300">
+                {[
+                  { value: "2+", label: "Years of Impact" },
+                  { value: "50+", label: "Communities" },
+                  { value: "5000+", label: "Lives Touched" },
+                ].map((stat, i) => (
+                  <div key={i} className="text-center">
+                    <div className="text-3xl font-black text-white">{stat.value}</div>
+                    <div className="text-sm text-white/60">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
+              <div className="w-1 h-3 bg-white/50 rounded-full animate-pulse" />
+            </div>
+          </div>
+        </section>
+
+        {/* Organization Details - Floating Cards */}
+        <section className="relative -mt-20 pb-20 bg-gradient-to-b from-transparent to-white">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: Calendar,
+                  title: "Founded",
+                  value: "November 22, 2022",
+                  subtitle: "Our journey begins",
+                  gradient: "from-blue-500 to-cyan-500",
+                },
+                {
+                  icon: MapPin,
+                  title: "Head Office",
+                  value: "Kumba, Cameroon",
+                  subtitle: "Meme Division, Southwest Region",
+                  gradient: "from-emerald-500 to-teal-500",
+                },
+                {
+                  icon: Star,
+                  title: "Motto",
+                  value: "Clean Health · Clean Society",
+                  subtitle: "Our guiding principle",
+                  gradient: "from-purple-500 to-pink-500",
+                },
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="group relative bg-white rounded-3xl p-8 shadow-2xl shadow-slate-200/50 hover:shadow-slate-300/50 hover:-translate-y-2 transition-all duration-500 animate-fade-in"
+                  style={{ animationDelay: `${index * 200}ms` }}
+                >
+                  <div className={`absolute top-0 left-6 right-6 h-1 bg-gradient-to-r ${item.gradient} rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
+                  
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} p-3 mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <item.icon className="w-full h-full text-white" />
+                  </div>
+                  
+                  <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                    {item.title}
+                  </h3>
+                  
+                  <p className="text-xl font-bold text-slate-900 mb-1">{item.value}</p>
+                  <p className="text-sm text-slate-500">{item.subtitle}</p>
                 </div>
-                <p>
-                  We are futuristic in vision, compassionate in practice, and
-                  intentional in every project. OPHEG represents a movement
-                  where science meets empathy, technology meets humanity, and
-                  innovation meets community needs.
-                </p>
-                <p className="text-primary font-semibold text-lg">
-                  Our promise is bold: To help humanity overcome disease and
-                  stigma, to empower people with the right knowledge and
-                  choices, and to make optimum health not a dream, but a
-                  reality.
-                </p>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Our Story - Immersive Timeline */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-sm font-medium mb-4">
+                  <BookOpen className="w-4 h-4" />
+                  Our Journey
+                </div>
+                <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">
+                  Our{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500">
+                    Story
+                  </span>
+                </h2>
+                <p className="text-xl text-slate-600">From Silence to Voice, From Barriers to Bridges</p>
               </div>
-            </CardContent>
-          </Card>
-        </section>
 
-        {/* Founder's Words */}
-        <section
-          ref={founderRef}
-          className={`transition-all duration-700 ${
-            founderVisible ? "animate-fade-in" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <div className="text-center mb-8">
-            <h2 className="display-title text-3xl font-bold mb-4">
-              Founder's Words
-            </h2>
-          </div>
-          <Card className="card-hover bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20">
-            <CardContent className="pt-8">
-              <Quote className="h-12 w-12 text-primary mb-6 mx-auto" />
-              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed space-y-4">
-                <p className="italic text-lg">
-                  "When we started, we had nothing but passion — and a deep
-                  conviction that our communities deserved more. We had seen
-                  mothers lose children to preventable diseases, youths dying
-                  from silence and stigma, and families broken because they
-                  lacked access to health information and services.
-                </p>
-                <p className="italic text-lg">
-                  Optimum Health Global was born out of that pain, but also out
-                  of hope. Hope that healthcare could be different. Hope that we
-                  could use innovation, education, and compassion to bridge
-                  gaps. Hope that dignity could be restored to every patient.
-                </p>
-                <p className="italic text-lg">
-                  We are not just an organization — we are a family, a movement,
-                  a light for those who feel forgotten.
-                </p>
-                <p className="italic text-lg">
-                  My dream is that one day, health in Africa will no longer be
-                  defined by struggle, but by empowerment, innovation, and
-                  access. That every child, every family, every community will
-                  live in dignity, wellness, and knowledge.
-                </p>
-                <p className="italic text-lg font-semibold text-primary">
-                  This is the heartbeat of OPHEG. Together, we are building
-                  healthier people and healthier societies."
-                </p>
-              </div>
-              <div className="text-center mt-8 pt-6 border-t border-primary/20">
-                <p className="font-semibold text-primary">
-                  — OJ Nathaniel Eben
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Founder & CEO, Optimum Health Global (OPHEG)
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-        {/* Organization Details */}
-        <section
-          ref={detailsRef}
-          className={`grid gap-8 md:grid-cols-3 transition-all duration-700 ${
-            detailsVisible ? "animate-fade-in" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <Card className="card-hover">
-            <CardHeader className="text-center">
-              <Calendar className="h-12 w-12 mx-auto text-primary mb-4" />
-              <CardTitle>Founded</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-2xl font-bold text-primary">
-                November 22, 2022
-              </p>
-              <p className="text-muted-foreground mt-2">
-                Establishing our mission
-              </p>
-            </CardContent>
-          </Card>
+              <div className="relative">
+                {/* Timeline Line */}
+                <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500 via-cyan-500 to-emerald-500 hidden md:block" />
 
-          <Card className="card-hover">
-            <CardHeader className="text-center">
-              <MapPin className="h-12 w-12 mx-auto text-primary mb-4" />
-              <CardTitle>Head Office</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="font-semibold">Kumba</p>
-              <p className="text-muted-foreground">Meme Division</p>
-              <p className="text-muted-foreground">
-                Southwest Region, Cameroon
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="card-hover">
-            <CardHeader className="text-center">
-              <Handshake className="h-12 w-12 mx-auto text-primary mb-4" />
-              <CardTitle>Motto</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-xl font-bold text-primary">Clean Health</p>
-              <p className="text-xl font-bold text-primary">Clean Society</p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Vision & Mission */}
-        <section
-          ref={visionRef}
-          className={`grid gap-8 md:grid-cols-2 transition-all duration-700 ${
-            visionVisible ? "animate-fade-in" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <Card className="card-hover border-l-4 border-l-primary">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Eye className="h-6 w-6 text-primary" />
-                Our Vision
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="leading-relaxed text-muted-foreground">
-                Helping Humanity and saving lives from common and endemic
-                diseases coupled with negative health stigmas that tend to pose
-                a threat to humans, through identifying, educating, innovating,
-                empowering and helping the masses make positive health decisions
-                thereby, attaining health at its optimum.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="card-hover border-l-4 border-l-accent">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="h-6 w-6 text-accent" />
-                Our Mission
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="leading-relaxed text-muted-foreground">
-                Bringing accessible health to communities through education,
-                innovation, and empowerment, building healthier people and
-                healthier societies.
-              </p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* P.I.L.A.R. Core Values */}
-        <section>
-          <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">
-              Our P.I.L.A.R. Core Values
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              At OPHEG, our values form the P.I.L.A.R. that supports our mission
-              to transform lives and communities across Africa.
-            </p>
-          </div>
-          <div
-            ref={valuesRef as any}
-            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
-          >
-            {coreValues.map((value, index) => (
-              <Card
-                key={value.title}
-                className={`card-hover transition-all duration-700 ${
-                  visibleValues.includes(index)
-                    ? "animate-fade-in animate-scale-in"
-                    : "opacity-0 translate-y-8 scale-95"
-                }`}
-              >
-                <CardHeader className="text-center pb-4">
-                  <value.icon
-                    className={`h-12 w-12 mx-auto mb-3 ${value.color}`}
-                  />
-                  <CardTitle className="text-lg">{value.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {value.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Strategic Pillars */}
-        <section>
-          <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">
-              Strategic Pillars
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our work is built on three strategic pillars, aligned with the
-              United Nations Sustainable Development Goals.
-            </p>
-          </div>
-          <div ref={pillarsRef as any} className="grid gap-8 md:grid-cols-3">
-            {strategicPillars.map((pillar, index) => (
-              <Card
-                key={pillar.title}
-                className={`card-hover transition-all duration-700 ${
-                  visiblePillars.includes(index)
-                    ? "animate-fade-in animate-scale-in"
-                    : "opacity-0 translate-y-8 scale-95"
-                }`}
-              >
-                <CardHeader className="text-center">
-                  <pillar.icon
-                    className={`h-12 w-12 mx-auto mb-3 ${pillar.color}`}
-                  />
-                  <CardTitle className="text-xl">{pillar.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Executive Committee */}
-        <section>
-          <div className="text-center mb-12">
-            <h2 className="display-title text-3xl font-bold mb-4">
-              Executive Committee
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our dedicated leadership team brings together diverse expertise to
-              guide OPHEG's mission.
-            </p>
-          </div>
-          <div
-            ref={teamRef as any}
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-          >
-            {executiveTeam.map((member, index) => (
-              <Card
-                key={member.role}
-                className={`card-hover text-center transition-all duration-700 ${
-                  visibleTeam.includes(index)
-                    ? "animate-fade-in animate-scale-in"
-                    : "opacity-0 translate-y-8 scale-95"
-                }`}
-              >
-                <CardContent className="pt-6">
-                  {member.image ? (
-                    <div className="h-20 w-20 mx-auto mb-4 rounded-full overflow-hidden">
-                      <img
-                        src={member.image}
-                        alt={`${member.role} at OPHEG`}
-                        className="h-full w-full object-cover"
-                      />
+                <div className="space-y-12">
+                  {[
+                    {
+                      title: "The Beginning",
+                      content: "In a world where health remains the greatest wealth, millions still suffer and die from preventable and treatable conditions. Too often, access to healthcare is a privilege instead of a right.",
+                    },
+                    {
+                      title: "Our Mission",
+                      content: "Optimum Health Global (OPHEG) was born to rewrite this story. What began in Meme Division, Southwest Cameroon, as passionate young health professionals walking into communities to raise awareness on cervical cancer, malaria, and sickle cell.",
+                    },
+                    {
+                      title: "Our Growth",
+                      content: "Today OPHEG has grown into a dynamic, multi-dimensional health movement — a family of healthcare workers, innovators, survivors, volunteers, and educators united by one heartbeat.",
+                    },
+                  ].map((item, index) => (
+                    <div key={index} className="relative pl-20 animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                      <div className="absolute left-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-black text-xl shadow-xl">
+                        {index + 1}
+                      </div>
+                      <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-8 shadow-lg">
+                        <h3 className="text-2xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                        <p className="text-slate-600 leading-relaxed">{item.content}</p>
+                      </div>
                     </div>
-                  ) : (
-                    <div className="h-20 w-20 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                      <Users className="h-8 w-8 text-primary" />
-                    </div>
-                  )}
-                  <p className="font-medium text-sm">{member.role}</p>
-                </CardContent>
-              </Card>
-            ))}
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section
-          ref={ctaRef}
-          className={`text-center bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl p-12 transition-all duration-700 ${
-            ctaVisible
-              ? "animate-fade-in animate-scale-in"
-              : "opacity-0 translate-y-8 scale-95"
-          }`}
-        >
-          <h2 className="display-title text-3xl font-bold mb-4">
-            Join Our Mission
-          </h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Learn more about our work in communities or discover how you can be
-            part of our transformative healthcare initiatives.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/our-works"
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              See Our Work
-            </a>
-            <a
-              href="/get-involved"
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-            >
-              Get Involved
-            </a>
+        {/* Founder's Words - Featured Quote */}
+        <section className="relative py-24 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.5),transparent_70%)]" />
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-sm mb-6">
+                  <Quote className="w-4 h-4" />
+                  Founder's Vision
+                </div>
+              </div>
+
+              <div className="relative">
+                {/* Large Quote Mark */}
+                <Quote className="absolute -top-8 -left-4 w-20 h-20 text-blue-400/20" />
+
+                <div className="space-y-6 text-white/80 text-lg leading-relaxed">
+                  <p className="text-xl md:text-2xl font-medium text-white italic">
+                    "When we started, we had nothing but passion — and a deep conviction 
+                    that our communities deserved more. We had seen mothers lose children 
+                    to preventable diseases, youths dying from silence and stigma."
+                  </p>
+                  
+                  <p className="text-xl md:text-2xl font-medium text-white italic">
+                    "Optimum Health Global was born out of that pain, but also out of hope. 
+                    Hope that healthcare could be different. Hope that we could use 
+                    innovation, education, and compassion to bridge gaps."
+                  </p>
+                  
+                  <p className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                    "This is the heartbeat of OPHEG. Together, we are building healthier 
+                    people and healthier societies."
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-white/10 flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-black text-xl shadow-xl">
+                    ON
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-lg">OJ Nathaniel Eben</p>
+                    <p className="text-white/60">Founder & CEO, Optimum Health Global</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Vision & Mission - Side by Side */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Vision Card */}
+              <div className="group relative bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 p-4 mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Eye className="w-full h-full text-white" />
+                </div>
+                
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Our Vision</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Helping Humanity and saving lives from common and endemic diseases 
+                  coupled with negative health stigmas that tend to pose a threat to 
+                  humans, through identifying, educating, innovating, empowering and 
+                  helping the masses make positive health decisions thereby, attaining 
+                  health at its optimum.
+                </p>
+              </div>
+
+              {/* Mission Card */}
+              <div className="group relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 p-4 mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Target className="w-full h-full text-white" />
+                </div>
+                
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Our Mission</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Bringing accessible health to communities through education, 
+                  innovation, and empowerment, building healthier people and healthier 
+                  societies.
+                </p>
+
+                {/* SDG Goals */}
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {["SDG 3", "SDG 4", "SDG 17"].map((sdg) => (
+                    <span key={sdg} className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium">
+                      {sdg}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* P.I.L.A.R. Core Values - Interactive Cards */}
+        <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-600 text-sm font-medium mb-4">
+                <Shield className="w-4 h-4" />
+                Our Foundation
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">
+                Our{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">
+                  P.I.L.A.R.
+                </span>{" "}
+                Core Values
+              </h2>
+              <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+                The pillars that support our mission to transform lives and communities across Africa.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+              {coreValues.map((value, index) => (
+                <div
+                  key={value.title}
+                  className="group relative animate-fade-in hover:scale-105 transition-all duration-300"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className={`relative ${value.gradient} rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 h-full`}>
+                    <div className={`w-14 h-14 rounded-2xl ${value.iconBg} p-3 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                      <value.icon className="w-full h-full text-white" />
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{value.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">{value.description}</p>
+                    
+                    {/* Letter Badge */}
+                    <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/50 flex items-center justify-center text-sm font-bold text-slate-600">
+                      {value.title[0]}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Strategic Pillars - Expandable Cards */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-600 text-sm font-medium mb-4">
+                <Zap className="w-4 h-4" />
+                Our Strategy
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">
+                Strategic{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">
+                  Pillars
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+                Aligned with the United Nations Sustainable Development Goals
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {strategicPillars.map((pillar, index) => (
+                <div
+                  key={pillar.title}
+                  className="group relative animate-fade-in"
+                  style={{ animationDelay: `${index * 200}ms` }}
+                  onMouseEnter={() => setActivePillar(index)}
+                  onMouseLeave={() => setActivePillar(null)}
+                >
+                  <div className={`relative bg-white rounded-3xl p-8 shadow-xl transition-all duration-500 ${
+                    activePillar === index ? 'shadow-2xl -translate-y-4' : 'shadow-slate-200/50'
+                  }`}>
+                    {/* Gradient Border */}
+                    <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${pillar.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                    
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${pillar.color} p-4 mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <pillar.icon className="w-full h-full text-white" />
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-slate-900 mb-3">{pillar.title}</h3>
+                    <p className="text-slate-600 leading-relaxed mb-6">{pillar.description}</p>
+                    
+                    {/* Stats */}
+                    <div className="space-y-2 pt-6 border-t border-slate-100">
+                      {pillar.stats.map((stat, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-slate-500">
+                          <ChevronRight className="w-4 h-4 text-emerald-500" />
+                          {stat}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Executive Committee - Team Grid */}
+        <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-sm font-medium mb-4">
+                <Users className="w-4 h-4" />
+                Our Team
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">
+                Executive{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500">
+                  Committee
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+                Dedicated leadership guiding OPHEG's mission
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+              {executiveTeam.map((member, index) => (
+                <div
+                  key={index}
+                  className="group animate-fade-in hover:scale-105 transition-all duration-300"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="relative bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 text-center">
+                    {/* Avatar */}
+                    {member.image ? (
+                      <div className="relative w-24 h-24 mx-auto mb-4">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+                        <img
+                          src={member.image}
+                          alt={member.role}
+                          className="relative w-full h-full rounded-full object-cover ring-4 ring-white shadow-lg"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center ring-4 ring-white shadow-lg">
+                        <Users className="w-12 h-12 text-slate-400" />
+                      </div>
+                    )}
+                    
+                    <h3 className="font-bold text-slate-900 text-sm mb-1">{member.role}</h3>
+                    <p className="text-xs text-slate-500">{member.department}</p>
+                    
+                    {/* Decorative Line */}
+                    <div className="mt-4 pt-4 border-t border-slate-100">
+                      <div className="w-8 h-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto group-hover:w-16 transition-all duration-300" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action - Bold Banner */}
+        <section className="relative py-24 pb-48 sm:pb-32 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-cyan-500 to-emerald-500" />
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
+
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-4xl mx-auto text-center space-y-8">
+              <h2 className="text-5xl md:text-7xl font-black text-white leading-tight">
+                Join Our{" "}
+                <span className="relative">
+                  Mission
+                  <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 20" preserveAspectRatio="none">
+                    <path d="M0 10 Q 25 0, 50 10 T 100 10" stroke="#FFD700" strokeWidth="3" fill="none" />
+                  </svg>
+                </span>
+              </h2>
+              
+              <p className="text-xl text-white/80 max-w-2xl mx-auto">
+                Learn more about our work in communities or discover how you can be 
+                part of our transformative healthcare initiatives.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg rounded-2xl shadow-2xl shadow-blue-900/50 hover:shadow-blue-900/80 transition-all duration-300 hover:scale-105 font-bold"
+                >
+                  <Link to="/our-works">
+                    See Our Work
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+                
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-lg rounded-2xl border-2 border-white bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 font-bold"
+                >
+                  <Link to="/get-involved">Get Involved</Link>
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
       </div>

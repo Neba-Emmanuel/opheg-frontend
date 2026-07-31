@@ -82,7 +82,7 @@ const AdminLogin = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@opheg.org"
+                  placeholder="admin@opheg.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
