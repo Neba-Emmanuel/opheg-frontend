@@ -77,13 +77,13 @@ const GetInvolved = () => {
     {
       icon: Stethoscope,
       title: "Medical Volunteers",
-      description: "Doctors, nurses, and medical specialists providing direct patient care",
+      description: "Doctors, nurses, lab technicians, and medical specialists providing direct patient care",
       requirements: [
         "Valid medical license or proof of study",
-        "2+ years experience",
+        "No minimum experience required",
         "Commitment to community service",
       ],
-      commitment: "3-6 months",
+      commitment: "Flexible duration",
       urgency: "high",
       gradient: "from-rose-500 to-pink-500",
     },
@@ -96,7 +96,7 @@ const GetInvolved = () => {
         "Local language skills",
         "Community engagement experience",
       ],
-      commitment: "6-12 months",
+      commitment: "Flexible duration",
       urgency: "medium",
       gradient: "from-blue-500 to-cyan-500",
     },
@@ -109,7 +109,7 @@ const GetInvolved = () => {
         "Computer skills",
         "Organizational abilities",
       ],
-      commitment: "3+ months",
+      commitment: "Flexible duration",
       urgency: "medium",
       gradient: "from-emerald-500 to-teal-500",
     },
@@ -122,20 +122,20 @@ const GetInvolved = () => {
         "Data analysis skills",
         "Field work experience",
       ],
-      commitment: "6+ months",
+      commitment: "Flexible duration",
       urgency: "low",
       gradient: "from-purple-500 to-indigo-500",
     },
     {
       icon: GraduationCap,
-      title: "Training Coordinators",
-      description: "Develop and deliver training programs for healthcare professionals",
+      title: "Content Creators & Digital Skills",
+      description: "Create health education content, manage social media, develop digital tools and software solutions",
       requirements: [
-        "Education/training background",
-        "Curriculum development",
-        "Teaching experience",
+        "Content creation or tech skills",
+        "Creative mindset",
+        "Passion for health education",
       ],
-      commitment: "6+ months",
+      commitment: "Flexible duration",
       urgency: "medium",
       gradient: "from-orange-500 to-red-500",
     },
@@ -144,14 +144,14 @@ const GetInvolved = () => {
   const currentNeeds = [
     {
       category: "Medical Equipment",
-      items: ["Surgical instruments", "Diagnostic equipment", "Mobile clinic vehicles"],
+      items: ["Reagents and diagnostic kits", "Diagnostic equipment", "Mobile clinic vehicles"],
       icon: Stethoscope,
       gradient: "from-blue-500 to-cyan-500",
       urgency: "Critical",
     },
     {
       category: "Human Resources",
-      items: ["Experienced surgeons", "Nurse educators", "Community health coordinators"],
+      items: ["Doctors, nurses, lab technicians", "Content creators, data analysts", "Community health coordinators"],
       icon: Users,
       gradient: "from-emerald-500 to-teal-500",
       urgency: "High",
@@ -322,16 +322,16 @@ const GetInvolved = () => {
                 {/* Quick Stats */}
                 <div className="flex gap-8 pt-8 border-t border-white/10">
                   <div>
-                    <div className="text-3xl font-bold text-white">200+</div>
+                    <div className="text-3xl font-bold text-white">100+</div>
                     <div className="text-sm text-white/50">Volunteers</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-white">20+</div>
-                    <div className="text-sm text-white/50">Partners</div>
+                    <div className="text-3xl font-bold text-white">5+</div>
+                    <div className="text-sm text-white/50">Programs</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-white">50+</div>
-                    <div className="text-sm text-white/50">Communities</div>
+                    <div className="text-3xl font-bold text-white">5,000+</div>
+                    <div className="text-sm text-white/50">Reached</div>
                   </div>
                 </div>
               </div>
@@ -836,8 +836,8 @@ const GetInvolved = () => {
 
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[
-                { icon: Mail, label: "Email", value: "volunteer@opheg.com", gradient: "from-blue-500 to-cyan-500" },
-                { icon: Phone, label: "Phone", value: "+237 676 395 082", gradient: "from-emerald-500 to-teal-500" },
+                { icon: Mail, label: "Email", value: "opheg.com", gradient: "from-blue-500 to-cyan-500" },
+                { icon: Phone, label: "Phone", value: "+237 671 040 745", gradient: "from-emerald-500 to-teal-500" },
                 { icon: MapPin, label: "Location", value: "Kumba, Cameroon", gradient: "from-purple-500 to-pink-500" },
               ].map((contact, index) => (
                 <div

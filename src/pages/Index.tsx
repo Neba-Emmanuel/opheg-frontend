@@ -157,13 +157,11 @@ const Index = () => {
               "Founder/Chief Executive Officer",
               "Director General",
               "Secretary General",
+              "Technical Director",
+              "Public Relations Officer",
               "Chief Financial Officer",
-              "Chief Project Manager",
-              "Communications Officer",
-              "Director of Outreaches",
-              "Auditors",
+              "Director of Outreaches/Projects",
               "Advisors",
-              "Human Resource Personnel",
             ].map((role) => (
               <div
                 key={role}

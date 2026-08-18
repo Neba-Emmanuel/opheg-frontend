@@ -22,12 +22,6 @@ import {
   Zap,
   ChevronRight,
 } from "lucide-react";
-import executiveCEO from "@/assets/executive-ceo.jpg";
-import executiveDirectorGeneral from "@/assets/executive-director-general.jpg";
-import executiveSecretaryGeneral from "@/assets/executive-secretary-general.jpg";
-import executiveCFO from "@/assets/executive-cfo.jpg";
-import executiveProjectManager from "@/assets/executive-project-manager.jpg";
-import executiveCommunications from "@/assets/executive-communications.jpg";
 import aboutHeroImg from "@/assets/about-hero.jpg";
 import { useState, useEffect } from "react";
 
@@ -108,19 +102,6 @@ const About = () => {
       color: "from-emerald-500 to-teal-500",
       stats: ["20+ Partners", "5+ Countries", "Global Network"],
     },
-  ];
-
-  const executiveTeam = [
-    { role: "Founder/CEO", image: executiveCEO, name: "OJ Nathaniel Eben", department: "Executive" },
-    { role: "Director General", image: executiveDirectorGeneral, name: "Leadership Team", department: "Executive" },
-    { role: "Secretary General", image: executiveSecretaryGeneral, name: "Leadership Team", department: "Executive" },
-    { role: "Chief Financial Officer", image: executiveCFO, name: "Leadership Team", department: "Finance" },
-    { role: "Chief Project Manager", image: executiveProjectManager, name: "Leadership Team", department: "Projects" },
-    { role: "Communications Officer", image: executiveCommunications, name: "Leadership Team", department: "Communications" },
-    { role: "Director of Outreaches", image: null, name: "Leadership Team", department: "Outreach" },
-    { role: "Auditors", image: null, name: "Support Team", department: "Finance" },
-    { role: "Advisors", image: null, name: "Advisory Board", department: "Advisory" },
-    { role: "Human Resource", image: null, name: "Support Team", department: "HR" },
   ];
 
   return (
@@ -322,7 +303,7 @@ const About = () => {
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-sm mb-6">
                   <Quote className="w-4 h-4" />
@@ -330,36 +311,48 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="relative">
-                {/* Large Quote Mark */}
-                <Quote className="absolute -top-8 -left-4 w-20 h-20 text-blue-400/20" />
-
-                <div className="space-y-6 text-white/80 text-lg leading-relaxed">
-                  <p className="text-xl md:text-2xl font-medium text-white italic">
-                    "When we started, we had nothing but passion — and a deep conviction 
-                    that our communities deserved more. We had seen mothers lose children 
-                    to preventable diseases, youths dying from silence and stigma."
-                  </p>
-                  
-                  <p className="text-xl md:text-2xl font-medium text-white italic">
-                    "Optimum Health Global was born out of that pain, but also out of hope. 
-                    Hope that healthcare could be different. Hope that we could use 
-                    innovation, education, and compassion to bridge gaps."
-                  </p>
-                  
-                  <p className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                    "This is the heartbeat of OPHEG. Together, we are building healthier 
-                    people and healthier societies."
-                  </p>
+              <div className="grid md:grid-cols-[auto_1fr] gap-10 items-center">
+                {/* Founder Image */}
+                <div className="flex justify-center md:justify-start">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl blur-xl opacity-30" />
+                    <img
+                      src="/OJ Nathaniel.JPG"
+                      alt="OJ Nathaniel Eben - Founder & CEO"
+                      className="relative w-48 h-60 md:w-56 md:h-72 rounded-2xl object-cover shadow-2xl ring-2 ring-white/20"
+                    />
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full px-4 py-1.5 shadow-lg">
+                      <p className="text-white text-xs font-bold whitespace-nowrap">Founder & CEO</p>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-white/10 flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-black text-xl shadow-xl">
-                    ON
+                {/* Quote Text */}
+                <div className="relative">
+                  <Quote className="absolute -top-6 -left-2 w-16 h-16 text-blue-400/20" />
+
+                  <div className="space-y-5 text-white/80 text-lg leading-relaxed">
+                    <p className="text-xl md:text-2xl font-medium text-white italic">
+                      "When we started, we had nothing but passion — and a deep conviction 
+                      that our communities deserved more. We had seen mothers lose children 
+                      to preventable diseases, youths dying from silence and stigma."
+                    </p>
+                    
+                    <p className="text-xl md:text-2xl font-medium text-white italic">
+                      "Optimum Health Global was born out of that pain, but also out of hope. 
+                      Hope that healthcare could be different. Hope that we could use 
+                      innovation, education, and compassion to bridge gaps."
+                    </p>
+                    
+                    <p className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                      "This is the heartbeat of OPHEG. Together, we are building healthier 
+                      people and healthier societies."
+                    </p>
                   </div>
-                  <div>
+
+                  <div className="mt-6 pt-6 border-t border-white/10">
                     <p className="text-white font-bold text-lg">OJ Nathaniel Eben</p>
-                    <p className="text-white/60">Founder & CEO, Optimum Health Global</p>
+                    <p className="text-white/60 text-sm">Founder & CEO, Optimum Health Global</p>
                   </div>
                 </div>
               </div>
@@ -520,7 +513,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Executive Committee - Team Grid */}
+        {/* Leadership Structure - Org Tree */}
         <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -529,9 +522,9 @@ const About = () => {
                 Our Team
               </div>
               <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">
-                Executive{" "}
+                Leadership{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500">
-                  Committee
+                  Structure
                 </span>
               </h2>
               <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -539,40 +532,78 @@ const About = () => {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {executiveTeam.map((member, index) => (
-                <div
-                  key={index}
-                  className="group animate-fade-in hover:scale-105 transition-all duration-300"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <div className="relative bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 text-center">
-                    {/* Avatar */}
-                    {member.image ? (
-                      <div className="relative w-24 h-24 mx-auto mb-4">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-                        <img
-                          src={member.image}
-                          alt={member.role}
-                          className="relative w-full h-full rounded-full object-cover ring-4 ring-white shadow-lg"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center ring-4 ring-white shadow-lg">
-                        <Users className="w-12 h-12 text-slate-400" />
-                      </div>
-                    )}
-                    
-                    <h3 className="font-bold text-slate-900 text-sm mb-1">{member.role}</h3>
-                    <p className="text-xs text-slate-500">{member.department}</p>
-                    
-                    {/* Decorative Line */}
-                    <div className="mt-4 pt-4 border-t border-slate-100">
-                      <div className="w-8 h-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto group-hover:w-16 transition-all duration-300" />
+            {/* Leadership Tree */}
+            <div className="max-w-4xl mx-auto">
+              {/* Top Level - Founder/CEO */}
+              <div className="flex justify-center mb-4">
+                <div className="relative bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl px-8 py-5 text-center shadow-xl shadow-blue-500/20">
+                  <p className="text-white font-bold text-lg">Founder / CEO</p>
+                  <p className="text-white/70 text-sm">OJ Nathaniel Eben</p>
+                </div>
+              </div>
+
+              {/* Connector Line */}
+              <div className="flex justify-center mb-4">
+                <div className="w-0.5 h-8 bg-gradient-to-b from-blue-400 to-slate-300" />
+              </div>
+
+              {/* Second Level */}
+              <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-4">
+                <div className="flex justify-center">
+                  <div className="relative bg-white rounded-2xl px-6 py-4 text-center shadow-lg border border-slate-200 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center mx-auto mb-2">
+                      <Users className="w-5 h-5 text-blue-600" />
                     </div>
+                    <p className="text-slate-900 font-bold text-sm">Director General</p>
                   </div>
                 </div>
-              ))}
+                <div className="flex justify-center">
+                  <div className="relative bg-white rounded-2xl px-6 py-4 text-center shadow-lg border border-slate-200 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center mx-auto mb-2">
+                      <Users className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <p className="text-slate-900 font-bold text-sm">Secretary General</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Connector Lines */}
+              <div className="flex justify-center mb-4">
+                <div className="w-0.5 h-6 bg-slate-300" />
+              </div>
+
+              {/* Third Level - Functional Leads */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                {[
+                  "Technical Director",
+                  "Public Relations Officer",
+                  "Chief Financial Officer",
+                  "Director of Outreaches / Projects",
+                ].map((role) => (
+                  <div
+                    key={role}
+                    className="relative bg-white rounded-xl px-4 py-4 text-center shadow-md border border-slate-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-blue-50 flex items-center justify-center mx-auto mb-2">
+                      <Users className="w-4 h-4 text-slate-500" />
+                    </div>
+                    <p className="text-slate-800 font-semibold text-xs leading-tight">{role}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Connector */}
+              <div className="flex justify-center mb-4">
+                <div className="w-0.5 h-6 bg-slate-200" />
+              </div>
+
+              {/* Advisors */}
+              <div className="flex justify-center">
+                <div className="relative bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl px-8 py-4 text-center shadow-md border border-slate-200">
+                  <p className="text-slate-700 font-semibold text-sm">Advisors</p>
+                  <p className="text-slate-400 text-xs mt-1">Advisory Board</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>

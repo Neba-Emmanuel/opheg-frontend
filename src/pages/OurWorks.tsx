@@ -18,13 +18,11 @@ import {
   Stethoscope,
   ArrowRight,
   Sparkles,
-  Zap,
   Star,
-  ChevronRight,
-  Play,
   CheckCircle2,
+  Monitor,
+  Handshake,
 } from "lucide-react";
-import mobileSurgicalTeamImg from "@/assets/mobile-surgical-team.jpg";
 import medicalTrainingImg from "@/assets/medical-training.jpg";
 import healthFacilityImg from "@/assets/health-facility.jpg";
 import communityOutreachImg from "@/assets/outreach.jpg";
@@ -59,7 +57,7 @@ const OurWorks = () => {
       description: "Advancing medical knowledge through cutting-edge research and innovative healthcare solutions.",
       gradient: "from-purple-500 to-pink-500",
       category: "Research",
-      stats: "10+ Studies",
+      stats: "Ongoing",
     },
     {
       icon: GraduationCap,
@@ -75,15 +73,15 @@ const OurWorks = () => {
       description: "Bringing healthcare directly to underserved communities across Africa.",
       gradient: "from-rose-500 to-pink-500",
       category: "Community",
-      stats: "50+ Programs",
+      stats: "15+ Communities",
     },
     {
       icon: Hospital,
-      title: "Health Facilities",
-      description: "Building and establishing modern healthcare facilities in underserved areas.",
+      title: "Diagnostic Facility",
+      description: "Established a modern diagnostic center with state-of-the-art laboratory and imaging services.",
       gradient: "from-cyan-500 to-blue-500",
       category: "Infrastructure",
-      stats: "20+ Facilities",
+      stats: "1 Center",
     },
     {
       icon: TrendingUp,
@@ -94,56 +92,56 @@ const OurWorks = () => {
       stats: "Ongoing",
     },
     {
-      icon: Truck,
-      title: "Mobile Health Service",
-      description: "Provide mobile health services in Medicine, Laboratory, Ultrasonography, Pharmacy, Surgery through our team of experts",
+      icon: Handshake,
+      title: "Partnerships",
+      description: "Collaborating with organizations, institutions, and government bodies to amplify healthcare impact.",
       gradient: "from-emerald-500 to-green-500",
-      category: "Mobile Care",
-      stats: "24/7",
+      category: "Collaboration",
+      stats: "Growing",
     },
   ];
 
   const programs = [
     {
       slug: "outreach-initiatives",
-      title: "Outreach Initiatives",
-      description: "Regular community health outreach programs promoting preventive care and wellness.",
+      title: "Outreach Activities",
+      description: "Regular community health outreach programs promoting preventive care, screenings, and wellness education.",
       image: communityOutreachImg,
-      stats: "5,000+ People Reached",
+      stats: "5,000+ Reached",
       gradient: "from-rose-500 to-pink-500",
       features: [
         "Health screenings",
-        "Vaccination campaigns",
         "Health education",
         "Disease prevention",
+        "Community engagement",
       ],
     },
     {
       slug: "health-flix",
-      title: "Health Flix",
-      description: "Digital platform for educating communities and health workers alike on health issues.",
+      title: "HealthFlix",
+      description: "Leveraging social media applications to educate people on health issues through videos and short dramas.",
       image: medicalTrainingImg,
-      stats: "100+ Professionals",
+      stats: "2,000+ Reached",
       gradient: "from-blue-500 to-cyan-500",
       features: [
-        "Modern curriculum",
-        "Hands-on practice",
-        "Certification programs",
-        "Continuing education",
+        "Evidence-based teachings",
+        "Simple understanding",
+        "Live & pre-recorded Q&A sessions",
+        "Wider reach",
       ],
     },
     {
-      slug: "health-facility",
-      title: "Health Facility",
-      description: "Established a modern healthcare facility in the community with advanced diagnostics.",
+      slug: "diagnostic-facility",
+      title: "Diagnostic Facility",
+      description: "Established a modern health diagnostic center with state-of-the-art and advanced diagnostic services.",
       image: healthFacilityImg,
       stats: "Full Service",
       gradient: "from-emerald-500 to-teal-500",
       features: [
-        "Advanced Diagnostics",
-        "Primary healthcare",
-        "Preventive services",
-        "Pharmacy services",
+        "Laboratory investigations",
+        "Imaging services",
+        "Pharmacy",
+        "General consultations & visiting specialists",
       ],
     },
     {
@@ -151,7 +149,7 @@ const OurWorks = () => {
       title: "Mentorships",
       description: "Structured mentorship connecting experienced professionals with emerging practitioners.",
       image: mentorshipImg,
-      stats: "20+ Partnerships",
+      stats: "Growing Network",
       gradient: "from-purple-500 to-pink-500",
       features: [
         "One-on-one guidance",
@@ -162,15 +160,15 @@ const OurWorks = () => {
     },
     {
       slug: "trainings",
-      title: "Trainings",
-      description: "Comprehensive training programs for healthcare workers and community volunteers.",
+      title: "Trainings & Empowerment",
+      description: "Comprehensive training programs for healthcare workers and community volunteers to build capacity.",
       image: trainingImg,
-      stats: "50+ Trained",
+      stats: "100+ Trained",
       gradient: "from-orange-500 to-red-500",
       features: [
         "Skill workshops",
         "Certification courses",
-        "Simulation training",
+        "Community health workers",
         "Emergency response",
       ],
     },
@@ -187,11 +185,11 @@ const OurWorks = () => {
     },
     {
       icon: Users,
-      title: "Florence Nightingale Nurses Week Festival",
-      description: "Celebrating and honoring nursing professionals while promoting excellence in nursing practice and education.",
+      title: "L.A.M.P Festival",
+      description: "Celebrating and honoring medical professionals especially Nurses & Midwives while promoting excellence in practice, education. Redefining the profession for better healthcare delivery.",
       gradient: "from-blue-500 to-cyan-500",
       badge: "Annual Festival",
-      impact: "200+ Nurses",
+      impact: "1,000+ Nurses & Midwives",
     },
     {
       icon: Microscope,
@@ -199,7 +197,7 @@ const OurWorks = () => {
       description: "Raising awareness about sickle cell disease and providing free genotype testing for informed health decisions.",
       gradient: "from-red-500 to-orange-500",
       badge: "Health Campaign",
-      impact: "1000+ Tested",
+      impact: "400+ Tested",
     },
     {
       icon: BookOpen,
@@ -218,20 +216,27 @@ const OurWorks = () => {
       badge: "Ongoing Project",
       impact: "Multiregional",
     },
+    {
+      icon: Star,
+      title: "Annual Picnic",
+      description: "Outdoor program designed to foster mental wellness every December, reconnecting with self, caring for self.",
+      gradient: "from-yellow-500 to-orange-500",
+      badge: "Annual Event",
+      impact: "Mental Wellness",
+    },
   ];
 
   return (
     <>
       <SEO
         title="Our Work - OPHEG Programs and Impact"
-        description="Discover OPHEG's comprehensive healthcare programs including mobile surgical teams, community outreach, health facility development, and professional training across Africa."
+        description="Discover OPHEG's comprehensive healthcare programs including community outreaches, diagnostic services, health education, and professional training across Africa."
         canonical="/our-works"
       />
 
       <div className="relative overflow-hidden">
-        {/* Hero Section - Bold & Dynamic */}
+        {/* Hero Section */}
         <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-          {/* Animated Background */}
           <div className="absolute inset-0">
             <img
               src={ourWorksHeroImg}
@@ -260,12 +265,6 @@ const OurWorks = () => {
 
           <div className="container relative z-10 mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center space-y-8">
-              {/* Badge */}
-              {/* <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-sm animate-fade-in">
-                <Zap className="w-4 h-4 text-yellow-400" />
-                <span>Making Impact Since 2022</span>
-              </div> */}
-
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white animate-fade-in">
                 Our{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 animate-gradient-x">
@@ -281,9 +280,9 @@ const OurWorks = () => {
               {/* Quick Stats */}
               <div className="flex flex-wrap justify-center gap-8 pt-8 animate-fade-in delay-300">
                 {[
-                  { value: "5+", label: "Key Programs" },
-                  { value: "50+", label: "Communities" },
-                  { value: "5000+", label: "Lives Impacted" },
+                  { value: "6", label: "Major Programs" },
+                  { value: "15+", label: "Communities" },
+                  { value: "7,000+", label: "Lives Impacted" },
                 ].map((stat, i) => (
                   <div key={i} className="text-center group">
                     <div className="text-3xl font-black text-white group-hover:scale-110 transition-transform">
@@ -304,7 +303,7 @@ const OurWorks = () => {
           </div>
         </section>
 
-        {/* Core Objectives - Modern Grid */}
+        {/* Core Objectives */}
         <section className="py-24 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -331,15 +330,12 @@ const OurWorks = () => {
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="relative bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500 h-full border border-slate-100">
-                    {/* Gradient Top Bar */}
                     <div className={`absolute top-0 left-4 right-4 h-1 bg-gradient-to-r ${objective.gradient} rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
                     
-                    {/* Icon */}
                     <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${objective.gradient} p-3 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                       <objective.icon className="w-full h-full text-white" />
                     </div>
 
-                    {/* Content */}
                     <div className="flex items-center gap-2 mb-2">
                       <Badge variant="secondary" className="text-xs bg-slate-100">
                         {objective.category}
@@ -356,7 +352,7 @@ const OurWorks = () => {
           </div>
         </section>
 
-        {/* Key Programs - Interactive Cards */}
+        {/* Key Programs */}
         <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -417,7 +413,7 @@ const OurWorks = () => {
                       <div className="grid grid-cols-2 gap-3 pt-6 border-t border-slate-100">
                         {program.features.map((feature) => (
                           <div key={feature} className="flex items-center gap-2 text-sm text-slate-500">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                             {feature}
                           </div>
                         ))}
@@ -436,7 +432,7 @@ const OurWorks = () => {
           </div>
         </section>
 
-        {/* Flagship Programs - Featured Cards */}
+        {/* Flagship Programs */}
         <section className="py-24 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -462,16 +458,13 @@ const OurWorks = () => {
                   className="group relative animate-fade-in hover:scale-105 transition-all duration-300"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  <div className={`relative bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-500 h-full border-t-4 border-transparent hover:border-gradient-to-r ${program.gradient}`}>
-                    {/* Gradient Line on Hover */}
+                  <div className="relative bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-500 h-full border border-slate-100">
                     <div className={`absolute top-0 left-4 right-4 h-1 bg-gradient-to-r ${program.gradient} rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
 
-                    {/* Icon */}
                     <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${program.gradient} p-3 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                       <program.icon className="w-full h-full text-white" />
                     </div>
 
-                    {/* Badge */}
                     <div className="flex items-center gap-2 mb-3">
                       <Badge className="bg-slate-100 text-slate-600 text-xs">
                         {program.badge}
@@ -493,7 +486,7 @@ const OurWorks = () => {
           </div>
         </section>
 
-        {/* Impact Statistics - Counter Section */}
+        {/* Impact Statistics */}
         <section className="relative py-24 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
@@ -511,10 +504,10 @@ const OurWorks = () => {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { value: "700+", label: "Total Lives Impacted", icon: Heart },
-                { value: "25+", label: "Communities Reached", icon: Globe },
-                { value: "150+", label: "Workers Trained", icon: Users },
-                { value: "5", label: "Major Programs", icon: Star },
+                { value: "7,000+", label: "Total Lives Impacted", icon: Heart },
+                { value: "15+", label: "Communities Reached", icon: Globe },
+                { value: "100+", label: "Healthcare Professionals Trained", icon: Users },
+                { value: "6", label: "Major Programs", icon: Star },
               ].map((stat, index) => (
                 <div
                   key={index}
@@ -535,11 +528,10 @@ const OurWorks = () => {
           </div>
         </section>
 
-        {/* Call to Action - Bold Banner */}
+        {/* Call to Action */}
         <section className="relative py-24 pb-28 sm:pb-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-cyan-500 to-emerald-500" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
-
           
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center space-y-8">

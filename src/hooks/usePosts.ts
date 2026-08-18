@@ -27,9 +27,9 @@ export function useUpdatePost() {
   return useApiMutation<
     Post,
     { id: number; title?: string; content?: string; status?: string }
-  >("/posts/:id", "PATCH");
+  >(({ id }) => `/posts/${id}`, "PATCH");
 }
 
 export function useDeletePost() {
-  return useApiMutation<any, { id: number }>("/posts/:id", "DELETE");
+  return useApiMutation<any, { id: number }>(({ id }) => `/posts/${id}`, "DELETE");
 }

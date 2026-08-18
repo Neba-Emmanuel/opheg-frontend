@@ -5,11 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/SEO";
 import {
-  Sparkles,
   Send,
   Bot,
   User,
-  Heart,
   AlertTriangle,
   Phone,
   MapPin,
@@ -18,10 +16,7 @@ import {
   Stethoscope,
   Lightbulb,
   ArrowRight,
-  Star,
-  Zap,
   MessageCircle,
-  ChevronDown,
   Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -36,7 +31,8 @@ const HealthAI = () => {
   const [messages, setMessages] = useState<ChatMsg[]>([
     {
       role: "assistant",
-      content: "Hi! I'm **OPHEG's Health AI** assistant. I can provide general health information, answer questions about symptoms, prevention, and wellness. How can I help you today? 🌟",
+      content:
+        "Hello! 👋 I'm your OPHEG Health Assistant.\n\nI'm here to help you with health-related questions — whether it's about symptoms, prevention, nutrition, or general wellness.\n\n**A few things I can help with:**\n- Understanding common symptoms\n- Prevention tips for diseases\n- General wellness advice\n- When to seek professional help\n\nWhat's on your mind today?",
       ts: Date.now(),
     },
   ]);
@@ -75,6 +71,23 @@ const HealthAI = () => {
     setMessages((m) => [...m, assistant]);
 
     try {
+      const systemMessage = {
+        role: "system",
+        content: `You are OPHEG Health AI, a friendly and knowledgeable health assistant for Optimum Health Global (OPHEG), a healthcare NGO in Cameroon, Africa. 
+
+Guidelines for your responses:
+- Write in a warm, conversational tone — like a caring health professional chatting with a patient
+- Keep responses concise and well-structured. Use short paragraphs, bullet points, and bold text for key points
+- Use markdown formatting: **bold** for emphasis, bullet lists for multiple items, and headings (###) when organizing longer answers
+- Include relevant emojis sparingly to keep the conversation friendly (1-2 per response max)
+- Always remind users to consult a healthcare professional for serious concerns
+- Be specific to the African/Cameroonian context when relevant (mentioning local diseases, available resources, etc.)
+- If you don't know something, say so honestly rather than guessing
+- End responses with a follow-up question or helpful suggestion when appropriate
+- Never diagnose conditions — only provide educational information
+- Keep individual responses focused. Don't try to cover everything at once.`,
+      };
+
       const res = await fetch(
         "https://healthbank-backend.vercel.app/api/ophegai",
         {
@@ -82,6 +95,7 @@ const HealthAI = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             messages: [
+              systemMessage,
               ...messages.map((m) => ({ role: m.role, content: m.content })),
               { role: "user", content },
             ],
@@ -254,21 +268,22 @@ const HealthAI = () => {
                         >
                           {msg.role === "assistant" ? (
                             msg.content === "" ? (
-                              <div className="flex items-center gap-2 text-slate-400">
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                                <span className="text-sm">Thinking...</span>
+                              <div className="flex items-center gap-1.5 py-1">
+                                <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce [animation-delay:0ms]" />
+                                <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce [animation-delay:150ms]" />
+                                <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce [animation-delay:300ms]" />
                               </div>
                             ) : (
-                              <div className="prose prose-sm max-w-none">
+                              <div className="prose prose-sm prose-slate max-w-none prose-p:leading-relaxed prose-p:my-1.5 prose-headings:mt-3 prose-headings:mb-1.5 prose-headings:text-slate-800 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-strong:text-slate-800 prose-a:text-blue-600 prose-code:bg-slate-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-slate-50 prose-pre:border prose-pre:border-slate-200 prose-blockquote:border-blue-400 prose-blockquote:bg-blue-50/50 prose-blockquote:py-1 prose-blockquote:not-italic">
                                 <ReactMarkdown>{msg.content}</ReactMarkdown>
                               </div>
                             )
                           ) : (
-                            <p className="text-sm">{msg.content}</p>
+                            <p className="text-sm leading-relaxed">{msg.content}</p>
                           )}
                           
                           {/* Timestamp */}
-                          <div className={`text-xs mt-1 ${
+                          <div className={`text-xs mt-2 ${
                             msg.role === "assistant" ? "text-slate-400" : "text-white/70"
                           }`}>
                             {new Date(msg.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

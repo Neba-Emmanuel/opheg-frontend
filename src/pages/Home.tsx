@@ -12,8 +12,6 @@ import {
   TrendingUp,
   ArrowRight,
   Sparkles,
-  Phone,
-  MapPin,
   ChevronDown,
   Star,
 } from "lucide-react";
@@ -21,10 +19,8 @@ import communityOutreachImg from "@/assets/outreach.jpg";
 import heroHomeImg from "@/assets/home-hero.jpg";
 
 const Home = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrolled, setScrolled] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
-  const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,42 +30,55 @@ const Home = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   const stats = [
-    { number: "5,000+", label: "Lives Touched", icon: Heart, color: "from-rose-500 to-pink-500" },
-    { number: "50+", label: "Communities", icon: Users, color: "from-blue-500 to-cyan-500" },
+    { number: "7,000+", label: "Lives Impacted", icon: Heart, color: "from-rose-500 to-pink-500" },
+    { number: "15+", label: "Communities Reached", icon: Users, color: "from-blue-500 to-cyan-500" },
     { number: "100+", label: "Professionals Trained", icon: Stethoscope, color: "from-emerald-500 to-teal-500" },
-    { number: "20+", label: "Health Facilities", icon: Shield, color: "from-violet-500 to-purple-500" },
+    { number: "6", label: "Major Programs", icon: Shield, color: "from-violet-500 to-purple-500" },
   ];
 
   const services = [
     {
       icon: Heart,
-      title: "Community Outreach",
-      description: "Bringing healthcare directly to rural and underserved communities with mobile clinics and surgical teams.",
+      title: "Community Outreaches",
+      description: "Bringing healthcare directly to rural and underserved communities through mobile health services and screenings.",
       gradient: "from-rose-400 via-pink-400 to-rose-300",
-      stat: "15+ Active Programs",
+      stat: "15+ Communities",
     },
     {
       icon: Globe,
-      title: "Health Education",
-      description: "Comprehensive health education and disease prevention programs empowering communities with knowledge.",
+      title: "Health Education & Awareness",
+      description: "Comprehensive health education programs empowering communities with knowledge for better health decisions.",
       gradient: "from-blue-400 via-cyan-400 to-blue-300",
-      stat: "100K+ Educated",
+      stat: "5,000+ Reached",
     },
     {
       icon: TrendingUp,
       title: "Research & Innovation",
-      description: "Advancing healthcare through cutting-edge research and technological innovation for African communities.",
+      description: "Advancing healthcare through cutting-edge research and innovative solutions for African communities.",
       gradient: "from-emerald-400 via-teal-400 to-emerald-300",
-      stat: "10+ Studies",
+      stat: "Ongoing",
+    },
+    {
+      icon: Stethoscope,
+      title: "Diagnostic Centers",
+      description: "Established modern diagnostic facility with state-of-the-art laboratory, imaging, and pharmacy services.",
+      gradient: "from-purple-400 via-indigo-400 to-purple-300",
+      stat: "1 Facility",
+    },
+    {
+      icon: Users,
+      title: "Trainings & Empowerment",
+      description: "Building capacity through comprehensive training programs for healthcare workers and community volunteers.",
+      gradient: "from-orange-400 via-amber-400 to-orange-300",
+      stat: "100+ Trained",
+    },
+    {
+      icon: Shield,
+      title: "Healthcare Information & Technology",
+      description: "Leveraging digital platforms and technology to extend healthcare reach and improve service delivery.",
+      gradient: "from-cyan-400 via-blue-400 to-cyan-300",
+      stat: "HealthFlix",
     },
   ];
 
@@ -77,19 +86,19 @@ const Home = () => {
     {
       name: "Marie T.",
       role: "Community Health Worker",
-      text: "OPHEG transformed how we deliver healthcare in our village. The mobile clinic is a game-changer!",
+      text: "OPHEG transformed how we deliver healthcare in our village. The outreach programs are a game-changer for our people!",
       rating: 5,
     },
     {
       name: "Dr. Emmanuel K.",
       role: "Medical Director",
-      text: "The training programs have elevated our local healthcare standards tremendously.",
+      text: "The training programs have elevated our local healthcare standards tremendously. A truly impactful organization.",
       rating: 5,
     },
     {
       name: "Sarah N.",
-      role: "Patient",
-      text: "I received life-saving surgery right in my community. OPHEG is truly a blessing.",
+      role: "Community Member",
+      text: "I received a free consultation and on-site screening during their community outreach. OPHEG is truly a blessing to our community.",
       rating: 5,
     },
   ];
@@ -102,7 +111,7 @@ const Home = () => {
     foundingDate: "2022-11-22",
     areaServed: "Cameroon and Africa",
     url: typeof window !== "undefined" ? window.location.origin : "",
-    logo: "/logo.png",
+    logo: "/logo-full.png",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Kumba",
@@ -121,7 +130,7 @@ const Home = () => {
       />
 
       <div className="relative overflow-hidden">
-        {/* Hero Section - Modern Split Design */}
+        {/* Hero Section */}
         <section
           ref={heroRef}
           className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900"
@@ -151,11 +160,6 @@ const Home = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Content */}
               <div className="space-y-8 animate-fade-in">
-                {/* <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-sm">
-                  <Sparkles className="w-4 h-4 text-blue-400" />
-                  <span>Transforming Healthcare Since 2022</span>
-                </div> */}
-
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight">
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 animate-gradient-x">
                     Clean Health
@@ -197,16 +201,16 @@ const Home = () => {
                 {/* Trust Indicators */}
                 <div className="flex gap-8 pt-8 border-t border-white/10">
                   <div>
-                    <div className="text-3xl font-bold text-white">2+</div>
+                    <div className="text-3xl font-bold text-white">3+</div>
                     <div className="text-sm text-white/50">Years of Impact</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-white">24/7</div>
-                    <div className="text-sm text-white/50">AI Support</div>
+                    <div className="text-sm text-white/50">AI Health Support</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-white">Free</div>
-                    <div className="text-sm text-white/50">Consultations</div>
+                    <div className="text-3xl font-bold text-white">15+</div>
+                    <div className="text-sm text-white/50">Communities</div>
                   </div>
                 </div>
               </div>
@@ -218,7 +222,7 @@ const Home = () => {
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl transform rotate-1 hover:rotate-0 transition-transform duration-500">
                     <img
                       src={heroHomeImg}
-                      alt="Healthcare in Africa"
+                      alt="OPHEG community health outreach"
                       className="w-full h-[500px] object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 to-transparent" />
@@ -232,7 +236,7 @@ const Home = () => {
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-slate-900">5,000+</div>
-                        <div className="text-sm text-slate-500">Patients Helped</div>
+                        <div className="text-sm text-slate-500">Community Members Served</div>
                       </div>
                     </div>
                   </div>
@@ -259,7 +263,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Stats Section - Curved Design */}
+        {/* Stats Section */}
         <section className="relative py-20 bg-white">
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-slate-900 to-transparent" />
           <div className="container mx-auto px-4 relative z-10">
@@ -271,7 +275,6 @@ const Home = () => {
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="relative bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-200/80 transition-all duration-500">
-                    {/* Gradient Accent Bar */}
                     <div className={`absolute top-0 left-6 right-6 h-1 bg-gradient-to-r ${stat.color} rounded-full transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
                     
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} p-4 mb-4 group-hover:scale-110 transition-transform duration-300`}>
@@ -290,7 +293,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Services Section - Card Grid with Hover Effects */}
+        {/* Services Section */}
         <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16 animate-fade-in">
@@ -311,9 +314,9 @@ const Home = () => {
                 <div
                   key={service.title}
                   className="group relative animate-fade-in"
-                  style={{ animationDelay: `${index * 200}ms` }}
+                  style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  <div className="relative bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                  <div className="relative bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden h-full">
                     {/* Hover Gradient Overlay */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                     
@@ -414,14 +417,14 @@ const Home = () => {
                 <div className="space-y-4">
                   <p className="text-lg text-slate-600 leading-relaxed">
                     Since our founding in November 2022, OPHEG has been at the forefront 
-                    of community healthcare transformation. We bring essential medical 
+                    of community healthcare transformation. We bring essential health 
                     services directly to underserved communities, breaking down barriers 
                     to healthcare access.
                   </p>
                   <p className="text-lg text-slate-600 leading-relaxed">
-                    Our comprehensive approach includes mobile surgical teams, health 
-                    education programs, and sustainable facility development to ensure 
-                    lasting positive impact.
+                    Our comprehensive approach includes community outreaches, health 
+                    education programs, diagnostic services, and sustainable partnerships 
+                    to ensure lasting positive impact.
                   </p>
                 </div>
 
@@ -458,16 +461,16 @@ const Home = () => {
                   <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl p-6">
                     <div className="flex justify-between items-center">
                       <div>
-                        <div className="text-2xl font-bold text-slate-900">50+</div>
+                        <div className="text-2xl font-bold text-slate-900">15+</div>
                         <div className="text-sm text-slate-600">Communities Reached</div>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-slate-900">100%</div>
-                        <div className="text-sm text-slate-600">Impact Rating</div>
+                        <div className="text-2xl font-bold text-slate-900">100+</div>
+                        <div className="text-sm text-slate-600">Volunteers</div>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-slate-900">Free</div>
-                        <div className="text-sm text-slate-600">Healthcare Access</div>
+                        <div className="text-2xl font-bold text-slate-900">5,000+</div>
+                        <div className="text-sm text-slate-600">Members Served</div>
                       </div>
                     </div>
                   </div>
@@ -477,7 +480,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* CTA Section - Bold and Modern */}
+        {/* CTA Section */}
         <section className="relative py-24 pb-28 sm:pb-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-cyan-500 to-emerald-500" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
@@ -497,7 +500,7 @@ const Home = () => {
               
               <p className="text-xl text-white/80 max-w-2xl mx-auto">
                 Join us in our mission to bring quality healthcare to every community. 
-                Whether you need medical care or want to contribute to our cause, 
+                Whether you need health services or want to contribute to our cause, 
                 we're here to help.
               </p>
 

@@ -113,15 +113,20 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
               </li>
               <li className="flex items-center gap-3 text-white/60">
                 <Mail className="w-5 h-5 text-blue-400 shrink-0" />
-                <a href="mailto:contact@opheg.com" className="hover:text-white transition-colors">
-                  contact@opheg.com
+                <a href="mailto:opheg.com" className="hover:text-white transition-colors">
+                  opheg.com
                 </a>
               </li>
               <li className="flex items-center gap-3 text-white/60">
                 <Phone className="w-5 h-5 text-blue-400 shrink-0" />
-                <a href="tel:+237676395082" className="hover:text-white transition-colors">
-                  (+237) 676 395 082
-                </a>
+                <div className="flex flex-col">
+                  <a href="tel:+237671040745" className="hover:text-white transition-colors">
+                    (+237) 671 040 745
+                  </a>
+                  <a href="tel:+237699633721" className="hover:text-white transition-colors">
+                    (+237) 699 633 721
+                  </a>
+                </div>
               </li>
             </ul>
           </div>
