@@ -534,75 +534,94 @@ const About = () => {
 
             {/* Leadership Tree */}
             <div className="max-w-4xl mx-auto">
-              {/* Top Level - Founder/CEO */}
-              <div className="flex justify-center mb-4">
-                <div className="relative bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl px-8 py-5 text-center shadow-xl shadow-blue-500/20">
-                  <p className="text-white font-bold text-lg">Founder / CEO</p>
+              {/* Level 1 - Founder */}
+              <div className="flex justify-center">
+                <div className="relative bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl px-10 py-5 text-center shadow-xl shadow-blue-500/20">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mx-auto mb-2">
+                    <Award className="w-5 h-5 text-white" />
+                  </div>
+                  <p className="text-white font-bold text-lg">Founder</p>
                   <p className="text-white/70 text-sm">OJ Nathaniel Eben</p>
                 </div>
               </div>
 
-              {/* Connector Line */}
-              <div className="flex justify-center mb-4">
+              {/* Connector */}
+              <div className="flex justify-center">
                 <div className="w-0.5 h-8 bg-gradient-to-b from-blue-400 to-slate-300" />
               </div>
 
-              {/* Second Level */}
-              <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-4">
-                <div className="flex justify-center">
-                  <div className="relative bg-white rounded-2xl px-6 py-4 text-center shadow-lg border border-slate-200 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center mx-auto mb-2">
-                      <Users className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <p className="text-slate-900 font-bold text-sm">Director General</p>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <div className="relative bg-white rounded-2xl px-6 py-4 text-center shadow-lg border border-slate-200 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center mx-auto mb-2">
-                      <Users className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <p className="text-slate-900 font-bold text-sm">Secretary General</p>
-                  </div>
+              {/* Level 2 - Director General */}
+              <div className="flex justify-center">
+                <div className="relative bg-gradient-to-br from-blue-600 to-blue-500 rounded-2xl px-10 py-4 text-center shadow-lg shadow-blue-500/20">
+                  <p className="text-white font-bold text-base">Director General</p>
+                  <p className="text-white/70 text-xs">DG</p>
                 </div>
               </div>
 
-              {/* Connector Lines */}
-              <div className="flex justify-center mb-4">
-                <div className="w-0.5 h-6 bg-slate-300" />
+              {/* Connector */}
+              <div className="flex justify-center">
+                <div className="w-0.5 h-8 bg-slate-300" />
               </div>
+              <div className="mx-auto w-full max-w-3xl border-t border-slate-300" />
 
-              {/* Third Level - Functional Leads */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+              {/* Level 3 - reports to DG */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
                 {[
-                  "Technical Director",
-                  "Public Relations Officer",
-                  "Chief Financial Officer",
-                  "Director of Outreaches / Projects",
+                  { title: "DEO", subtitle: "Director of Executive Operations", icon: Shield },
+                  { title: "Secretary General", subtitle: "SG", icon: BookOpen },
+                  { title: "Adviser", subtitle: "Advisory", icon: Users },
+                  { title: "Finance", subtitle: "Finance Office", icon: Globe },
                 ].map((role) => (
-                  <div
-                    key={role}
-                    className="relative bg-white rounded-xl px-4 py-4 text-center shadow-md border border-slate-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-blue-50 flex items-center justify-center mx-auto mb-2">
-                      <Users className="w-4 h-4 text-slate-500" />
+                  <div key={role.title} className="flex flex-col items-center">
+                    {/* stub connector up to the horizontal line */}
+                    <div className="w-0.5 h-8 -mt-8 bg-slate-300" />
+                    <div className="relative bg-white rounded-xl px-4 py-4 text-center shadow-md border border-slate-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 w-full mt-0">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center mx-auto mb-2">
+                        <role.icon className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <p className="text-slate-900 font-bold text-sm leading-tight">{role.title}</p>
+                      <p className="text-slate-400 text-xs mt-0.5">{role.subtitle}</p>
                     </div>
-                    <p className="text-slate-800 font-semibold text-xs leading-tight">{role}</p>
                   </div>
                 ))}
               </div>
 
-              {/* Connector */}
-              <div className="flex justify-center mb-4">
-                <div className="w-0.5 h-6 bg-slate-200" />
+              {/* Connector from Secretary General down to Branch Director */}
+              <div className="flex justify-center">
+                <div className="w-0.5 h-8 bg-slate-300" />
               </div>
 
-              {/* Advisors */}
+              {/* Level 4 - Branch Director (under SG) */}
               <div className="flex justify-center">
                 <div className="relative bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl px-8 py-4 text-center shadow-md border border-slate-200">
-                  <p className="text-slate-700 font-semibold text-sm">Advisors</p>
-                  <p className="text-slate-400 text-xs mt-1">Advisory Board</p>
+                  <p className="text-slate-800 font-bold text-sm">Branch Director</p>
+                  <p className="text-slate-400 text-xs mt-0.5">Branch Leadership</p>
                 </div>
+              </div>
+
+              {/* Connector */}
+              <div className="flex justify-center">
+                <div className="w-0.5 h-8 bg-slate-300" />
+              </div>
+              <div className="mx-auto w-full max-w-md border-t border-slate-300" />
+
+              {/* Level 5 - under Branch Director */}
+              <div className="grid grid-cols-2 gap-6 max-w-md mx-auto pt-8">
+                {[
+                  { title: "Branch Director B", subtitle: "Sub-branch", icon: Handshake },
+                  { title: "Divisional Officers", subtitle: "Divisions", icon: Users },
+                ].map((role) => (
+                  <div key={role.title} className="flex flex-col items-center">
+                    <div className="w-0.5 h-8 -mt-8 bg-slate-300" />
+                    <div className="relative bg-white rounded-xl px-4 py-4 text-center shadow-md border border-slate-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 w-full">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-blue-50 flex items-center justify-center mx-auto mb-2">
+                        <role.icon className="w-4 h-4 text-slate-500" />
+                      </div>
+                      <p className="text-slate-800 font-semibold text-xs leading-tight">{role.title}</p>
+                      <p className="text-slate-400 text-xs mt-0.5">{role.subtitle}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

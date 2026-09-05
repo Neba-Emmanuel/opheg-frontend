@@ -154,14 +154,14 @@ const Index = () => {
           <h2 className="display-title text-2xl">Executive Committee</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              "Founder/Chief Executive Officer",
+              "Founder",
               "Director General",
+              "DEO",
               "Secretary General",
-              "Technical Director",
-              "Public Relations Officer",
-              "Chief Financial Officer",
-              "Director of Outreaches/Projects",
-              "Advisors",
+              "Adviser",
+              "Finance",
+              "Branch Director",
+              "Divisional Officers",
             ].map((role) => (
               <div
                 key={role}
