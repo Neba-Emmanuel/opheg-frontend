@@ -836,7 +836,7 @@ const GetInvolved = () => {
 
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[
-                { icon: Mail, label: "Email", value: "opheg.com", gradient: "from-blue-500 to-cyan-500" },
+                { icon: Mail, label: "Email", value: "info@opheg.com", gradient: "from-blue-500 to-cyan-500" },
                 { icon: Phone, label: "Phone", value: "+237 671 040 745", gradient: "from-emerald-500 to-teal-500" },
                 { icon: MapPin, label: "Location", value: "Kumba, Cameroon", gradient: "from-purple-500 to-pink-500" },
               ].map((contact, index) => (

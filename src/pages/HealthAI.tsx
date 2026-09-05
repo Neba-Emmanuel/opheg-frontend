@@ -165,7 +165,7 @@ Guidelines for your responses:
   const emergencyContacts = [
     { icon: Phone, label: "Health Support", value: "+237 676 395 082", color: "from-red-500 to-rose-500" },
     { icon: MapPin, label: "Our Location", value: "Kumba, Cameroon", color: "from-blue-500 to-cyan-500" },
-    { icon: Mail, label: "Email Support", value: "support@opheg.com", color: "from-emerald-500 to-teal-500" },
+    { icon: Mail, label: "Email Support", value: "support@info@opheg.com", color: "from-emerald-500 to-teal-500" },
   ];
 
   return (

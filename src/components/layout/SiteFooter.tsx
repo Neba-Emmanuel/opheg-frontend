@@ -113,8 +113,8 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
               </li>
               <li className="flex items-center gap-3 text-white/60">
                 <Mail className="w-5 h-5 text-blue-400 shrink-0" />
-                <a href="mailto:opheg.com" className="hover:text-white transition-colors">
-                  opheg.com
+                <a href="mailto:info@opheg.com" className="hover:text-white transition-colors">
+                  info@opheg.com
                 </a>
               </li>
               <li className="flex items-center gap-3 text-white/60">

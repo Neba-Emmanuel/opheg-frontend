@@ -83,6 +83,7 @@ const AdminDashboard = () => {
       <SEO
         title="Admin Dashboard - OPHEG"
         description="OPHEG administration dashboard for managing operations"
+        noindex
       />
       <div className="min-h-screen bg-background">
         {/* Header */}

@@ -58,6 +58,7 @@ const AdminLogin = () => {
       <SEO
         title="Admin Login - OPHEG"
         description="Admin panel login for OPHEG organization"
+        noindex
       />
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10 p-4">
         <Card className="w-full max-w-md">
@@ -82,7 +83,7 @@ const AdminLogin = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@opheg.com"
+                  placeholder="admin@info@opheg.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
