@@ -65,8 +65,8 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
             </div>
             
             <p className="text-white/70 leading-relaxed">
-              Taking health to the communities and ensuring a clean health and 
-              clean society across Africa.
+              Taking health to the communities and ensuring a healthier people and 
+              healthier society across Africa.
             </p>
 
             <div className="flex items-center gap-2 text-sm text-white/50">

@@ -107,7 +107,7 @@ const Home = () => {
     "@context": "https://schema.org",
     "@type": "NGO",
     name: "Optimum Health Global (OPHEG)",
-    slogan: "Clean health · Clean society",
+    slogan: "Healthier People · Healthier Society",
     foundingDate: "2022-11-22",
     areaServed: "Cameroon and Africa",
     url: typeof window !== "undefined" ? window.location.origin : "",
@@ -123,7 +123,7 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Optimum Health Global (OPHEG) – Clean Health, Clean Society"
+        title="Optimum Health Global (OPHEG) –Healthier People, Healthier society"
         description="Helping humanity and saving lives through community health, outreach, research, and training across Africa."
         canonical="/"
         jsonLd={jsonLd}
@@ -162,16 +162,16 @@ const Home = () => {
               <div className="space-y-8 animate-fade-in">
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight">
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 animate-gradient-x">
-                    Clean Health
+                    Healthier People
                   </span>
                   <span className="block text-white mt-2">
-                    Clean Society
+                    Healthier Society
                   </span>
                 </h1>
 
                 <p className="text-xl text-white/70 leading-relaxed max-w-lg">
-                  Taking health to the communities and ensuring a clean health 
-                  and clean society across Africa.
+                  Taking health to the communities and ensuring a healthier people and 
+                  healthier society across Africa.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">

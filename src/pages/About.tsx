@@ -214,7 +214,7 @@ const About = () => {
                 {
                   icon: Star,
                   title: "Motto",
-                  value: "Clean Health · Clean Society",
+                  value: "Healthier People · Healthier Society",
                   subtitle: "Our guiding principle",
                   gradient: "from-purple-500 to-pink-500",
                 },

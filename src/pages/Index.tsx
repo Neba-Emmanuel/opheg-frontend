@@ -24,7 +24,7 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": "NGO",
     name: "Optimum Health Global (OPHEG)",
-    slogan: "Clean health · Clean society",
+    slogan: "Healthier People · Healthier Society",
     foundingDate: "2022-11-22",
     areaServed: "Cameroon and Africa",
     url: typeof window !== "undefined" ? window.location.origin : "",
@@ -40,7 +40,7 @@ const Index = () => {
   return (
     <>
       <SEO
-        title="Optimum Health Global (OPHEG) – Clean Health, Clean Society"
+        title="Optimum Health Global (OPHEG) –Healthier People, Healthier society"
         description="Helping humanity and saving lives through community health, outreach, research, and training across Africa. Book an appointment or chat with our Health AI."
         canonical="/"
         jsonLd={jsonLd}
@@ -58,8 +58,8 @@ const Index = () => {
             Optimum Health Global (OPHEG)
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
-            Taking health to the communities and ensuring a clean health and
-            clean society.
+            Taking health to the communities and ensuring a healthier people and 
+            healthier society.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" variant="hero">
@@ -70,7 +70,7 @@ const Index = () => {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Motto: Clean health · Clean society
+            Motto: Healthier People · Healthier Society
           </p>
         </div>
       </section>
@@ -90,8 +90,8 @@ const Index = () => {
           <article className="rounded-lg border bg-card p-6 shadow-sm">
             <h2 className="display-title mb-2 text-2xl">Mission</h2>
             <p className="text-muted-foreground">
-              Taking health to the communities and ensuring a clean health and
-              clean society.
+              Taking health to the communities and ensuring a healthier people and 
+              healthier society.
             </p>
           </article>
         </section>
