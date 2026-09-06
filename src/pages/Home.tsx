@@ -160,7 +160,7 @@ const Home = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Content */}
               <div className="space-y-8 animate-fade-in">
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 animate-gradient-x">
                     Healthier People
                   </span>
