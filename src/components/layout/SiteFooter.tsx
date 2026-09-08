@@ -9,10 +9,11 @@ import { Link } from "react-router-dom";
 
 const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
   const [email, setEmail] = useState("");
-  const { mutate } = useSubscribe();
+  const { mutateAsync, isPending } = useSubscribe();
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isPending) return;
 
     if (!email) {
       toast({
@@ -24,13 +25,35 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
     }
 
     try {
-      await mutate({ email });
+      const res = await mutateAsync({ email });
+
+      if (res?.status === "already_active") {
+        toast({
+          title: "You're already subscribed",
+          description:
+            res?.message || "This email is already on our newsletter list.",
+        });
+        setEmail("");
+        return;
+      }
+
+      if (res?.status === "reactivated") {
+        toast({
+          title: "Welcome back! 🎉",
+          description:
+            res?.message || "Your newsletter subscription has been reactivated.",
+        });
+        setEmail("");
+        return;
+      }
+
       toast({
         title: "Welcome aboard! 🎉",
-        description: "You've successfully subscribed to our newsletter.",
+        description:
+          res?.message || "You've successfully subscribed to our newsletter.",
       });
       setEmail("");
-    } catch (error) {
+    } catch {
       toast({
         title: "Subscription Failed",
         description: "Please try again later.",
@@ -147,6 +170,7 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
                   placeholder="Your email address"
                   className="w-full bg-white/10 border-white/10 text-white placeholder:text-white/40 rounded-xl pl-4 pr-12 py-3 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-300"
                   value={email}
+                  disabled={isPending}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
@@ -155,9 +179,10 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
               
               <Button
                 type="submit"
+                disabled={isPending}
                 className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold rounded-xl py-3 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
               >
-                Subscribe Now
+                {isPending ? "Subscribing…" : "Subscribe Now"}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </form>

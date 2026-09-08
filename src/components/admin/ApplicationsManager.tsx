@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
@@ -27,8 +25,21 @@ import {
   Mail,
   Phone,
   Calendar,
+  Users,
 } from "lucide-react";
 import { useApplications, useUpdateApplication } from "@/hooks/useApplications";
+
+const statusClass: Record<string, string> = {
+  pending: "is-pending",
+  under_review: "is-review",
+  approved: "is-approved",
+  rejected: "is-rejected",
+};
+
+const StatusPill = ({ status }: { status: string }) => {
+  const label = status === "under_review" ? "Under review" : status.charAt(0).toUpperCase() + status.slice(1);
+  return <span className={`admin-pill ${statusClass[status] ?? "is-draft"}`}>{label}</span>;
+};
 
 const ApplicationsManager = () => {
   const volunteerQuery = useApplications("volunteer");
@@ -50,11 +61,10 @@ const ApplicationsManager = () => {
       {
         onSuccess: () => {
           toast({
-            title: `${
-              type === "volunteer" ? "Volunteer" : "Partnership"
-            } application updated`,
+            title: `${type === "volunteer" ? "Volunteer" : "Partnership"} application updated`,
             description: `Application status changed to ${status}`,
           });
+          setSelectedApp(null);
         },
         onError: () => {
           toast({
@@ -67,127 +77,82 @@ const ApplicationsManager = () => {
     );
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "pending":
-        return <Badge variant="secondary">Pending</Badge>;
-      case "under_review":
-        return (
-          <Badge className="bg-blue-600 hover:bg-blue-700">Under Review</Badge>
-        );
-      case "approved":
-        return (
-          <Badge className="bg-green-600 hover:bg-green-700">Approved</Badge>
-        );
-      case "rejected":
-        return <Badge variant="destructive">Rejected</Badge>;
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
-    }
-  };
+  const stats = [
+    { label: "Volunteers", value: volunteerApplications.length, icon: UserPlus, tone: "" },
+    { label: "Partnerships", value: partnershipApplications.length, icon: Handshake, tone: "" },
+    {
+      label: "Pending review",
+      value:
+        volunteerApplications.filter((a) => a.status === "pending").length +
+        partnershipApplications.filter((a) => a.status === "pending").length,
+      icon: Users,
+      tone: "is-warning",
+    },
+    {
+      label: "Approved",
+      value:
+        volunteerApplications.filter((a) => a.status === "approved").length +
+        partnershipApplications.filter((a) => a.status === "approved").length,
+      icon: CheckCircle,
+      tone: "is-success",
+    },
+  ];
 
   return (
-    <div className="space-y-6">
-      {/* Application Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Volunteer Applications
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {volunteerApplications.length}
+    <div className="admin-manager">
+      <div className="admin-mgr-stats">
+        {stats.map((s) => (
+          <div key={s.label} className="admin-mgr-stat">
+            <div className="admin-mgr-stat-top">
+              <span>{s.label}</span>
+              <s.icon size={17} />
             </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Partnership Requests
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {partnershipApplications.length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Pending Review
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">
-              {volunteerApplications.filter((a) => a.status === "pending")
-                .length +
-                partnershipApplications.filter((a) => a.status === "pending")
-                  .length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Approved
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {volunteerApplications.filter((a) => a.status === "approved")
-                .length +
-                partnershipApplications.filter((a) => a.status === "approved")
-                  .length}
-            </div>
-          </CardContent>
-        </Card>
+            <div className={`admin-mgr-stat-value ${s.tone}`}>{s.value}</div>
+          </div>
+        ))}
       </div>
 
       <Tabs defaultValue="volunteers" className="space-y-4">
         <TabsList className="flex w-full gap-2">
-          <TabsTrigger
-            value="volunteers"
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm"
-          >
+          <TabsTrigger value="volunteers" className="flex-1 flex items-center justify-center gap-2">
             <UserPlus className="h-4 w-4" />
-            <span className="hidden sm:inline">Volunteer</span>
+            Volunteers
           </TabsTrigger>
-          <TabsTrigger
-            value="partnerships"
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm"
-          >
+          <TabsTrigger value="partnerships" className="flex-1 flex items-center justify-center gap-2">
             <Handshake className="h-4 w-4" />
-            <span className="hidden sm:inline">Partnership</span>
+            Partnerships
           </TabsTrigger>
         </TabsList>
 
-        {/* Volunteer Applications */}
         <TabsContent value="volunteers">
-          <Card>
-            <CardHeader>
-              <CardTitle>Volunteer Applications</CardTitle>
-            </CardHeader>
-            <CardContent className="px-2 sm:px-6">
+          <div className="admin-section">
+            <div className="admin-section-head">
+              <div>
+                <h3>
+                  <UserPlus size={18} />
+                  Volunteer applications
+                </h3>
+                <p>People ready to give their time to the mission.</p>
+              </div>
+            </div>
+            <div className="admin-section-body">
               {volunteerQuery.isLoading ? (
-                <p>Loading...</p>
+                <div className="admin-empty" role="status">Loading applications…</div>
+              ) : volunteerApplications.length === 0 ? (
+                <div className="admin-empty">
+                  <UserPlus size={30} />
+                  <h3>No volunteer applications yet</h3>
+                  <p>New applications will appear here.</p>
+                </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="admin-table-wrap">
                   <Table className="min-w-[600px]">
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="min-w-[200px]">
-                          Applicant
-                        </TableHead>
-                        <TableHead className="min-w-[120px] hidden md:table-cell">
-                          Interest
-                        </TableHead>
-                        <TableHead className="min-w-[100px] hidden sm:table-cell">
-                          Applied Date
-                        </TableHead>
-                        <TableHead className="min-w-[80px]">Status</TableHead>
+                        <TableHead className="min-w-[200px]">Applicant</TableHead>
+                        <TableHead className="min-w-[120px] hidden md:table-cell">Interest</TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">Applied</TableHead>
+                        <TableHead className="min-w-[90px]">Status</TableHead>
                         <TableHead className="min-w-[120px]">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -195,54 +160,45 @@ const ApplicationsManager = () => {
                       {volunteerApplications.map((application) => (
                         <TableRow key={application.id}>
                           <TableCell>
-                            <div>
-                              <p className="font-medium text-sm">
-                                {application.name}
-                              </p>
-                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                <Mail className="h-3 w-3" />
-                                <span className="truncate">
-                                  {application.email}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                <Phone className="h-3 w-3" />
-                                {application.phone}
-                              </div>
-                              <div className="md:hidden mt-2">
-                                <p className="text-xs font-medium text-muted-foreground">
+                            <div className="admin-row-person">
+                              <span className="admin-row-avatar">
+                                {application.name.slice(0, 1).toUpperCase()}
+                              </span>
+                              <div className="min-w-0">
+                                <p className="admin-row-name">{application.name}</p>
+                                <div className="admin-row-meta">
+                                  <Mail className="h-3 w-3" />
+                                  <span className="truncate">{application.email}</span>
+                                </div>
+                                <div className="admin-row-meta">
+                                  <Phone className="h-3 w-3" />
+                                  {application.phone}
+                                </div>
+                                <div className="md:hidden admin-row-meta">
                                   {application.interest}
-                                </p>
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                                  <Calendar className="h-3 w-3" />
-                                  {new Date(
-                                    application.createdAt
-                                  ).toLocaleDateString()}
                                 </div>
                               </div>
                             </div>
                           </TableCell>
-                          <TableCell className="font-medium hidden md:table-cell">
+                          <TableCell className="hidden md:table-cell text-sm">
                             {application.interest}
                           </TableCell>
                           <TableCell className="hidden sm:table-cell">
-                            <div className="flex items-center gap-1 text-sm">
+                            <div className="admin-row-meta">
                               <Calendar className="h-3 w-3" />
-                              {new Date(
-                                application.createdAt
-                              ).toLocaleDateString()}
+                              {new Date(application.createdAt).toLocaleDateString()}
                             </div>
                           </TableCell>
                           <TableCell>
-                            {getStatusBadge(application.status)}
+                            <StatusPill status={application.status} />
                           </TableCell>
                           <TableCell>
-                            <div className="flex items-center gap-0.5">
+                            <div className="admin-actions">
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-8 w-8 p-0"
-                                title="View Details"
+                                className="admin-act"
+                                title="View details"
                                 onClick={() => setSelectedApp(application)}
                               >
                                 <Eye className="h-4 w-4" />
@@ -252,32 +208,24 @@ const ApplicationsManager = () => {
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 w-8 p-0"
+                                    className="admin-act admin-act-approve"
                                     title="Approve"
                                     onClick={() =>
-                                      handleStatusUpdate(
-                                        application.id,
-                                        "approved",
-                                        "volunteer"
-                                      )
+                                      handleStatusUpdate(application.id, "approved", "volunteer")
                                     }
                                   >
-                                    <CheckCircle className="h-4 w-4 text-green-600" />
+                                    <CheckCircle className="h-4 w-4" />
                                   </Button>
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 w-8 p-0"
+                                    className="admin-act admin-act-reject"
                                     title="Reject"
                                     onClick={() =>
-                                      handleStatusUpdate(
-                                        application.id,
-                                        "rejected",
-                                        "volunteer"
-                                      )
+                                      handleStatusUpdate(application.id, "rejected", "volunteer")
                                     }
                                   >
-                                    <XCircle className="h-4 w-4 text-red-600" />
+                                    <XCircle className="h-4 w-4" />
                                   </Button>
                                 </>
                               )}
@@ -289,37 +237,40 @@ const ApplicationsManager = () => {
                   </Table>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
-        {/* Partnership Applications */}
         <TabsContent value="partnerships">
-          <Card>
-            <CardHeader>
-              <CardTitle>Partnership Requests</CardTitle>
-            </CardHeader>
-            <CardContent className="px-2 sm:px-6">
+          <div className="admin-section">
+            <div className="admin-section-head">
+              <div>
+                <h3>
+                  <Handshake size={18} />
+                  Partnership requests
+                </h3>
+                <p>Organizations looking to join forces for greater impact.</p>
+              </div>
+            </div>
+            <div className="admin-section-body">
               {partnerQuery.isLoading ? (
-                <p>Loading...</p>
+                <div className="admin-empty" role="status">Loading requests…</div>
+              ) : partnershipApplications.length === 0 ? (
+                <div className="admin-empty">
+                  <Handshake size={30} />
+                  <h3>No partnership requests yet</h3>
+                  <p>New requests will appear here.</p>
+                </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="admin-table-wrap">
                   <Table className="min-w-[700px]">
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="min-w-[180px]">
-                          Organization
-                        </TableHead>
-                        <TableHead className="min-w-[120px] hidden md:table-cell">
-                          Contact Person
-                        </TableHead>
-                        <TableHead className="min-w-[100px] hidden sm:table-cell">
-                          Type
-                        </TableHead>
-                        <TableHead className="min-w-[100px] hidden sm:table-cell">
-                          Applied Date
-                        </TableHead>
-                        <TableHead className="min-w-[80px]">Status</TableHead>
+                        <TableHead className="min-w-[180px]">Organization</TableHead>
+                        <TableHead className="min-w-[120px] hidden md:table-cell">Contact</TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">Type</TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">Applied</TableHead>
+                        <TableHead className="min-w-[90px]">Status</TableHead>
                         <TableHead className="min-w-[120px]">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -327,56 +278,44 @@ const ApplicationsManager = () => {
                       {partnershipApplications.map((application) => (
                         <TableRow key={application.id}>
                           <TableCell>
-                            <div>
-                              <p className="font-medium text-sm">
-                                {application.organization}
-                              </p>
-                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                <Mail className="h-3 w-3" />
-                                <span className="truncate">
-                                  {application.email}
-                                </span>
-                              </div>
-                              <div className="md:hidden mt-2 space-y-1">
-                                <p className="text-xs font-medium">
+                            <div className="admin-row-person">
+                              <span className="admin-row-avatar">
+                                {(application.organization ?? application.name).slice(0, 1).toUpperCase()}
+                              </span>
+                              <div className="min-w-0">
+                                <p className="admin-row-name">{application.organization}</p>
+                                <div className="admin-row-meta">
+                                  <Mail className="h-3 w-3" />
+                                  <span className="truncate">{application.email}</span>
+                                </div>
+                                <div className="md:hidden admin-row-meta">
                                   Contact: {application.name}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {application.interest}
-                                </p>
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                  <Calendar className="h-3 w-3" />
-                                  {new Date(
-                                    application.createdAt
-                                  ).toLocaleDateString()}
                                 </div>
                               </div>
                             </div>
                           </TableCell>
-                          <TableCell className="hidden md:table-cell">
+                          <TableCell className="hidden md:table-cell text-sm">
                             {application.name}
                           </TableCell>
-                          <TableCell className="hidden sm:table-cell">
+                          <TableCell className="hidden sm:table-cell text-sm">
                             {application.interest}
                           </TableCell>
                           <TableCell className="hidden sm:table-cell">
-                            <div className="flex items-center gap-1 text-sm">
+                            <div className="admin-row-meta">
                               <Calendar className="h-3 w-3" />
-                              {new Date(
-                                application.createdAt
-                              ).toLocaleDateString()}
+                              {new Date(application.createdAt).toLocaleDateString()}
                             </div>
                           </TableCell>
                           <TableCell>
-                            {getStatusBadge(application.status)}
+                            <StatusPill status={application.status} />
                           </TableCell>
                           <TableCell>
-                            <div className="flex items-center gap-0.5">
+                            <div className="admin-actions">
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-8 w-8 p-0"
-                                title="View Details"
+                                className="admin-act"
+                                title="View details"
                                 onClick={() => setSelectedApp(application)}
                               >
                                 <Eye className="h-4 w-4" />
@@ -386,32 +325,24 @@ const ApplicationsManager = () => {
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 w-8 p-0"
+                                    className="admin-act admin-act-approve"
                                     title="Approve"
                                     onClick={() =>
-                                      handleStatusUpdate(
-                                        application.id,
-                                        "approved",
-                                        "partner"
-                                      )
+                                      handleStatusUpdate(application.id, "approved", "partner")
                                     }
                                   >
-                                    <CheckCircle className="h-4 w-4 text-green-600" />
+                                    <CheckCircle className="h-4 w-4" />
                                   </Button>
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 w-8 p-0"
+                                    className="admin-act admin-act-reject"
                                     title="Reject"
                                     onClick={() =>
-                                      handleStatusUpdate(
-                                        application.id,
-                                        "rejected",
-                                        "partner"
-                                      )
+                                      handleStatusUpdate(application.id, "rejected", "partner")
                                     }
                                   >
-                                    <XCircle className="h-4 w-4 text-red-600" />
+                                    <XCircle className="h-4 w-4" />
                                   </Button>
                                 </>
                               )}
@@ -423,17 +354,15 @@ const ApplicationsManager = () => {
                   </Table>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
-      {/* Application Details Modal */}
+
       <Dialog open={!!selectedApp} onOpenChange={() => setSelectedApp(null)}>
         <DialogContent className="max-w-lg rounded-xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold">
-              Application Details
-            </DialogTitle>
+            <DialogTitle className="text-xl font-semibold">Application details</DialogTitle>
           </DialogHeader>
 
           {selectedApp && (
@@ -450,9 +379,7 @@ const ApplicationsManager = () => {
 
                 {selectedApp.organization && (
                   <>
-                    <dt className="font-medium text-muted-foreground">
-                      Organization
-                    </dt>
+                    <dt className="font-medium text-muted-foreground">Organization</dt>
                     <dd className="col-span-2">{selectedApp.organization}</dd>
                   </>
                 )}
@@ -462,16 +389,14 @@ const ApplicationsManager = () => {
 
                 {selectedApp.message && (
                   <>
-                    <dt className="font-medium text-muted-foreground">
-                      Message
-                    </dt>
+                    <dt className="font-medium text-muted-foreground">Message</dt>
                     <dd className="col-span-2">{selectedApp.message}</dd>
                   </>
                 )}
 
                 <dt className="font-medium text-muted-foreground">Status</dt>
                 <dd className="col-span-2">
-                  {getStatusBadge(selectedApp.status)}
+                  <StatusPill status={selectedApp.status} />
                 </dd>
 
                 <dt className="font-medium text-muted-foreground">Applied</dt>
@@ -480,17 +405,12 @@ const ApplicationsManager = () => {
                 </dd>
               </dl>
 
-              {/* Optional Action Buttons */}
               {selectedApp.status === "pending" && (
                 <div className="flex justify-end gap-2 pt-4 border-t">
                   <Button
                     variant="destructive"
                     onClick={() =>
-                      handleStatusUpdate(
-                        selectedApp.id,
-                        "rejected",
-                        selectedApp.type
-                      )
+                      handleStatusUpdate(selectedApp.id, "rejected", selectedApp.type)
                     }
                   >
                     Reject
@@ -498,11 +418,7 @@ const ApplicationsManager = () => {
                   <Button
                     variant="default"
                     onClick={() =>
-                      handleStatusUpdate(
-                        selectedApp.id,
-                        "approved",
-                        selectedApp.type
-                      )
+                      handleStatusUpdate(selectedApp.id, "approved", selectedApp.type)
                     }
                   >
                     Approve

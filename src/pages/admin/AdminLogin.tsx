@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff, ArrowUpRight, ShieldCheck } from "lucide-react";
 import { useApiMutation } from "@/hooks/useApi";
 import SEO from "@/components/SEO";
-import logo from "/logo.png";
+import "./admin.css";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +16,6 @@ const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Move the hook call to the top level
   const mutation = useApiMutation<
     { accessToken: string },
     { email: string; password: string; role?: string }
@@ -53,6 +51,8 @@ const AdminLogin = () => {
     }
   };
 
+  const submitting = isLoading || mutation.isPending;
+
   return (
     <>
       <SEO
@@ -60,34 +60,50 @@ const AdminLogin = () => {
         description="Admin panel login for OPHEG organization"
         noindex
       />
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10 p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1 text-center">
-            <div className="flex items-center justify-center mb-4">
-              {/* <Lock className="h-8 w-8 text-primary" /> */}
-              <img
-                src={logo}
-                alt="OPHEG Logo"
-                className="h-14 w-14 object-contain"
-              />
-            </div>
-            <CardTitle className="text-2xl font-bold">Admin Panel</CardTitle>
-            <p className="text-muted-foreground">
-              Sign in to access OPHEG administration
+      <div className="admin-login">
+        <aside className="admin-login-story">
+          <Link to="/" className="admin-brand">
+            <span className="admin-logo">
+              <img src="/logo.png" alt="OPHEG logo" />
+            </span>
+            <span>
+              OPHEG
+              <span className="admin-brand-sub">Administration</span>
+            </span>
+          </Link>
+          <div>
+            <h1>
+              Welcome back.<br />
+              Let's keep <span>healthier communities</span> moving.
+            </h1>
+            <p>
+              Sign in to review appointments, welcome new volunteers and
+              partners, and share the stories behind your impact.
             </p>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
+          </div>
+          <small>© {new Date().getFullYear()} Optimum Health Global · Taking health to the communities.</small>
+        </aside>
+
+        <div className="admin-login-form">
+          <div className="admin-login-box">
+            <p className="admin-eyebrow">SECURE ADMIN ACCESS</p>
+            <h2>Sign in</h2>
+            <p className="admin-login-hint">
+              Use your OPHEG administrator credentials to continue.
+            </p>
+
+            <form onSubmit={handleLogin}>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@info@opheg.com"
+                  placeholder="you@opheg.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  disabled={isLoading}
+                  disabled={submitting}
+                  autoComplete="email"
                 />
               </div>
               <div className="space-y-2">
@@ -100,7 +116,8 @@ const AdminLogin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    disabled={isLoading}
+                    disabled={submitting}
+                    autoComplete="current-password"
                   />
                   <Button
                     type="button"
@@ -108,7 +125,8 @@ const AdminLogin = () => {
                     size="sm"
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
-                    disabled={isLoading}
+                    disabled={submitting}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -118,16 +136,21 @@ const AdminLogin = () => {
                   </Button>
                 </div>
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading || mutation.isPending}
-              >
-                {isLoading || mutation.isPending ? "Signing in..." : "Sign In"}
+              <Button type="submit" className="admin-login-submit" disabled={submitting}>
+                {submitting ? "Signing in..." : "Sign in to dashboard"}
               </Button>
             </form>
-          </CardContent>
-        </Card>
+
+            <div className="admin-login-note">
+              <ShieldCheck size={16} />
+              <span>This is a restricted area. Access is monitored.</span>
+            </div>
+
+            <Link to="/" className="admin-login-back">
+              Back to public website <ArrowUpRight size={15} />
+            </Link>
+          </div>
+        </div>
       </div>
     </>
   );
