@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import EmailComposer from "./EmailComposer";
 import {
   Table,
   TableBody,
@@ -11,50 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toast } from "@/hooks/use-toast";
-import { Send, Users, Mail, UserX } from "lucide-react";
-import { useSubscribers, useSendNewsletter } from "@/hooks/useNewsletter";
+import { Users, Mail, UserX } from "lucide-react";
+import { useSubscribers } from "@/hooks/useNewsletter";
 import { formatTimestampShort } from "@/lib/utils";
 
 const NewsletterManager = () => {
-  const [subject, setSubject] = useState("");
-  const [content, setContent] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const { data: subscribers, isLoading } = useSubscribers();
-  const sendNewsletters = useSendNewsletter();
-
-  const activeCount = subscribers?.filter((s) => s.isActive === true).length ?? 0;
-  const inactiveCount = subscribers?.filter((s) => s.isActive === false).length ?? 0;
-
-  const handleSendNewsletter = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!subject || !content) {
-      toast({
-        title: "Missing information",
-        description: "Please fill in both subject and content",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSending(true);
-
-    await sendNewsletters.mutateAsync({
-      subject,
-      html: content,
-      toAll: true,
-    });
-
-    setTimeout(() => {
-      toast({
-        title: "Newsletter sent successfully",
-        description: `"${subject}" sent to ${activeCount} active subscribers`,
-      });
-      setSubject("");
-      setContent("");
-      setIsSending(false);
-    }, 2000);
-  };
+  const { data: subscribers, isLoading, isError } = useSubscribers();
+  const activeCount = subscribers?.filter(s => s.isActive).length ?? 0;
+  const inactiveCount = subscribers?.filter(s => !s.isActive).length ?? 0;
 
   const stats = [
     { label: "Total subscribers", value: subscribers?.length ?? 0, icon: Users, hint: `${activeCount} active`, tone: "" },
@@ -76,52 +36,7 @@ const NewsletterManager = () => {
         ))}
       </div>
 
-      <div className="admin-section">
-        <div className="admin-section-head">
-          <div>
-            <h3>
-              <Send size={18} />
-              Compose newsletter
-            </h3>
-            <p>Keep your community informed, connected, and inspired.</p>
-          </div>
-        </div>
-        <div className="admin-section-body is-padded">
-          <form onSubmit={handleSendNewsletter} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="subject">Subject</Label>
-              <Input
-                id="subject"
-                placeholder="Enter newsletter subject"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
-              <Textarea
-                id="content"
-                placeholder="Enter newsletter content"
-                rows={8}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </div>
-            <div className="admin-form-actions">
-              <Button type="submit" disabled={isSending} className="w-full sm:w-auto">
-                {isSending ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Send to {activeCount} subscribers
-                  </>
-                )}
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <EmailComposer activeCount={activeCount} subscribersUnavailable={isLoading || isError} />
 
       <div className="admin-section">
         <div className="admin-section-head">
@@ -136,7 +51,7 @@ const NewsletterManager = () => {
         <div className="admin-section-body">
           {isLoading ? (
             <div className="admin-empty" role="status">Loading subscribers…</div>
-          ) : !subscribers || subscribers.length === 0 ? (
+          ) : isError ? (<div role="alert" className="admin-error">Unable to load subscribers. Refresh the page to try again.</div>) : !subscribers || subscribers.length === 0 ? (
             <div className="admin-empty">
               <Mail size={30} />
               <h3>No subscribers yet</h3>

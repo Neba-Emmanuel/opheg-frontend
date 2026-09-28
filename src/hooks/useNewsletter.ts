@@ -13,11 +13,14 @@ export function useSubscribers() {
   return useApiQuery<Subscriber[]>(["subscribers"], "/newsletter/subscribers");
 }
 
+export interface EmailDraft {
+  template: "newsletter" | "invitation" | "personal";
+  subject: string; preheader: string; title: string; body: string;
+  highlight: string; buttonLabel: string; buttonUrl: string; signature: string;
+}
+export interface EmailSendResult { sent: number; failed: number; total: number; failedEmails: string[]; }
 export function useSendNewsletter() {
-  return useApiMutation<
-    any,
-    { subject: string; html: string; toAll: boolean; emails?: string[] }
-  >("/newsletter/send", "POST");
+  return useApiMutation<EmailSendResult, EmailDraft & { toAll: boolean; emails: string[] }>("/newsletter/send", "POST");
 }
 
 export function useSubscribe() {
