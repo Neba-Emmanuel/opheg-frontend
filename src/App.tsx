@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import OurWorks from "./pages/OurWorks";
+import VolunteerInformation from "./pages/VolunteerInformation";
 import GetInvolved from "./pages/GetInvolved";
 import NotFound from "./pages/NotFound";
 import Appointments from "./pages/Appointments";
@@ -84,6 +85,7 @@ const App = () => (
           />
 
           {/* Main Website Routes (with header/footer) */}
+          <Route path="/volunteer-information" element={<MainLayout><VolunteerInformation /></MainLayout>} />
           <Route
             path="/"
             element={

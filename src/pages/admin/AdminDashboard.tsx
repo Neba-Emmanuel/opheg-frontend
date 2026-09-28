@@ -8,6 +8,7 @@ import SEO from "@/components/SEO";
 import NewsletterManager from "@/components/admin/NewsletterManager";
 import AppointmentsManager from "@/components/admin/AppointmentsManager";
 import ApplicationsManager from "@/components/admin/ApplicationsManager";
+import VolunteersManager from "@/components/admin/VolunteersManager";
 import PostsManager from "@/components/admin/PostsManager";
 import { useApplications } from "@/hooks/useApplications";
 import { useAppointments } from "@/hooks/useAppointments";
@@ -18,6 +19,7 @@ const sections = [
   { id: "overview", label: "Overview", icon: LayoutDashboard, description: "A clear view of your community and what needs your attention." },
   { id: "appointments", label: "Appointments", icon: Calendar, description: "Coordinate care, review requests, and keep appointments moving." },
   { id: "applications", label: "Applications", icon: Users, description: "Meet the volunteers and partners ready to make a difference." },
+  { id: "volunteers", label: "Volunteer records", icon: Heart, description: "Contact details, skills, and availability from existing volunteers." },
   { id: "newsletter", label: "Newsletter", icon: Mail, description: "Keep your community informed, connected, and inspired." },
   { id: "posts", label: "Posts", icon: FileText, description: "Share the stories and updates behind your impact." },
 ];
@@ -64,7 +66,7 @@ export default function AdminDashboard() {
             {appointments.isPending ? <div role="status" className="admin-empty">Loading appointments…</div> : appointments.isError ? <div className="admin-empty">Appointments are currently unavailable.</div> : recent.length === 0 ? <div className="admin-empty"><Calendar size={30} /><h3>A little room in the calendar</h3><p>New appointment requests will appear here.</p></div> : <div>{recent.map(a => <div className="admin-appointment" key={a.id}><span className="admin-person-avatar">{a.name.slice(0,1).toUpperCase()}</span><div className="min-w-0 flex-1"><strong>{a.name}</strong><p className="truncate">{a.reason}</p><small>{new Date(a.date).toLocaleDateString(undefined,{month:"short",day:"numeric"})} · {a.time}</small></div><Badge variant="secondary">{a.status}</Badge></div>)}</div>}
           </CardContent></Card><Card className="admin-action-panel"><CardHeader><p className="admin-eyebrow">MAKE IT HAPPEN</p><CardTitle>Where will you<br />make a difference today?</CardTitle></CardHeader><CardContent className="space-y-3">{[{id:"newsletter",label:"Reach your community",sub:"Write a newsletter",icon:Mail},{id:"applications",label:"Grow the team",sub:"Review applications",icon:Users},{id:"posts",label:"Tell your story",sub:"Manage posts",icon:FileText}].map(a=><Button key={a.id} variant="ghost" className="admin-quick-action" onClick={()=>select(a.id)}><a.icon size={20}/><span><strong>{a.label}</strong><small>{a.sub}</small></span><ArrowUpRight size={18}/></Button>)}</CardContent></Card></div>
           <div className="admin-note"><Heart size={18}/><p>Behind every request is a person. Thank you for helping bring better health closer to them.</p></div>
-        </div> : <div className="admin-manager">{active.id === "newsletter" && <NewsletterManager/>}{active.id === "appointments" && <AppointmentsManager/>}{active.id === "applications" && <ApplicationsManager/>}{active.id === "posts" && <PostsManager/>}</div>}
+        </div> : <div className="admin-manager">{active.id === "newsletter" && <NewsletterManager/>}{active.id === "appointments" && <AppointmentsManager/>}{active.id === "applications" && <ApplicationsManager/>}{active.id === "posts" && <PostsManager/>}{active.id === "volunteers" && <VolunteersManager/>}</div>}
         <footer className="admin-footer"><span>© {new Date().getFullYear()} OPHEG</span><span>Taking health to the communities.</span></footer>
       </main>
     </div>
