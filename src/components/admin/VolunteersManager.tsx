@@ -9,6 +9,34 @@ import {
 } from "@/lib/volunteerFields";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+function VolunteerPhoto({ record }: { record: VolunteerRecord }) {
+  const photo = record.attachments?.find((file) => file.kind === "photo");
+  const name = String(record.details.name || "Volunteer");
+  const initials = name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+  const preview = useQuery({
+    queryKey: ["admin-volunteer-photo", record.id, photo?.id],
+    queryFn: () => apiRequest<{ url: string }>(`/volunteers/${record.id}/files/${photo!.id}`, { auth: true }),
+    enabled: Boolean(photo),
+    staleTime: 45_000,
+    gcTime: 60_000,
+    retry: 1,
+  });
+  return (
+    <span className="flex shrink-0 flex-col items-center gap-2">
+      <Avatar className="h-20 w-20 rounded-2xl border-2 border-white shadow-sm ring-1 ring-emerald-200 sm:h-24 sm:w-24">
+        {preview.data?.url && <AvatarImage key={preview.data.url} src={preview.data.url} alt={`${name}'s profile photo`} className="object-cover" />}
+        <AvatarFallback className="rounded-2xl bg-gradient-to-br from-blue-100 to-emerald-100 text-xl font-bold text-blue-800" aria-label={`${name}: photo unavailable`}>
+          {initials || "V"}
+        </AvatarFallback>
+      </Avatar>
+      {!photo && <span className="text-xs text-slate-500">No photo</span>}
+      {photo && preview.isPending && <span className="text-xs text-slate-500">Loading photo…</span>}
+      {preview.isError && <span className="text-xs text-slate-500">Photo unavailable</span>}
+    </span>
+  );
+}
 
 function AttachmentDownload({
   recordId,
@@ -135,19 +163,24 @@ export default function VolunteersManager() {
                 key={record.id}
                 className="rounded-xl border bg-white p-5"
               >
-                <summary className="cursor-pointer">
+                <summary className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+                  <span className="inline-flex w-full items-start gap-4 align-top">
+                    <VolunteerPhoto record={record} />
+                    <span className="min-w-0 flex-1">
                   <span className="mb-2 block font-mono text-sm font-semibold text-blue-700">
                     {record.volunteer_id || "ID not yet assigned"}
                   </span>
-                  <strong>{String(record.details.name)}</strong>
-                  <span className="ml-3 break-all text-sm text-slate-600">
+                  <strong className="block break-words text-lg text-slate-900">{String(record.details.name)}</strong>
+                  <span className="mt-1 block break-all text-sm text-slate-600">
                     {String(record.details.email)}
                   </span>
-                  <p className="mt-2 text-sm text-slate-500">
+                  <span className="mt-2 block text-sm text-slate-500">
                     {String(record.details.role)} ·{" "}
                     {String(record.details.city)} · Received{" "}
                     {new Date(record.created_at).toLocaleString()}
-                  </p>
+                  </span>
+                    </span>
+                  </span>
                 </summary>
                 <div className="mt-5 space-y-3">
                   <h3 className="font-semibold">Photo & documents</h3>
