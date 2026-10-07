@@ -109,6 +109,7 @@ const SiteFooter = ({ overlap = false }: { overlap?: boolean }) => {
                 { name: "Our Works", href: "/our-works" },
                 { name: "Get Involved", href: "/get-involved" },
                 { name: "Existing Volunteers", href: "/volunteer-information" },
+                { name: "Volunteer Portal", href: "/volunteers" },
                 { name: "Book Appointment", href: "/appointments" },
                 { name: "Health AI", href: "/health-ai" },
               ].map((link) => (

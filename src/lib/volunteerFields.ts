@@ -281,7 +281,7 @@ export const volunteerFields = [
   }
 ] as const;
 export interface VolunteerAttachment { id: string; name: string; kind: "photo" | "document"; size: number; }
-export interface VolunteerRecord { id: number; volunteer_id: string; created_at: string; details: Record<string, string | boolean>; attachments?: VolunteerAttachment[]; }
+export interface VolunteerRecord { portal?: { disabled: boolean; last_login_at: string | null; profile: { handle?: string; visible?: boolean } } | null; id: number; volunteer_id: string; created_at: string; details: Record<string, string | boolean>; attachments?: VolunteerAttachment[]; }
 
 export const volunteerDepartments = [
   {

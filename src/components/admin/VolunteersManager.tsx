@@ -60,6 +60,18 @@ function AttachmentDownload({
   );
 }
 
+function PortalAccess({ record, refresh }: { record: VolunteerRecord; refresh: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  async function toggle() {
+    setBusy(true); setError("");
+    try { await apiRequest(`/volunteers/${record.id}/access`, { method: "PATCH", auth: true, body: JSON.stringify({ disabled: !record.portal?.disabled }) }); refresh(); }
+    catch { setError("Unable to change portal access. Try again."); }
+    finally { setBusy(false); }
+  }
+  return <div className="mt-5 rounded-lg border bg-slate-50 p-4"><h3 className="font-semibold">Volunteer portal</h3>{record.portal ? <><p className="my-2 text-sm">{record.portal.disabled ? "Access suspended" : "Access active"} · {record.portal.profile?.handle ? `@${record.portal.profile.handle}` : "No handle yet"} · {record.portal.profile?.visible ? "Directory sharing enabled" : "Profile private"}</p><Button variant="outline" disabled={busy} onClick={() => void toggle()}>{busy ? "Updating…" : record.portal.disabled ? "Restore portal access" : "Suspend portal access"}</Button></> : <p className="mt-2 text-sm">Not activated. The volunteer can request a sign-in link using the email on this record.</p>}{error && <p role="alert" className="text-sm text-red-700">{error}</p>}</div>;
+}
+
 export default function VolunteersManager() {
   const [search, setSearch] = useState("");
   const records = useQuery({

@@ -22,6 +22,7 @@ const SiteHeader = () => {
     { name: "About", href: "/about" },
     { name: "Our Works", href: "/our-works" },
     { name: "Get Involved", href: "/get-involved" },
+    { name: "Volunteer Portal", href: "/volunteers" },
   ];
 
   return (
@@ -44,7 +45,7 @@ const SiteHeader = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden gap-1 md:flex">
+        <nav className="hidden gap-1 xl:flex">
           {navigationItems.map((item) => (
             <NavLink
               key={item.name}
@@ -91,7 +92,7 @@ const SiteHeader = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden hover:bg-slate-100 rounded-xl"
+                className="xl:hidden hover:bg-slate-100 rounded-xl"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>

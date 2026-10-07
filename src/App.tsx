@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import OurWorks from "./pages/OurWorks";
+import VolunteerPortal from "./pages/volunteers/VolunteerPortal";
+import VolunteerLogin from "./pages/volunteers/VolunteerLogin";
 import VolunteerInformation from "./pages/VolunteerInformation";
 import GetInvolved from "./pages/GetInvolved";
 import NotFound from "./pages/NotFound";
@@ -54,6 +56,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/volunteers/login" element={<VolunteerLogin />} />
+          <Route path="/volunteers/*" element={<VolunteerPortal />} />
           {/* Admin Routes (no header/footer) */}
           <Route path="/admin">
             <Route

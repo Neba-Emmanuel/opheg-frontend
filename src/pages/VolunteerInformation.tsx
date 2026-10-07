@@ -205,7 +205,7 @@ export default function VolunteerInformation() {
               </div>
             </div> */}
           </div>
-          <p className="volunteer-new">
+          <p className="volunteer-new"><Link to="/volunteers/login">Already registered? Sign in to your portal →</Link><br />
             New to OPHEG?{" "}
             <Link to="/get-involved">
               Apply to volunteer <ArrowRight size={14} />
@@ -253,8 +253,7 @@ export default function VolunteerInformation() {
                 <span>* Required fields</span>
               </div>
               <p className="volunteer-intro">
-                Please share your current information. For changes to a previous
-                submission, contact your coordinator.
+                Please share your current information. To update an existing profile, sign in to the volunteer portal.
               </p>
               {groups.map((group, index) => (
                 <section
