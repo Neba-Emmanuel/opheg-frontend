@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { apiRequest } from "@/lib/apiClient";
 import {
@@ -9,7 +9,50 @@ import {
 } from "@/lib/volunteerFields";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+function statusOf(record: VolunteerRecord) {
+  return record.admin_status ?? (["inactive", "on leave"].includes(String(record.details.status).trim().toLowerCase()) ? "inactive" : "active");
+}
+
+function MembershipStatus({ record, saved }: { record: VolunteerRecord; saved: (patch: Partial<VolunteerRecord>) => void }) {
+  const [open, setOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  async function save(status: "active" | "inactive") {
+    setBusy(true); setError("");
+    try {
+      const patch = await apiRequest<Partial<VolunteerRecord>>(`/volunteers/${record.id}/status`, { method: "PATCH", auth: true, body: JSON.stringify({ status, reason: reason.trim() }) });
+      saved(patch); setOpen(false); setReason("");
+    } catch { setError("Unable to save status. Please try again."); }
+    finally { setBusy(false); }
+  }
+  return <div className="mt-5 rounded-xl border border-blue-100 bg-blue-50/50 p-4">
+    <h3 className="font-semibold">Membership status</h3>
+    <div className="mt-3 flex flex-wrap gap-2">
+      <Button variant={statusOf(record) === "active" ? "default" : "outline"} disabled={busy || statusOf(record) === "active"} onClick={() => void save("active")}>Active</Button>
+      <Button variant={statusOf(record) === "inactive" ? "default" : "outline"} disabled={busy} onClick={() => { setReason(record.inactive_reason || ""); setError(""); setOpen(true); }}>Inactive</Button>
+    </div>
+    {statusOf(record) === "inactive" && record.inactive_reason && <p className="mt-3 whitespace-pre-wrap break-words text-sm">Reason: {record.inactive_reason}</p>}
+    {record.status_changed_at && <p className="mt-2 text-xs text-slate-500">Updated {new Date(record.status_changed_at).toLocaleString()}</p>}
+    {error && !open && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
+    <Dialog open={open} onOpenChange={(value) => { if (!busy) setOpen(value); }}>
+      <DialogContent>
+        <DialogHeader><DialogTitle>Mark volunteer inactive</DialogTitle><DialogDescription>Enter why {String(record.details.name)} is inactive. This reason is visible to administrators.</DialogDescription></DialogHeader>
+        <form onSubmit={(event) => { event.preventDefault(); if (reason.trim() && !busy) void save("inactive"); }} className="space-y-4">
+          <label className="block text-sm font-medium">Reason (required)
+            <textarea autoFocus required maxLength={500} value={reason} onChange={(event) => setReason(event.target.value)} placeholder="For example: resigned, dismissed, personal leave…" className="mt-2 min-h-28 w-full rounded-md border bg-white p-3" disabled={busy} />
+          </label>
+          <p className="text-xs text-slate-500">{reason.length}/500 characters</p>
+          {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
+          <DialogFooter><Button type="button" variant="outline" disabled={busy} onClick={() => setOpen(false)}>Cancel</Button><Button type="submit" disabled={busy || !reason.trim()}>{busy ? "Saving…" : "Save inactive status"}</Button></DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  </div>;
+}
 
 function VolunteerPhoto({ record }: { record: VolunteerRecord }) {
   const photo = record.attachments?.find((file) => file.kind === "photo");
@@ -102,12 +145,15 @@ function PortalAccess({ record, refresh }: { record: VolunteerRecord; refresh: (
 
 export default function VolunteersManager() {
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const queryClient = useQueryClient();
   const records = useQuery({
     queryKey: ["volunteer-records"],
     queryFn: () => apiRequest<VolunteerRecord[]>("/volunteers", { auth: true }),
     refetchOnMount: "always",
   });
   const filtered = (records.data ?? []).filter((record) =>
+    (statusFilter === "all" || statusOf(record) === statusFilter) &&
     [record.volunteer_id, ...Object.values(record.details)]
       .join(" ")
       .toLowerCase()
@@ -131,6 +177,11 @@ export default function VolunteersManager() {
           placeholder="Volunteer ID, name, email, location, skills…"
         />
       </label>
+      <label className="block text-sm font-medium">Filter by status
+        <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="ml-3 rounded-md border bg-white p-2">
+          <option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option>
+        </select>
+      </label>
       <Button
         variant="outline"
         disabled={records.isFetching}
@@ -153,8 +204,8 @@ export default function VolunteersManager() {
           </p>
           {filtered.length === 0 ? (
             <div className="admin-empty">
-              {search
-                ? "No volunteers match your search."
+              {search || statusFilter !== "all"
+                ? "No volunteers match your filters."
                 : "No volunteer information submitted yet. Share the public form to get started."}
             </div>
           ) : (
@@ -170,6 +221,7 @@ export default function VolunteersManager() {
                   <span className="mb-2 block font-mono text-sm font-semibold text-blue-700">
                     {record.volunteer_id || "ID not yet assigned"}
                   </span>
+                  <span className={`mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold ${statusOf(record) === "active" ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-700"}`}>{statusOf(record) === "active" ? "Active" : "Inactive"}</span>
                   <strong className="block break-words text-lg text-slate-900">{String(record.details.name)}</strong>
                   <span className="mt-1 block break-all text-sm text-slate-600">
                     {String(record.details.email)}
@@ -182,6 +234,9 @@ export default function VolunteersManager() {
                     </span>
                   </span>
                 </summary>
+                <MembershipStatus record={record} saved={(patch) => {
+                  queryClient.setQueryData<VolunteerRecord[]>(["volunteer-records"], (current) => current?.map((item) => item.id === record.id ? { ...item, ...patch } : item));
+                }} />
                 <div className="mt-5 space-y-3">
                   <h3 className="font-semibold">Photo & documents</h3>
                   {record.attachments?.length ? (
