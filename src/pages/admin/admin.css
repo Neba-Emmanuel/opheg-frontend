@@ -1,3 +1,12 @@
+/* Include portalled menus and dialogs in the admin palette. */
+body:has(.admin-app),
+body:has(.admin-login) {
+  --accent: 214 90% 95%;
+  --accent-foreground: 217 76% 32%;
+  --primary: 215 82% 44%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 215 82% 44%;
+}
 .admin-app,
 .admin-login {
   --background: 210 30% 97%;
@@ -6,6 +15,10 @@
   --card-foreground: 218 36% 18%;
   --primary: 210 78% 43%;
   --primary-foreground: 0 0% 100%;
+  --accent: 214 90% 95%;
+  --accent-foreground: 217 76% 32%;
+  --secondary: 153 36% 95%;
+  --secondary-foreground: 158 56% 25%;
   --muted: 210 25% 95%;
   --muted-foreground: 215 16% 45%;
   --border: 214 24% 90%;
@@ -180,7 +193,7 @@
   justify-content: space-between;
   gap: 20px;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: 26px;
 }
 .admin-eyebrow {
   font-size: 10px;
@@ -196,7 +209,7 @@
   font-weight: 650;
 }
 .admin-description {
-  margin-top: 11px;
+  margin-top: 8px;
   font-size: 13px;
   color: hsl(var(--muted-foreground));
   line-height: 1.7;
@@ -994,4 +1007,80 @@
   .admin-section-body.is-padded {
     padding: 18px;
   }
+}
+
+/* Branded overview and section summary cards. */
+.admin-app .admin-stat,
+.admin-app .admin-mgr-stat {
+  --card-accent: #2563eb;
+  --card-tint: #eff6ff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid #dbe6f1;
+  border-top: 3px solid var(--card-accent);
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--card-tint), #fff 80%);
+  box-shadow: 0 5px 18px #173b6810;
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+.admin-app .admin-stat:nth-child(2n),
+.admin-app .admin-mgr-stat:nth-child(2n) {
+  --card-accent: #15803d;
+  --card-tint: #ecfdf3;
+}
+.admin-app .admin-stat:nth-child(3n),
+.admin-app .admin-mgr-stat:nth-child(3n) {
+  --card-accent: #087f8c;
+  --card-tint: #edfafa;
+}
+.admin-app .admin-stat::before,
+.admin-app .admin-mgr-stat::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: 140px;
+  height: 140px;
+  right: -65px;
+  bottom: -85px;
+  border: 18px solid var(--card-accent);
+  border-radius: 50%;
+  opacity: .055;
+}
+.admin-app .admin-stat:hover,
+.admin-app .admin-mgr-stat:hover {
+  border-color: var(--card-accent);
+  box-shadow: 0 9px 24px #173b6818;
+}
+.admin-app .admin-stat-top,
+.admin-app .admin-mgr-stat-top { color: #41576e; font-weight: 550; }
+.admin-app .admin-stat-top svg,
+.admin-app .admin-mgr-stat-top svg {
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  border-radius: 10px;
+  color: var(--card-accent);
+  background: #ffffffb8;
+  box-shadow: 0 2px 6px #173b6809;
+}
+.admin-app .admin-stat-value { color: #173b60; }
+.admin-app .admin-stat-bottom,
+.admin-app .admin-mgr-stat-hint { color: #536b80; }
+.admin-app .admin-overview-grid > .bg-card {
+  border-color: #dce7ee;
+  overflow: hidden;
+  box-shadow: 0 4px 18px #173b6809;
+}
+.admin-app .admin-overview-grid .admin-panel-heading {
+  background: linear-gradient(110deg, #f0f7ff, #fff);
+  border-bottom: 1px solid #e5edf5;
+}
+.admin-app .admin-action-panel {
+  background: linear-gradient(145deg, #eaf8f0, #f4faff) !important;
+  border-color: #cfe7dc;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-app .admin-stat, .admin-app .admin-mgr-stat { transition: none; }
 }

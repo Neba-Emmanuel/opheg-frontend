@@ -20,7 +20,7 @@ test('optional values must validate when present; emergency contacts are all or 
 });
 test('attachments reject excess counts, empty, oversize, wrong extensions and combined size', () => {
   const pdf = { name:'cv.pdf', size:100 };
-  for (const files of [[{...pdf,size:0}], [{...pdf,size:1048577}], [{...pdf,name:'cv.exe'}], [pdf,pdf,pdf,pdf], [pdf,pdf,pdf].map(file=>({...file,size:1048576}))]) assert.notEqual(Object.keys(validateAttachmentMetadata(null,files)).length,0);
+  for (const files of [[{...pdf,size:0}], [{...pdf,size:1048577}], [{...pdf,name:'cv.exe'}], Array(21).fill(pdf), [pdf,pdf,pdf].map(file=>({...file,size:1048576}))]) assert.notEqual(Object.keys(validateAttachmentMetadata(null,files)).length,0);
   assert.deepEqual(validateAttachmentMetadata(null,[pdf]),{});
 });
 test('file content is checked before allowing submission', async () => {
@@ -31,3 +31,14 @@ test('file content is checked before allowing submission', async () => {
   assert.ok((await validateAttachmentContents(null,[fake])).documents);
   assert.deepEqual(await validateAttachmentContents(null,[]),{});
 });
+
+test('branch, cohort, and repeatable certificates must validate before submission',()=>{
+  const current={...valid,availability:undefined,workPreference:undefined,branch:'South-West',cohort:'Cohort 1'};
+  assert.equal(enabled(current),true);
+  assert.equal(enabled({...current,cohort:'Cohort 0'}),false);
+  assert.equal(enabled({...current,branch:'Unknown'}),false);
+  assert.equal(enabled({...current,certificateEntries:JSON.stringify([{kind:'Work',title:'',institution:'Hospital',year:'2020'}])}),false);
+  assert.equal(enabled({...current,certificateEntries:JSON.stringify([{kind:'Work',title:'First aid',institution:'Hospital',year:'2020'}])}),true);
+});
+
+test('cohorts can grow beyond six',()=>{assert.equal(enabled({...valid,cohort:'Cohort 125'}),true);});

@@ -1,3 +1,4 @@
+import { validateCertificates } from "./certificates.ts";
 import { volunteerDepartments, volunteerFields } from "./volunteerFields.ts";
 
 export function validateVolunteerValues(values: Record<string, unknown>, now = new Date()): Record<string, string> {
@@ -28,13 +29,16 @@ export function validateVolunteerValues(values: Record<string, unknown>, now = n
   }
   if (text("gender") && !["Male", "Female"].includes(text("gender"))) errors.gender = "Select Male or Female.";
   if (text("department") && !volunteerDepartments.some(department => department.code === text("department"))) errors.department = "Select a department from the list.";
+  if (text("branch") && !["Adamawa", "Centre", "East", "Far North", "Littoral", "North", "North-West", "South", "South-West", "West"].includes(text("branch"))) errors.branch = "Select a valid branch.";
+  if (text("cohort") && !/^Cohort [1-9][0-9]{0,8}$/.test(text("cohort"))) errors.cohort = "Select a valid cohort.";
+  try { validateCertificates(values.certificateEntries); } catch (error) { errors.certificateEntries = (error as Error).message; }
   if (values.consent !== true) errors.consent = "Please give your consent before submitting.";
   return errors;
 }
 
 export function validateAttachmentMetadata(photo: Pick<File, "name" | "size"> | null, documents: Pick<File, "name" | "size">[]): Record<string, string> {
   const errors: Record<string, string> = {};
-  if (documents.length > 3) errors.documents = "Choose no more than three PDF documents.";
+  if (documents.length > 20) errors.documents = "Choose no more than 20 PDF documents.";
   const files = [...(photo ? [{ file: photo, key: "photo" }] : []), ...documents.map(file => ({ file, key: "documents" }))];
   for (const { file, key } of files) {
     if (!file.size || file.size > 1048576) errors[key] = "Each file must be non-empty and no larger than 1 MB.";

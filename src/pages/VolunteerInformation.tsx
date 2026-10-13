@@ -1,3 +1,5 @@
+import { useVolunteerCohorts } from "@/hooks/useVolunteerCohorts";
+import VolunteerCertificates from "@/components/VolunteerCertificates";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -17,7 +19,7 @@ import {
   FileText,
 } from "lucide-react";
 import "./volunteer-information.css";
-import { volunteerFields, volunteerDepartments } from "@/lib/volunteerFields";
+import { volunteerFields, volunteerDepartments, volunteerBranches } from "@/lib/volunteerFields";
 
 const groups = [
   "Personal details",
@@ -46,6 +48,8 @@ async function encodeFile(file: File, kind: "photo" | "document") {
   }
 
 export default function VolunteerInformation() {
+  const cohorts = useVolunteerCohorts();
+  const [certificateEntries, setCertificateEntries] = useState("[]");
   const [values, setValues] = useState<Record<string, unknown>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [nativeErrors, setNativeErrors] = useState<Record<string, string>>({});
@@ -66,7 +70,7 @@ export default function VolunteerInformation() {
   }, [photo, documents]);
   const checkingAttachments = checkedAttachments?.photo !== photo || checkedAttachments?.documents !== documents;
   const fileErrors = { ...validateAttachmentMetadata(photo, documents), ...(!checkingAttachments ? checkedAttachments.errors : {}) };
-  const errors = { ...nativeErrors, ...validateVolunteerValues(values) };
+  const errors = { ...nativeErrors, ...validateVolunteerValues({...values, certificateEntries}) };
   const canSubmit = Object.keys(errors).length === 0 && Object.keys(fileErrors).length === 0 && !checkingAttachments;
   const syncForm = useCallback((form: HTMLFormElement) => {
     setValues(readForm(form));
@@ -100,8 +104,8 @@ export default function VolunteerInformation() {
   const submission = useMutation({
     mutationFn: async (data: Record<string, unknown>) => {
       const files = [...(photo ? [photo] : []), ...documents];
-      if (documents.length > 3)
-        throw new Error("Choose up to three PDF documents.");
+      if (documents.length > 20)
+        throw new Error("Choose up to 20 PDF documents.");
       if (
         files.some((file) => file.size === 0 || file.size > 1048576) ||
         files.reduce((size, file) => size + file.size, 0) > 2621440
@@ -119,7 +123,7 @@ export default function VolunteerInformation() {
       ]);
       return apiRequest<{ message: string; volunteerId: string }>(
         "/volunteers",
-        { method: "POST", body: JSON.stringify({ ...data, attachments }) },
+        { method: "POST", body: JSON.stringify({ ...data, certificateEntries, attachments }) },
       );
     },
   });
@@ -322,7 +326,11 @@ export default function VolunteerInformation() {
                                 {field.label}
                                 {field.required && <span> *</span>}
                               </label>
-                              {field.key === "department" ? (
+                              {field.key === "cohort" ? (
+                                <><select id="cohort" name="cohort" defaultValue="" disabled={cohorts.isPending || cohorts.isError}><option value="">{cohorts.isPending ? "Loading cohorts…" : "Select your cohort (optional)"}</option>{cohorts.data?.map(c => <option key={c.number} value={c.name}>{c.name}</option>)}</select>{cohorts.isError && <button type="button" onClick={()=>void cohorts.refetch()}>Unable to load cohorts. Retry</button>}</>
+                              ) : field.key === "branch" ? (
+                                <select id={field.key} name={field.key} defaultValue=""><option value="">Select…</option>{volunteerBranches.map(value => <option key={value}>{value}</option>)}</select>
+                              ) : field.key === "department" ? (
                                 <select
                                   id={field.key}
                                   {...fieldFeedback(field.key)}
@@ -387,7 +395,9 @@ export default function VolunteerInformation() {
                   </div>
                 </section>
               ))}
-              <section
+              <VolunteerCertificates value={certificateEntries} onChange={setCertificateEntries} />
+              {errors.certificateEntries && <p role="alert" className="volunteer-validation-error">{errors.certificateEntries}</p>}
+                <section
                 id="profile-files"
                 className="volunteer-section"
                 aria-labelledby="files-heading"
@@ -438,7 +448,7 @@ export default function VolunteerInformation() {
                       <FileText size={25} />
                     </div>
                     <label htmlFor="documents">Supporting documents</label>
-                    <p>Up to 3 PDFs · 1 MB each</p>
+                    <p>Up to 20 PDFs · 1 MB each</p>
                     <Input
                       ref={documentInput}
                       id="documents"
@@ -448,12 +458,12 @@ export default function VolunteerInformation() {
                       multiple
                       accept="application/pdf"
                       onChange={(event) =>
-                        setDocuments(Array.from(event.target.files ?? []))
+                        setDocuments(current => [...current, ...Array.from(event.target.files ?? [])])
                       }
                     />
                     {fileErrors.documents && <p id="documents-error" className="volunteer-validation-error" role="alert">{fileErrors.documents}</p>}
                     {documents.map((file, index) => (
-                      <small key={`${file.name}-${index}`}>{file.name}</small>
+                      <div key={`${file.name}-${index}`}><small>{file.name}</small><Button type="button" variant="ghost" onClick={() => setDocuments(current => current.filter((_, i) => i !== index))}>Remove</Button></div>
                     ))}
                   </div>
                   {(photo || documents.length > 0) && (

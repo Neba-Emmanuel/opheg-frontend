@@ -91,20 +91,6 @@ export const volunteerFields = [
     "group": "Your volunteering"
   },
   {
-    "key": "availability",
-    "label": "Availability (days, times, and hours per month)",
-    "max": 1000,
-    "required": true,
-    "group": "Your volunteering"
-  },
-  {
-    "key": "workPreference",
-    "label": "Preferred work mode (in person, remote, or both)",
-    "max": 80,
-    "required": true,
-    "group": "Your volunteering"
-  },
-  {
     "key": "emergencyName",
     "label": "Emergency contact name",
     "max": 120,
@@ -278,10 +264,59 @@ export const volunteerFields = [
     "max": 4,
     "required": true,
     "group": "Your volunteering"
+  },
+  {
+    "key": "villageOfOrigin",
+    "label": "Town / village of origin",
+    "group": "Personal details",
+    "max": 120,
+    "required": false
+  },
+  {
+    "key": "divisionOfOrigin",
+    "label": "Division of origin",
+    "group": "Personal details",
+    "max": 120,
+    "required": false
+  },
+  {
+    "key": "subdivisionOfOrigin",
+    "label": "Subdivision of origin",
+    "group": "Personal details",
+    "max": 120,
+    "required": false
+  },
+  {
+    "key": "branch",
+    "label": "OPHEG branch",
+    "group": "Your volunteering",
+    "max": 40,
+    "required": false
+  },
+  {
+    "key": "cohort",
+    "label": "Training cohort",
+    "group": "Your volunteering",
+    "max": 20,
+    "required": false
+  },
+  {
+    "key": "strengths",
+    "label": "Your strengths",
+    "group": "Education & experience",
+    "max": 1500,
+    "required": false
+  },
+  {
+    "key": "weaknesses",
+    "label": "Areas for improvement / weaknesses",
+    "group": "Education & experience",
+    "max": 1500,
+    "required": false
   }
 ] as const;
 export interface VolunteerAttachment { id: string; name: string; kind: "photo" | "document"; size: number; }
-export interface VolunteerRecord { admin_status?: "active" | "inactive"; inactive_reason?: string | null; status_changed_at?: string | null; portal?: { disabled: boolean; last_login_at: string | null; profile: { handle?: string; visible?: boolean } } | null; id: number; volunteer_id: string; created_at: string; details: Record<string, string | boolean>; attachments?: VolunteerAttachment[]; }
+export interface VolunteerRecord { assigned_cohort?: string | null; admin_status?: "active" | "inactive"; inactive_reason?: string | null; status_changed_at?: string | null; portal?: { disabled: boolean; last_login_at: string | null; profile: { handle?: string; visible?: boolean } } | null; id: number; volunteer_id: string; created_at: string; details: Record<string, string | boolean>; attachments?: VolunteerAttachment[]; }
 
 export const volunteerDepartments = [
   {
@@ -313,3 +348,5 @@ export const volunteerDepartments = [
     "label": "General volunteering"
   }
 ] as const;
+
+export const volunteerBranches = ["Adamawa", "Centre", "East", "Far North", "Littoral", "North", "North-West", "South", "South-West", "West"];

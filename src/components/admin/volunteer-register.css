@@ -1,0 +1,128 @@
+.volunteer-register { border-radius: 20px; background: #fff; padding: clamp(12px,2vw,26px); box-shadow: 0 14px 50px #1e3a8a08; }
+.vr-table-scroll { overflow-x: auto; padding: 2px 3px 12px; }
+.vr-table { width:100%; min-width:900px; border-collapse:separate; border-spacing:0 9px; font-size:12px; color:#475569; }
+.vr-table th { padding:9px 14px; font-size:10px; font-weight:600; text-align:left; color:#94a3b8; letter-spacing:.04em; text-transform:uppercase; }
+.vr-table td { padding:11px 14px; background:#fff; border-top:1px solid #edf0f5; border-bottom:1px solid #edf0f5; transition:background .15s,color .15s; }
+.vr-table td:first-child { border-left:1px solid #edf0f5; border-radius:8px 0 0 8px; }
+.vr-table td:last-child { border-right:1px solid #edf0f5; border-radius:0 8px 8px 0; }
+.vr-table tbody tr { filter:drop-shadow(0 2px 3px #0f172a04); }
+.vr-table tbody tr:hover td,.vr-table tbody tr:focus-within td { background:#1554f6; color:#fff; border-color:#1554f6; }
+.vr-table tbody tr:hover .vr-secondary,.vr-table tbody tr:focus-within .vr-secondary { color:#dbeafe; }
+.vr-person { display:flex; align-items:center; gap:10px; min-width:190px; }
+.vr-person strong { display:block; font-size:12px; font-weight:600; }
+.vr-secondary { display:block; max-width:240px; overflow:hidden; text-overflow:ellipsis; font-size:10px; color:#94a3b8; }
+.vr-id { font-family:ui-monospace,monospace; font-size:10px; white-space:nowrap; }
+.vr-status { display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+.vr-status>span { width:6px; height:6px; border-radius:50%; background:#94a3b8; }
+.vr-status.active>span { background:#10b981; }
+.vr-status.inactive>span { background:#94a3b8; }
+.vr-actions { display:flex; align-items:center; gap:3px; }
+.vr-actions button { width:30px; height:30px; }
+@media(prefers-reduced-motion:reduce) { .vr-table td { transition:none; } }
+/* Allow the table to scroll within narrow grid/flex dashboard panels. */
+.volunteer-register { min-width:0; max-width:100%; overflow:hidden; }
+.vr-table-scroll { width:100%; max-width:100%; min-width:0; }
+.vr-mobile-details { display:none; }
+@media (max-width:640px) {
+  .volunteer-register { padding:10px; border-radius:12px; }
+  .vr-table-scroll { padding:0 0 6px; }
+  .admin-manager .vr-table { min-width:0; table-layout:fixed; border-spacing:0 4px; font-size:11px; }
+  .admin-manager .vr-table th { height:30px; padding:5px 4px; font-size:9px; letter-spacing:0; }
+  .admin-manager .vr-table td { padding:7px 4px; }
+  .vr-table th:nth-child(1), .vr-table td:nth-child(1),
+  .vr-table th:nth-child(3), .vr-table td:nth-child(3),
+  .vr-table th:nth-child(4), .vr-table td:nth-child(4) { display:none; }
+  .vr-table th:nth-child(5) { width:57px; }
+  .vr-table th:nth-child(6) { width:39px; }
+  .vr-table td:nth-child(2) { border-left:1px solid #edf0f5; border-radius:7px 0 0 7px; }
+  .vr-person { min-width:0; gap:6px; align-items:flex-start; }
+  .vr-person > span { flex-shrink:0; }
+  .vr-person > span > span { width:26px; height:26px; }
+  .vr-person > div { min-width:0; }
+  .vr-person strong { font-size:11px; line-height:1.3; overflow-wrap:anywhere; }
+  .vr-person .vr-secondary { display:none; }
+  .vr-mobile-details { display:block; margin-top:3px; font-size:9px; line-height:1.4; color:#64748b; overflow-wrap:anywhere; }
+  .vr-mobile-details > span { display:block; }
+  .vr-mobile-details > span:first-child { font-family:ui-monospace,monospace; font-size:8px; }
+  .vr-table tbody tr:hover .vr-mobile-details, .vr-table tbody tr:focus-within .vr-mobile-details { color:#dbeafe; }
+  .vr-status { gap:4px; font-size:10px; }
+  .vr-status > span { width:5px; height:5px; }
+  .vr-actions { gap:0; justify-content:center; }
+  .vr-actions > button:first-child { display:none; }
+  .vr-actions button { width:32px; height:36px; }
+}
+
+/* Shared summary and table treatment for records and cohorts. */
+.vr-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.volunteer-register .vr-table-scroll { border:1px solid #e1eaf3; border-radius:14px; background:linear-gradient(135deg,#f6faff,#f6fcf9); padding:6px 8px 10px; }
+.admin-manager .vr-table thead { background:transparent; }
+.admin-manager .vr-table th { color:#355b7d; }
+.vr-table tbody tr { filter:drop-shadow(0 2px 3px #174c6c08); }
+.vr-table tbody tr:nth-child(even) td { background:#f9fcff; }
+.vr-table tbody tr:hover td,.vr-table tbody tr:focus-within td { background:#1554f6; }
+/* Dialogs are portalled, so their styling is scoped directly to the modal. */
+.vr-modal { border:1px solid #dce8f2; border-top:4px solid #2563eb; border-radius:18px; background:linear-gradient(145deg,#fff 55%,#f2faf6); box-shadow:0 24px 80px #102e5233; padding:24px; width:calc(100% - 24px); }
+.vr-modal-header { position:relative; overflow:hidden; text-align:left; padding:18px 32px 18px 18px; border:1px solid #deebf5; border-radius:12px; background:linear-gradient(110deg,#eff6ff,#edf9f3); }
+.vr-modal-header::after { content:""; pointer-events:none; position:absolute; right:-25px; bottom:-44px; width:100px; height:100px; border:15px solid #15803d0b; border-radius:50%; }
+.vr-modal-header h2 { color:#173f69; font-size:20px; line-height:1.35; letter-spacing:-.025em; }
+.vr-modal-header p { color:#516b82; line-height:1.6; }
+.vr-modal label { color:#294863; }
+.vr-modal textarea,.vr-modal select,.vr-modal input { border-color:#cedeea; border-radius:10px; background:#fff; }
+.vr-modal textarea:focus-visible,.vr-modal select:focus-visible,.vr-modal input:focus-visible { outline:2px solid #2563eb; outline-offset:2px; }
+.vr-modal dl { padding:16px; border:1px solid #e2ebf2; border-radius:12px; background:#ffffffd9; }
+@media(max-width:640px) {
+  .vr-summary { grid-template-columns:1fr; gap:10px; }
+  .vr-summary .admin-mgr-stat { padding:12px 14px; }
+  .vr-summary .admin-mgr-stat-value { font-size:28px; margin-top:4px; }
+  .vr-summary .admin-mgr-stat-hint { margin-top:3px; }
+  .volunteer-register .vr-table-scroll { padding:2px 3px 6px; border-radius:10px; }
+  .vr-modal { padding:16px; border-radius:14px; max-height:90dvh; overflow-y:auto; }
+  .vr-modal-header { padding:14px; }
+  .vr-modal-header h2 { font-size:18px; }
+}
+
+/* Private volunteer progress journal. */
+.vr-progress { margin-top:8px; min-width:0; }
+.vr-progress-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:18px; }
+.vr-progress-kicker { color:#087f8c; font-size:9px; font-weight:700; letter-spacing:.14em; }
+.vr-progress-heading h3 { margin:5px 0; color:#173f69; font-size:20px; font-weight:650; letter-spacing:-.025em; }
+.vr-progress-heading p { max-width:390px; font-size:12px; color:#64748b; line-height:1.6; }
+.vr-private { display:inline-flex; align-items:center; gap:5px; flex-shrink:0; padding:5px 8px; border:1px solid #dce9e4; background:#f1f8f5; color:#276349; border-radius:20px; font-size:10px; }
+.vr-comment-composer { border:1px solid #d7e5f3; border-radius:14px; padding:16px; background:linear-gradient(135deg,#eff6ff,#f8fcfa); }
+.vr-composer-label { display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#254d7c; }
+.vr-comment-composer textarea { width:100%; min-height:120px; padding:12px; margin-top:10px; font-size:13px; line-height:1.65; resize:vertical; }
+.vr-composer-footer { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.vr-composer-footer > span { color:#64748b; font-size:10px; }
+.vr-journal-title { display:flex; align-items:center; justify-content:space-between; margin:26px 0 16px; gap:10px; }
+.vr-journal-title h4 { display:flex; align-items:center; gap:7px; color:#294863; font-size:13px; font-weight:600; }
+.vr-journal-title > span { color:#64748b; font-size:10px; }
+.vr-timeline { list-style:none; margin:0 0 0 11px; padding:0; border-left:2px solid #deebe8; }
+.vr-timeline > li { position:relative; padding:0 0 18px 24px; }
+.vr-timeline > li:last-child { padding-bottom:0; }
+.vr-timeline-dot { position:absolute; top:18px; left:-12px; display:grid; place-items:center; width:22px; height:22px; border:3px solid #fff; border-radius:50%; background:#e3f4eb; color:#15803d; }
+.is-latest > .vr-timeline-dot { color:#fff; background:#2563eb; }
+.vr-journal-entry { overflow:hidden; border:1px solid #e0e9ef; border-radius:12px; background:#fff; box-shadow:0 3px 12px #173b6806; }
+.is-latest > .vr-journal-entry { border-color:#bad4ef; box-shadow:0 4px 16px #2563eb0a; }
+.vr-journal-entry > header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; padding:12px 16px; background:linear-gradient(110deg,#f0f6fd,#f4faf7); border-bottom:1px solid #e8eff5; }
+.vr-entry-date { display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-size:11px; }
+.vr-entry-date time { font-weight:650; color:#284b71; }
+.vr-entry-date > span { color:#64748b; }
+.vr-latest-badge { border-radius:20px; padding:3px 7px; background:#dbeafe; color:#1d4ed8; font-size:9px; font-weight:600; }
+.vr-entry-body { margin:0; padding:16px; color:#334155; font-size:13px; line-height:1.8; white-space:pre-wrap; overflow-wrap:anywhere; }
+.vr-journal-entry > footer { display:flex; align-items:center; gap:8px; padding:10px 16px; border-top:1px dashed #e2eaf0; }
+.vr-author-avatar { display:grid; place-items:center; flex-shrink:0; width:27px; height:27px; border-radius:8px; background:#edf5fc; color:#35628d; font-size:9px; font-weight:700; }
+.vr-journal-entry footer > div { min-width:0; }
+.vr-journal-entry footer strong { display:block; color:#49647c; font-size:10px; font-weight:600; }
+.vr-author-id { display:block; color:#64748b; font-size:9px; overflow-wrap:anywhere; }
+.vr-entry-number { margin-left:auto; flex-shrink:0; font-size:9px; color:#64748b; }
+.vr-journal-empty { display:flex; flex-direction:column; align-items:center; gap:8px; padding:28px 18px; border:1px dashed #c9dedb; border-radius:12px; background:#f8fcfa; text-align:center; font-size:12px; color:#64748b; }
+.vr-journal-empty svg { color:#238269; }
+.vr-journal-empty strong { color:#31596a; }
+@media(max-width:640px) {
+  .vr-progress-heading { flex-wrap:wrap; gap:8px; }
+  .vr-comment-composer { padding:12px; }
+  .vr-timeline > li { padding-left:16px; }
+  .vr-journal-entry > header,.vr-journal-entry > footer { padding:10px; }
+  .vr-entry-body { padding:12px; }
+  .vr-entry-number { display:none; }
+}

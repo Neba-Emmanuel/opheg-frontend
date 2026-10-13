@@ -52,8 +52,9 @@ const sections = [
     label: "Volunteer records",
     icon: Heart,
     description:
-      "Contact details, skills, and availability from existing volunteers.",
+      "Contact details, skills, and progress from existing volunteers.",
   },
+  {id:"cohorts",label:"Cohorts",icon:Users,description:"Manage training cohorts and volunteer development."},
   {
     id: "newsletter",
     label: "Newsletter",
@@ -72,7 +73,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const active =
-    sections.find((s) => s.id === params.get("section")) ?? sections[0];
+    sections.find((s) => s.id === params.get("section")) ?? sections.find(s => s.id === "overview")!;
   const select = (section: string) => setParams({ section });
   const subscribers = useSubscribers();
   const appointments = useAppointments();
@@ -200,12 +201,7 @@ export default function AdminDashboard() {
         <main id="admin-main" className="admin-main" tabIndex={-1}>
           <div className="admin-page-heading">
             <div>
-              <p className="admin-eyebrow">OPTIMUM HEALTH GLOBAL</p>
-              <h1>
-                {active.id === "overview"
-                  ? "Your impact, at a glance."
-                  : active.label}
-              </h1>
+              <h1>{active.label}</h1>
               <p className="admin-description">{active.description}</p>
             </div>
             {active.id === "overview" && (
@@ -372,7 +368,8 @@ export default function AdminDashboard() {
               {active.id === "appointments" && <AppointmentsManager />}
               {active.id === "applications" && <ApplicationsManager />}
               {active.id === "posts" && <PostsManager />}
-              {active.id === "volunteers" && <VolunteersManager />}
+              {active.id === "volunteers" && <VolunteersManager key="volunteers" />}
+              {active.id === "cohorts" && <VolunteersManager key="cohorts" cohortsOnly />}
             </div>
           )}
           <footer className="admin-footer">
