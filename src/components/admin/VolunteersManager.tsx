@@ -190,6 +190,17 @@ function CohortAssignment({record,saved}:{record:VolunteerRecord;saved:(patch:Pa
 function CertificateList({value}:{value:unknown}) {
   try { const rows=JSON.parse(String(value||"[]")) as {kind:string;title:string;institution:string;year:string}[];return <ul className="space-y-2">{rows.map((row,i)=><li key={i} className="rounded border p-3">{row.kind}: {row.title} · {row.institution} · {row.year}</li>)}</ul>; } catch {return <p>Certificate details unavailable.</p>;}
 }
+function BranchAssignment({record,director,saved}:{record:VolunteerRecord;director:boolean;saved:(patch:Partial<VolunteerRecord>)=>void}) {
+  const [branch,setBranch]=useState(record.director_branch || String(record.details.branch||""));
+  const [busy,setBusy]=useState(false);const [error,setError]=useState("");const [done,setDone]=useState("");
+  async function save(value:string|null){setBusy(true);setError("");setDone("");try{const patch=await apiRequest<Partial<VolunteerRecord>>(`/volunteers/${record.id}/${director?"director":"branch"}`,{auth:true,method:"PATCH",body:JSON.stringify({branch:value})});saved(patch);setDone(value===null?"Branch director role removed.":director?"Branch director assigned.":"Branch updated.");}catch{setError("Unable to save this assignment. Try again.");}finally{setBusy(false);}}
+  return <section className="space-y-4"><h3 className="font-semibold">{director?"Branch director appointment":"Assign volunteer branch"}</h3><p className="text-sm text-slate-600">{director?"This volunteer will lead the selected branch, view its volunteer records, and manage all cohorts using their existing volunteer login.":"Choose the town where this volunteer serves. For a director, this also updates their area of access."}</p>
+    {record.details.previousRegion&&<p className="rounded-lg bg-blue-50 p-3 text-sm">Previous region: {String(record.details.previousRegion)}. Confirm the correct town before assigning.</p>}
+    <label className="block">Branch<select className="mt-2 block w-full rounded border p-3" value={branch} disabled={busy} onChange={e=>{setBranch(e.target.value);setDone("");}}><option value="">Select a branch</option>{volunteerBranches.map(b=><option key={b}>{b}</option>)}</select></label>
+    <div className="flex flex-wrap gap-2"><Button disabled={busy||!volunteerBranches.includes(branch)} onClick={()=>void save(branch)}>{busy?"Saving…":director?"Save director appointment":"Save branch"}</Button>{director&&record.director_branch&&<Button variant="outline" disabled={busy} onClick={()=>void save(null)}>Remove director role</Button>}</div>
+    {done&&<p role="status" className="text-sm text-emerald-700">{done}</p>}{error&&<p role="alert" className="text-red-700">{error}</p>}
+  </section>;
+}
 function CreateCohort() {
   const [open,setOpen]=useState(false); const [busy,setBusy]=useState(false); const [error,setError]=useState(""); const [created,setCreated]=useState("");
   const client=useQueryClient();
@@ -201,7 +212,7 @@ function CreateCohort() {
 const cohortOf=(record:VolunteerRecord)=>record.assigned_cohort || String(record.details.cohort||"");
 export default function VolunteersManager({cohortsOnly=false}:{cohortsOnly?:boolean}) {
   const [search,setSearch]=useState("");const [status,setStatus]=useState("all");const [branch,setBranch]=useState("all");const [cohort,setCohort]=useState("all");
-  const [selection,setSelection]=useState<{id:number;action:"view"|"status"|"comments"|"cohort"}|null>(null);
+  const [selection,setSelection]=useState<{id:number;action:"view"|"status"|"comments"|"cohort"|"director"|"branch"}|null>(null);
   const client=useQueryClient();
   const records=useQuery({queryKey:["volunteer-records"],queryFn:()=>apiRequest<VolunteerRecord[]>("/volunteers",{auth:true}),refetchOnMount:"always"});
   const cohorts=useVolunteerCohorts();
@@ -211,10 +222,10 @@ export default function VolunteersManager({cohortsOnly=false}:{cohortsOnly?:bool
   const summary = [
     {label:"Total volunteers",value:records.isPending||records.isError?"—":all.length,hint:"All registered volunteer records",icon:Users},
     {label:"Cohorts",value:cohorts.isPending||cohorts.isError?"—":cohorts.data?.length??0,hint:"Created training cohorts",icon:GraduationCap},
-    {label:"Active branches",value:records.isPending||records.isError?"—":activeBranches,hint:"Regions with active volunteers",icon:MapPin},
+    {label:"Active branches",value:records.isPending||records.isError?"—":activeBranches,hint:"Towns with active volunteers",icon:MapPin},
   ];
   const cohortOptions = (cohorts.data||[]).map(c=>c.name);
-  const filtered=all.filter(record=>(status==="all"||statusOf(record)===status)&&(branch==="all"||record.details.branch===branch)&&(cohort==="all"||(cohort==="unassigned"?!cohortOf(record):cohortOf(record)===cohort))&&[record.volunteer_id,record.details.name,record.details.email,record.details.city,record.details.skills].join(" ").toLowerCase().includes(search.trim().toLowerCase()));
+  const filtered=all.filter(record=>(status==="all"||statusOf(record)===status)&&(branch==="all"||(branch==="unassigned"?!volunteerBranches.includes(String(record.details.branch)):record.details.branch===branch))&&(cohort==="all"||(cohort==="unassigned"?!cohortOf(record):cohortOf(record)===cohort))&&[record.volunteer_id,record.details.name,record.details.email,record.details.city,record.details.skills].join(" ").toLowerCase().includes(search.trim().toLowerCase()));
   const pages=Math.max(1,Math.ceil(filtered.length/15));
   const currentPage=Math.min(page,pages);
   const visible=filtered.slice((currentPage-1)*15,currentPage*15);
@@ -229,7 +240,7 @@ export default function VolunteersManager({cohortsOnly=false}:{cohortsOnly?:bool
     <div className="grid gap-3 rounded-xl border bg-slate-50 p-4 sm:grid-cols-2 xl:grid-cols-4">
       <label className="text-sm font-medium">Search<Input value={search} onChange={e=>{setSearch(e.target.value);setPage(1);}} placeholder="Name, ID, email, skills…"/></label>
       <label className="text-sm font-medium">Status<select className="block w-full rounded border bg-white p-2" value={status} onChange={e=>{setStatus(e.target.value);setPage(1);}}><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
-      <label className="text-sm font-medium">Branch<select className="block w-full rounded border bg-white p-2" value={branch} onChange={e=>{setBranch(e.target.value);setPage(1);}}><option value="all">All branches</option>{volunteerBranches.map(b=><option key={b}>{b}</option>)}</select></label>
+      <label className="text-sm font-medium">Branch<select className="block w-full rounded border bg-white p-2" value={branch} onChange={e=>{setBranch(e.target.value);setPage(1);}}><option value="all">All branches</option><option value="unassigned">Needs branch assignment</option>{volunteerBranches.map(b=><option key={b}>{b}</option>)}</select></label>
       <label className="text-sm font-medium">Cohort<select className="block w-full rounded border bg-white p-2" value={cohort} onChange={e=>{setCohort(e.target.value);setPage(1);}}><option value="all">All cohorts</option><option value="unassigned">Unassigned</option>{cohortOptions.map(c=><option key={c}>{c}</option>)}</select></label>
     </div>
     {cohorts.isError&&<p role="alert">Unable to load cohorts. <button onClick={()=>void cohorts.refetch()}>Retry</button></p>}
@@ -237,10 +248,10 @@ export default function VolunteersManager({cohortsOnly=false}:{cohortsOnly?:bool
     {records.isPending?<p role="status">Loading volunteers…</p>:records.isError?<p role="alert">Unable to load volunteers. Refresh to try again.</p>:<>
       <div className="vr-table-scroll"><table className="vr-table"><caption className="sr-only">Volunteer records and administrative actions</caption><thead><tr>{["Matricule","Volunteer","Branch","Cohort","Status","Actions"].map(h=><th key={h} scope="col">{h}</th>)}</tr></thead><tbody>{visible.map(record=><tr key={record.id}>
         <td className="vr-id">{record.volunteer_id}</td>
-        <td><div className="vr-person"><VolunteerPhoto record={record} compact/><div><strong>{String(record.details.name)}</strong><span className="vr-secondary">{String(record.details.email)}</span><span className="vr-mobile-details"><span>{record.volunteer_id}</span><span>{String(record.details.branch||"No branch")} · {cohortOf(record)||"No cohort"}</span></span></div></div></td>
+        <td><div className="vr-person"><VolunteerPhoto record={record} compact/><div><strong>{String(record.details.name)}</strong>{record.director_branch&&<span className="vr-director-badge">Director · {record.director_branch}</span>}<span className="vr-secondary">{String(record.details.email)}</span><span className="vr-mobile-details"><span>{record.volunteer_id}</span><span>{String(record.details.branch||"No branch")} · {cohortOf(record)||"No cohort"}</span></span></div></div></td>
         <td>{String(record.details.branch||"—")}</td><td>{cohortOf(record)||"Unassigned"}</td>
         <td><span className={`vr-status ${statusOf(record)}`}><span aria-hidden="true"/>{statusOf(record)==="active"?"Active":"Inactive"}</span></td>
-        <td><div className="vr-actions"><Button size="icon" variant="ghost" aria-label={`View ${record.details.name}`} title="View profile" onClick={()=>setSelection({id:record.id,action:"view"})}><Eye size={16}/></Button><DropdownMenu><DropdownMenuTrigger asChild><Button size="icon" variant="ghost" aria-label={`Actions for ${record.details.name}`}><MoreHorizontal size={18}/></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"view"})}><Eye className="mr-2 h-4 w-4"/>View profile</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"status"})}><UserX className="mr-2 h-4 w-4"/>{statusOf(record)==="active"?"Mark inactive":"Change status"}</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"comments"})}><MessageSquare className="mr-2 h-4 w-4"/>Write comment</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"cohort"})}><Users className="mr-2 h-4 w-4"/>Assign cohort</DropdownMenuItem></DropdownMenuContent></DropdownMenu></div></td>
+        <td><div className="vr-actions"><Button size="icon" variant="ghost" aria-label={`View ${record.details.name}`} title="View profile" onClick={()=>setSelection({id:record.id,action:"view"})}><Eye size={16}/></Button><DropdownMenu><DropdownMenuTrigger asChild><Button size="icon" variant="ghost" aria-label={`Actions for ${record.details.name}`}><MoreHorizontal size={18}/></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"view"})}><Eye className="mr-2 h-4 w-4"/>View profile</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"status"})}><UserX className="mr-2 h-4 w-4"/>{statusOf(record)==="active"?"Mark inactive":"Change status"}</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"comments"})}><MessageSquare className="mr-2 h-4 w-4"/>Write comment</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"cohort"})}><Users className="mr-2 h-4 w-4"/>Assign cohort</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"branch"})}><MapPin className="mr-2 h-4 w-4"/>Assign branch</DropdownMenuItem><DropdownMenuItem onSelect={()=>setSelection({id:record.id,action:"director"})}><Users className="mr-2 h-4 w-4"/>{record.director_branch?"Manage branch director":"Make branch director"}</DropdownMenuItem></DropdownMenuContent></DropdownMenu></div></td>
       </tr>)}</tbody></table>{filtered.length===0&&<p className="p-8 text-center text-slate-500">No volunteers match these filters.</p>}</div>
       <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500"><span>Showing {filtered.length?(currentPage-1)*15+1:0}–{Math.min(currentPage*15,filtered.length)} of {filtered.length}</span><nav aria-label="Volunteer table pages" className="flex items-center gap-3"><Button size="sm" variant="ghost" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>Previous</Button><span>Page {currentPage} of {pages}</span><Button size="sm" variant="ghost" disabled={currentPage===pages} onClick={()=>setPage(currentPage+1)}>Next</Button></nav></div>
     </>}
@@ -249,6 +260,7 @@ export default function VolunteersManager({cohortsOnly=false}:{cohortsOnly?:bool
       {selected&&selection?.action==="status"&&<MembershipStatus key={selected.id} record={selected} saved={patch} startInactive={statusOf(selected)==="active"}/>}
       {selected&&selection?.action==="comments"&&<ProgressMonitor key={selected.id} id={selected.id}/>}
       {selected&&selection?.action==="cohort"&&<CohortAssignment key={selected.id} record={selected} saved={patch}/>}
+      {selected&&(selection?.action==="director"||selection?.action==="branch")&&<BranchAssignment key={`${selected.id}-${selection.action}`} record={selected} director={selection.action==="director"} saved={patch}/>}
     </DialogContent></Dialog>
   </section>;
 }

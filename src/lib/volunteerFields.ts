@@ -316,7 +316,7 @@ export const volunteerFields = [
   }
 ] as const;
 export interface VolunteerAttachment { id: string; name: string; kind: "photo" | "document"; size: number; }
-export interface VolunteerRecord { assigned_cohort?: string | null; admin_status?: "active" | "inactive"; inactive_reason?: string | null; status_changed_at?: string | null; portal?: { disabled: boolean; last_login_at: string | null; profile: { handle?: string; visible?: boolean } } | null; id: number; volunteer_id: string; created_at: string; details: Record<string, string | boolean>; attachments?: VolunteerAttachment[]; }
+export interface VolunteerRecord { director_branch?: string | null; assigned_cohort?: string | null; admin_status?: "active" | "inactive"; inactive_reason?: string | null; status_changed_at?: string | null; portal?: { disabled: boolean; last_login_at: string | null; profile: { handle?: string; visible?: boolean } } | null; id: number; volunteer_id: string; created_at: string; details: Record<string, string | boolean>; attachments?: VolunteerAttachment[]; }
 
 export const volunteerDepartments = [
   {
@@ -349,4 +349,4 @@ export const volunteerDepartments = [
   }
 ] as const;
 
-export const volunteerBranches = ["Adamawa", "Centre", "East", "Far North", "Littoral", "North", "North-West", "South", "South-West", "West"];
+export const volunteerBranches = ["Kumba", "Buea", "Limbe", "Douala", "Yaoundé", "Bamenda"];

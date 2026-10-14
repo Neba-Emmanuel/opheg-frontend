@@ -33,7 +33,7 @@ test('file content is checked before allowing submission', async () => {
 });
 
 test('branch, cohort, and repeatable certificates must validate before submission',()=>{
-  const current={...valid,availability:undefined,workPreference:undefined,branch:'South-West',cohort:'Cohort 1'};
+  const current={...valid,availability:undefined,workPreference:undefined,branch:'Buea',cohort:'Cohort 1'};
   assert.equal(enabled(current),true);
   assert.equal(enabled({...current,cohort:'Cohort 0'}),false);
   assert.equal(enabled({...current,branch:'Unknown'}),false);

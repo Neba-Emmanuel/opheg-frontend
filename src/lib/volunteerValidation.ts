@@ -29,7 +29,7 @@ export function validateVolunteerValues(values: Record<string, unknown>, now = n
   }
   if (text("gender") && !["Male", "Female"].includes(text("gender"))) errors.gender = "Select Male or Female.";
   if (text("department") && !volunteerDepartments.some(department => department.code === text("department"))) errors.department = "Select a department from the list.";
-  if (text("branch") && !["Adamawa", "Centre", "East", "Far North", "Littoral", "North", "North-West", "South", "South-West", "West"].includes(text("branch"))) errors.branch = "Select a valid branch.";
+  if (text("branch") && !["Kumba", "Buea", "Limbe", "Douala", "Yaoundé", "Bamenda"].includes(text("branch"))) errors.branch = "Select a valid branch.";
   if (text("cohort") && !/^Cohort [1-9][0-9]{0,8}$/.test(text("cohort"))) errors.cohort = "Select a valid cohort.";
   try { validateCertificates(values.certificateEntries); } catch (error) { errors.certificateEntries = (error as Error).message; }
   if (values.consent !== true) errors.consent = "Please give your consent before submitting.";

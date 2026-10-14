@@ -3,7 +3,7 @@ export const PORTAL_TOKEN_KEY = "opheg_volunteer_session";
 export interface CommunityProfile { handle: string; bio: string; visible: boolean; sharePhoto: boolean; linkedin: string; instagram: string; facebook: string; x: string; website: string; }
 export const emptyCommunityProfile: CommunityProfile = { handle: "", bio: "", visible: false, sharePhoto: false, linkedin: "", instagram: "", facebook: "", x: "", website: "" };
 export const socialLabels = { linkedin: "LinkedIn", instagram: "Instagram", facebook: "Facebook", x: "X / Twitter", website: "Website" };
-export interface PortalMe { id: number; email: string; volunteerId: string; details: Record<string,string | boolean>; profile: CommunityProfile; photoUrl: string | null; updatedAt: string; attachments: { id: string; name: string; kind: string; size: number }[]; }
+export interface PortalMe { directorBranch?: string | null; id: number; email: string; volunteerId: string; details: Record<string,string | boolean>; profile: CommunityProfile; photoUrl: string | null; updatedAt: string; attachments: { id: string; name: string; kind: string; size: number }[]; }
 export interface PortalMember { id: number; name: string; preferredName: string; city: string; country: string; department: string; role: string; occupation: string; skills: string; languages: string; programs: string; joined: string; handle: string; bio: string; linkedin: string; instagram: string; facebook: string; x: string; website: string; photoUrl: string | null; }
 export class PortalApiError extends Error { constructor(message: string, public status: number) { super(message); } }
 export async function portalRequest<T>(path: string, options: RequestInit = {}, authenticated = true): Promise<T> {
