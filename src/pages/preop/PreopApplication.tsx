@@ -1,3 +1,4 @@
+import { storeSession } from "@/lib/authSession";
 import TrainingProgress from "./TrainingProgress";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -145,7 +146,10 @@ function Workspace({
   }, [answers, draft, save]);
   useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
-      if (dirty.current || flight.current) {
+      if (
+        (dirty.current || flight.current) &&
+        sessionStorage.getItem(PREOP_TOKEN)
+      ) {
         event.preventDefault();
         event.returnValue = "";
       }
@@ -648,12 +652,12 @@ export default function PreopApplication() {
     setBusy(true);
     setError("");
     try {
-      const result = await preopRequest<{ token: string }>(
+      const result = await preopRequest<{ token: string; expiresAt: string }>(
         "verify",
         { method: "POST", body: JSON.stringify({ token: linkToken }) },
         "none",
       );
-      sessionStorage.setItem(PREOP_TOKEN, result.token);
+      storeSession("preop", result.token, result.expiresAt);
       setSession(true);
       setLinkToken("");
       setApplication(null);

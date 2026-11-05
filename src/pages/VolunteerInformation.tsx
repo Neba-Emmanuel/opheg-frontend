@@ -70,7 +70,7 @@ export default function VolunteerInformation() {
   }, [photo, documents]);
   const checkingAttachments = checkedAttachments?.photo !== photo || checkedAttachments?.documents !== documents;
   const fileErrors = { ...validateAttachmentMetadata(photo, documents), ...(!checkingAttachments ? checkedAttachments.errors : {}) };
-  const errors = { ...nativeErrors, ...validateVolunteerValues({...values, certificateEntries}) };
+  const errors = { ...nativeErrors, ...validateVolunteerValues({...values, certificateEntries},new Date(),true) };
   const canSubmit = Object.keys(errors).length === 0 && Object.keys(fileErrors).length === 0 && !checkingAttachments;
   const syncForm = useCallback((form: HTMLFormElement) => {
     setValues(readForm(form));
@@ -131,7 +131,7 @@ export default function VolunteerInformation() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = readForm(form);
-    if (submission.isPending || !canSubmit || Object.keys(validateVolunteerValues(data)).length || !form.checkValidity()) {
+    if (submission.isPending || !canSubmit || Object.keys(validateVolunteerValues(data,new Date(),true)).length || !form.checkValidity()) {
       syncForm(form);
       setTouched(Object.fromEntries([...volunteerFields.map(field => field.key), "consent"].map(key => [key, true])));
       return;
@@ -205,7 +205,7 @@ export default function VolunteerInformation() {
                   Once you submit, you’ll receive your unique OPHEG volunteer
                   ID.
                 </p>
-                <code>OPHEG–YEAR–DEPT–NUMBER</code>
+                <code>OPH/CM/C3/26/0010</code>
               </div>
             </div> */}
           </div>
@@ -324,7 +324,7 @@ export default function VolunteerInformation() {
                             <>
                               <label htmlFor={field.key}>
                                 {field.label}
-                                {field.required && <span> *</span>}
+                                {(field.required || ["joined","cohort"].includes(field.key)) && <span> *</span>}
                               </label>
                               {field.key === "cohort" ? (
                                 <><select id="cohort" name="cohort" defaultValue="" disabled={cohorts.isPending || cohorts.isError}><option value="">{cohorts.isPending ? "Loading cohorts…" : "Select your cohort (optional)"}</option>{cohorts.data?.map(c => <option key={c.number} value={c.name}>{c.name}</option>)}</select>{cohorts.isError && <button type="button" onClick={()=>void cohorts.refetch()}>Unable to load cohorts. Retry</button>}</>
@@ -352,7 +352,7 @@ export default function VolunteerInformation() {
                                   id={field.key}
                                   {...fieldFeedback(field.key)}
                                   name={field.key}
-                                  required={field.required}
+                                  required={(field.required || ["joined","cohort"].includes(field.key))}
                                   maxLength={field.max}
                                   rows={3}
                                 />
@@ -361,7 +361,7 @@ export default function VolunteerInformation() {
                                   id={field.key}
                                   {...fieldFeedback(field.key)}
                                   name={field.key}
-                                  required={field.required}
+                                  required={(field.required || ["joined","cohort"].includes(field.key))}
                                   maxLength={field.max}
                                   type={
                                     field.key === "dateOfBirth"

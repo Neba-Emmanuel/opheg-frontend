@@ -1,7 +1,8 @@
+import {matriculeCountry} from "./matriculeCountry.ts";
 import { validateCertificates } from "./certificates.ts";
 import { volunteerDepartments, volunteerFields } from "./volunteerFields.ts";
 
-export function validateVolunteerValues(values: Record<string, unknown>, now = new Date()): Record<string, string> {
+export function validateVolunteerValues(values: Record<string, unknown>, now = new Date(), admission = false): Record<string, string> {
   const errors: Record<string, string> = {};
   const text = (key: string) => typeof values[key] === "string" ? (values[key] as string).trim() : "";
   for (const field of volunteerFields) {
@@ -33,6 +34,7 @@ export function validateVolunteerValues(values: Record<string, unknown>, now = n
   if (text("cohort") && !/^Cohort [1-9][0-9]{0,8}$/.test(text("cohort"))) errors.cohort = "Select a valid cohort.";
   try { validateCertificates(values.certificateEntries); } catch (error) { errors.certificateEntries = (error as Error).message; }
   if (values.consent !== true) errors.consent = "Please give your consent before submitting.";
+  if(admission){if(!matriculeCountry(values.country))errors.country="Enter a recognized country name or two-letter country code.";if(!text("cohort"))errors.cohort="Select your admission cohort.";if(!text("joined"))errors.joined="Enter your year admitted to OPHEG.";}
   return errors;
 }
 

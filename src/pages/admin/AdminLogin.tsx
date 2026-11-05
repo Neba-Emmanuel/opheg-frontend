@@ -1,3 +1,4 @@
+import {storeSession} from "@/lib/authSession";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,7 @@ const AdminLogin = () => {
         password,
         role: "admin",
       });
-      localStorage.setItem("opheg_admin_token", response.accessToken);
+      storeSession("admin",response.accessToken);
       toast({
         title: "Login successful",
         description: "Welcome to OPHEG Admin Panel",

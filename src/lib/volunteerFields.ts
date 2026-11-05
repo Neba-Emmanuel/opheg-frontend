@@ -50,7 +50,7 @@ export const volunteerFields = [
   },
   {
     "key": "joined",
-    "label": "Year joined OPHEG",
+    "label": "Year admitted to OPHEG",
     "max": 4,
     "required": false,
     "group": "Your volunteering"
@@ -295,7 +295,7 @@ export const volunteerFields = [
   },
   {
     "key": "cohort",
-    "label": "Training cohort",
+    "label": "Admission cohort",
     "group": "Your volunteering",
     "max": 20,
     "required": false

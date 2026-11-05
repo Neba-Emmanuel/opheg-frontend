@@ -1,3 +1,4 @@
+import { expireSession } from "./authSession";
 import { API_URL } from "./apiClient";
 import type { PreopAnswers, ScreeningInput } from "./preopSchema";
 export const PREOP_TOKEN = "opheg_preop_session";
@@ -83,9 +84,15 @@ export async function preopRequest<T>(
     .json()
     .catch(() => ({ message: "Unable to read the server response." }));
   if (!response.ok) {
-    if (auth === "applicant" && response.status === 401) {
-      sessionStorage.removeItem(PREOP_TOKEN);
-    }
+    if (response.status === 401 && auth !== "none")
+      expireSession(
+        auth === "admin"
+          ? "admin"
+          : auth === "director"
+            ? "volunteer"
+            : "preop",
+        token,
+      );
     throw new PreopApiError(
       body.message || "Unable to complete your request.",
       response.status,

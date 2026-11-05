@@ -1,3 +1,4 @@
+import {expireSession} from "./authSession";
 export const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
@@ -14,8 +15,8 @@ export async function apiRequest<T>(
     ...(options.headers || {}),
   };
 
+  const token = options.auth ? localStorage.getItem("opheg_admin_token") : null;
   if (options.auth) {
-    const token = localStorage.getItem("opheg_admin_token");
     if (token) headers["Authorization"] = `Bearer ${token}`;
   }
 
@@ -25,6 +26,7 @@ export async function apiRequest<T>(
   });
 
   if (!res.ok) {
+    if(options.auth && res.status===401)expireSession("admin",token);
     let errText: string;
     try {
       const json = await res.json();

@@ -1,3 +1,4 @@
+import {storeSession} from "@/lib/authSession";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -39,12 +40,12 @@ export default function VolunteerLogin() {
     setError("");
     try {
       if (linkToken) {
-        const result = await portalRequest<{ token: string }>(
+        const result = await portalRequest<{ token: string; expiresAt:string }>(
           "verify",
           { method: "POST", body: JSON.stringify({ token: linkToken }) },
           false,
         );
-        sessionStorage.setItem(PORTAL_TOKEN_KEY, result.token);
+        storeSession("volunteer",result.token,result.expiresAt);
         cache.removeQueries({ queryKey: ["volunteer-portal"] });
         navigate("/volunteers", { replace: true });
       } else {

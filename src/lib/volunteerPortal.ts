@@ -1,3 +1,4 @@
+import {expireSession} from "./authSession";
 import { API_URL } from "./apiClient";
 export const PORTAL_TOKEN_KEY = "opheg_volunteer_session";
 export interface CommunityProfile { handle: string; bio: string; visible: boolean; sharePhoto: boolean; linkedin: string; instagram: string; facebook: string; x: string; website: string; }
@@ -12,8 +13,7 @@ export async function portalRequest<T>(path: string, options: RequestInit = {}, 
   const data = await response.json().catch(() => ({ message: "The server could not respond. Please try again." }));
   if (!response.ok) {
     if (authenticated && response.status === 401) {
-      sessionStorage.removeItem(PORTAL_TOKEN_KEY);
-      window.dispatchEvent(new Event("volunteer-session-expired"));
+      expireSession("volunteer",token);
     }
     throw new PortalApiError(data.message || "Unable to complete your request.", response.status);
   }

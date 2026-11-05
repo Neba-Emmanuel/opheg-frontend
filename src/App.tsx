@@ -1,3 +1,5 @@
+import {useEffect} from "react";
+import {watchSessions} from "./lib/authSession";
 import PreopApplication from "./pages/preop/PreopApplication";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -50,12 +52,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+function SessionExpiry(){useEffect(watchSessions,[]);return null;}
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <SessionExpiry/>
         <Routes>
           <Route path="/preop" element={<PreopApplication />} />
           <Route path="/volunteers/login" element={<VolunteerLogin />} />
