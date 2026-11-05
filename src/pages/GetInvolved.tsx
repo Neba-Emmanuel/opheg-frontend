@@ -36,9 +36,10 @@ import partnershipsImg from "@/assets/partnerships.jpg";
 import getInvolvedHeroImg from "@/assets/get-involved-hero.jpg";
 import { useToast } from "@/hooks/use-toast";
 import { useCreateApplication } from "@/hooks/useApplications";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const GetInvolved = () => {
+  const navigate = useNavigate();
   const [activeForm, setActiveForm] = useState<"volunteer" | "partner" | null>(null);
   const [activeTab, setActiveTab] = useState<"volunteer" | "partner">("volunteer");
   const createApplication = useCreateApplication();
@@ -302,7 +303,7 @@ const GetInvolved = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
-                    onClick={() => setActiveForm("volunteer")}
+                    onClick={() => navigate("/preop")}
                     size="lg"
                     className="group bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-8 py-6 text-lg rounded-2xl shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
                   >
@@ -473,7 +474,7 @@ const GetInvolved = () => {
                           {opportunity.commitment}
                         </div>
                         <Button
-                          onClick={() => setActiveForm("volunteer")}
+                          onClick={() => navigate("/preop")}
                           size="sm"
                           className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl"
                         >

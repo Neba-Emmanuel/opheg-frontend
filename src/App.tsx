@@ -1,3 +1,4 @@
+import PreopApplication from "./pages/preop/PreopApplication";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -56,6 +57,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/preop" element={<PreopApplication />} />
           <Route path="/volunteers/login" element={<VolunteerLogin />} />
           <Route path="/volunteers/*" element={<VolunteerPortal />} />
           {/* Admin Routes (no header/footer) */}

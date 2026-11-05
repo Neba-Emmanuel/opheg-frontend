@@ -1,3 +1,4 @@
+import PreopTrainingManager from "@/components/admin/PreopTrainingManager";
 import { useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import {
 import SEO from "@/components/SEO";
 import NewsletterManager from "@/components/admin/NewsletterManager";
 import AppointmentsManager from "@/components/admin/AppointmentsManager";
+import PreopManager from "@/components/admin/PreopManager";
 import ApplicationsManager from "@/components/admin/ApplicationsManager";
 import VolunteersManager from "@/components/admin/VolunteersManager";
 import PostsManager from "@/components/admin/PostsManager";
@@ -34,6 +36,8 @@ const sections = [
     description:
       "A clear view of your community and what needs your attention.",
   },
+  {id:"training",label:"Training",icon:Users,description:"Coordinate PREOP training, assessments and membership decisions."},
+  {id:"preop",label:"PREOP",icon:Users,description:"Review applications and guide the next generation of volunteers."},
   {
     id: "appointments",
     label: "Appointments",
@@ -367,6 +371,8 @@ export default function AdminDashboard() {
               {active.id === "newsletter" && <NewsletterManager />}
               {active.id === "appointments" && <AppointmentsManager />}
               {active.id === "applications" && <ApplicationsManager />}
+              {active.id === "preop" && <PreopManager />}
+              {active.id === "training" && <PreopTrainingManager />}
               {active.id === "posts" && <PostsManager />}
               {active.id === "volunteers" && <VolunteersManager key="volunteers" />}
               {active.id === "cohorts" && <VolunteersManager key="cohorts" cohortsOnly />}

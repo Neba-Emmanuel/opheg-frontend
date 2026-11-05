@@ -1,0 +1,818 @@
+.preop-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 90% 15%, #d7f4e6 0, transparent 30%), #f3f7fc;
+  color: #18334c;
+}
+.preop-brandbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px max(5vw, 20px);
+  background: #ffffffd9;
+  border-bottom: 1px solid #dfe9f1;
+}
+.preop-brandbar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+.preop-brandbar img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+.preop-brandbar strong {
+  font-size: 20px;
+}
+.preop-brandbar strong span {
+  font-weight: 400;
+  color: #167b61;
+  margin-left: 8px;
+}
+.preop-shell {
+  max-width: 1160px;
+  margin: auto;
+  padding: 48px 24px 80px;
+}
+.preop-hero {
+  position: relative;
+  padding: 42px;
+  border-radius: 28px;
+  background: linear-gradient(120deg, #063c82, #065d89 68%, #08765d);
+  color: white;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+.preop-hero:after {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border: 60px solid #ffffff0b;
+  border-radius: 50%;
+  right: -100px;
+  top: -130px;
+  pointer-events: none;
+}
+.preop-kicker {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+.preop-hero h1 {
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.15;
+  margin: 16px 0;
+  font-weight: 750;
+}
+.preop-hero em {
+  font-style: normal;
+  color: #a6efd0;
+}
+.preop-hero p {
+  max-width: 670px;
+  color: #e3eef7;
+  line-height: 1.7;
+}
+.preop-access {
+  background: white;
+  border: 1px solid #dce6ef;
+  border-radius: 24px;
+  max-width: 620px;
+  margin: 36px auto;
+  padding: 36px;
+  box-shadow: 0 16px 45px #13385c09;
+}
+.preop-access h2,
+.preop-form h2,
+.preop-steps h2,
+.preop-status-card h2 {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+.preop-access p {
+  margin: 14px 0;
+  line-height: 1.6;
+}
+.preop-access form {
+  display: grid;
+  gap: 20px;
+  margin: 24px 0;
+}
+.preop-access small,
+.preop-steps small {
+  color: #587085;
+  line-height: 1.6;
+  display: block;
+}
+.preop-workspace-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 24px 0;
+}
+.preop-reference {
+  font-weight: 750;
+  letter-spacing: 0.07em;
+  color: #075294;
+}
+.preop-workspace-top p {
+  font-size: 13px;
+  color: #587085;
+}
+.preop-layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+.preop-steps {
+  background: #e7f0f9;
+  border-radius: 22px;
+  padding: 24px;
+  position: sticky;
+  top: 20px;
+}
+.preop-steps h2 {
+  font-size: 22px;
+}
+.preop-progress {
+  height: 6px;
+  background: #c7d9e9;
+  border-radius: 8px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.preop-progress span {
+  display: block;
+  height: 100%;
+  background: #158766;
+  transition: width 0.3s;
+}
+.preop-steps nav {
+  display: grid;
+  gap: 7px;
+  margin: 20px 0;
+}
+.preop-steps nav button {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 12px;
+}
+.preop-steps nav button span {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  background: white;
+  border-radius: 8px;
+}
+.preop-steps nav button[aria-current] {
+  background: #084a92;
+  color: white;
+}
+.preop-steps nav button[aria-current] span {
+  background: #ffffff25;
+}
+.preop-save-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #12674f;
+  margin-bottom: 12px;
+}
+.preop-form {
+  background: white;
+  border: 1px solid #dfe8f1;
+  padding: 32px;
+  border-radius: 24px;
+  min-width: 0;
+}
+.preop-form header {
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e8edf4;
+}
+.preop-form header p {
+  color: #587085;
+  line-height: 1.6;
+}
+.preop-fieldset {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+.preop-field label,
+.preop-field legend,
+.preop-admin label,
+.preop-access label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.preop-field input:not([type="checkbox"]),
+.preop-field select,
+.preop-field textarea,
+.preop-admin input,
+.preop-admin select,
+.preop-admin textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #cbd9e6;
+  border-radius: 10px;
+  padding: 11px 12px;
+  background: #fbfdff;
+  color: #18334c;
+  margin-top: 7px;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 42px;
+}
+.preop-field textarea,
+.preop-admin textarea {
+  resize: vertical;
+}
+.preop-field :focus-visible,
+.preop-admin :focus-visible {
+  outline: 2px solid #128966;
+  outline-offset: 3px;
+}
+.preop-options {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+.preop-options label,
+.preop-field .preop-check {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-weight: 400;
+  background: #f4f8fc;
+  padding: 14px;
+  border-radius: 10px;
+}
+.preop-options input,
+.preop-check input {
+  accent-color: #0a805e;
+  flex-shrink: 0;
+  margin-top: 5px;
+  width: 16px;
+  height: 16px;
+}
+.preop-field-error {
+  color: #a03240;
+  font-size: 12px;
+  display: block;
+  margin-top: 7px;
+}
+.preop-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e8f0;
+}
+.preop-review,
+.preop-message {
+  background: #e7f5ef;
+  border: 1px solid #cae5d8;
+  border-radius: 14px;
+  padding: 18px;
+  margin: 18px 0;
+  color: #155a46;
+}
+.preop-review {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.preop-review svg {
+  flex-shrink: 0;
+}
+.preop-error {
+  background: #fff0f2;
+  border: 1px solid #f0cbd2;
+  border-radius: 12px;
+  color: #942e40;
+  padding: 16px;
+  margin: 16px 0;
+}
+.preop-error p {
+  margin: 10px 0;
+}
+.preop-answer-list {
+  margin: 24px 0;
+  text-align: left;
+}
+.preop-answer-list details {
+  border: 1px solid #dbe5ef;
+  border-radius: 12px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+.preop-answer-list summary {
+  cursor: pointer;
+  background: #f0f5fa;
+  padding: 16px;
+  font-weight: 650;
+}
+.preop-answer-list dl {
+  padding: 6px 20px;
+}
+.preop-answer-list dl > div {
+  padding: 16px 0;
+  border-bottom: 1px solid #e9eef3;
+}
+.preop-answer-list dt {
+  font-weight: 600;
+  font-size: 13px;
+  color: #48637a;
+}
+.preop-answer-list dd {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin-top: 8px;
+  line-height: 1.7;
+}
+.preop-status-card {
+  background: white;
+  border-radius: 24px;
+  padding: 32px;
+}
+.preop-status-icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  background: #dff4e9;
+  color: #117959;
+  border-radius: 20px;
+}
+.preop-status-card > p {
+  margin: 16px 0;
+  line-height: 1.7;
+}
+.preop-status-card h3 {
+  font-weight: 700;
+  margin-top: 32px;
+}
+.preop-public-timeline {
+  border-left: 2px solid #c5e6dc;
+  padding-left: 20px;
+  margin: 20px 0;
+}
+.preop-public-timeline li {
+  padding: 10px 0;
+  display: grid;
+  gap: 4px;
+}
+.preop-public-timeline time {
+  font-size: 12px;
+  color: #587085;
+}
+.preop-site-footer {
+  text-align: center;
+  color: #587085;
+  padding: 24px;
+}
+.preop-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.preop-metrics article {
+  border: 1px solid #d5e5f3;
+  background: linear-gradient(120deg, #edf4ff, #e8f8f0);
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.preop-metrics article:after {
+  content: "";
+  width: 80px;
+  height: 80px;
+  border: 16px solid #1a79a60c;
+  border-radius: 50%;
+  position: absolute;
+  right: -20px;
+  bottom: -25px;
+}
+.preop-metrics span {
+  display: block;
+  font-size: 13px;
+  color: #416279;
+}
+.preop-metrics strong {
+  display: block;
+  font-size: 32px;
+  margin-top: 8px;
+  color: #074f8d;
+}
+.preop-filters {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.preop-filters label:first-child {
+  flex: 1;
+  min-width: 180px;
+}
+.preop-table-wrap {
+  overflow: auto;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #dce7f2;
+}
+.preop-table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  font-size: 13px;
+}
+.preop-table th {
+  text-align: left;
+  background: #eaf2fa;
+  color: #42637c;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 15px;
+}
+.preop-table td {
+  padding: 14px 15px;
+  border-top: 1px solid #edf2f7;
+}
+.preop-table tbody tr:nth-child(even) {
+  background: #f8fbfe;
+}
+.preop-table tbody tr:hover {
+  background: #eef7f4;
+}
+.preop-badge {
+  display: inline-flex;
+  background: #e5f2f7;
+  color: #146081;
+  border: 1px solid #cce2ec;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 650;
+}
+.preop-review-dialog {
+  max-width: 900px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  border-radius: 22px;
+  border-top: 5px solid #128866;
+}
+.preop-review-heading {
+  background: linear-gradient(115deg, #e8f1fe, #e6f7ef);
+  padding: 20px;
+  border-radius: 14px;
+}
+.preop-review-heading h2 {
+  font-weight: 700;
+  font-size: 23px;
+}
+.preop-review-heading p {
+  margin: 6px 0;
+  font-size: 13px;
+}
+.preop-review-heading small {
+  display: block;
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+.preop-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0;
+  text-transform: capitalize;
+}
+.preop-rating {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  background: #f1f6fb;
+  border-radius: 12px;
+  padding: 16px;
+}
+.preop-rating > label:first-child {
+  text-transform: capitalize;
+}
+.preop-help {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #526c80;
+}
+.preop-history article {
+  padding: 20px;
+  border: 1px solid #d8e7ee;
+  border-left: 4px solid #16876c;
+  border-radius: 12px;
+  background: #f7fbfe;
+  margin: 16px 0;
+  overflow-wrap: anywhere;
+}
+.preop-history h3 {
+  font-weight: 700;
+  font-size: 18px;
+  margin: 10px 0;
+}
+.preop-history p {
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  margin-top: 8px;
+}
+.preop-history blockquote {
+  padding: 12px;
+  background: #e4f4ec;
+  border-radius: 8px;
+  margin-top: 14px;
+}
+@media (max-width: 700px) {
+  .preop-shell {
+    padding: 24px 14px 48px;
+  }
+  .preop-hero {
+    padding: 26px 22px;
+    border-radius: 20px;
+  }
+  .preop-brandbar {
+    padding: 14px;
+  }
+  .preop-brandbar a:last-child {
+    font-size: 11px;
+  }
+  .preop-brandbar strong {
+    font-size: 16px;
+  }
+  .preop-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .preop-steps {
+    position: static;
+    padding: 18px;
+  }
+  .preop-steps nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .preop-steps nav button {
+    font-size: 11px;
+    padding: 7px;
+  }
+  .preop-form,
+  .preop-access,
+  .preop-status-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+  .preop-workspace-top {
+    align-items: flex-start;
+  }
+  .preop-workspace-top p {
+    overflow-wrap: anywhere;
+  }
+  .preop-form-footer {
+    gap: 6px;
+  }
+  .preop-form-footer button {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .preop-metrics {
+    gap: 8px;
+  }
+  .preop-metrics article {
+    padding: 14px 10px;
+    border-radius: 12px;
+  }
+  .preop-metrics strong {
+    font-size: 25px;
+  }
+  .preop-metrics span {
+    font-size: 10px;
+  }
+  .preop-table {
+    font-size: 11px;
+  }
+  .preop-table td,
+  .preop-table th {
+    padding: 9px;
+  }
+  .preop-table button {
+    font-size: 11px;
+    height: 30px;
+    padding: 0 8px;
+  }
+  .preop-review-dialog {
+    padding: 18px;
+    max-width: calc(100vw - 20px);
+  }
+  .preop-rating {
+    grid-template-columns: 1fr;
+  }
+  .preop-tabs button {
+    font-size: 12px;
+  }
+  .preop-badge {
+    font-size: 10px;
+  }
+  .preop-filters {
+    gap: 10px;
+  }
+}
+/* Allow the directory's scroll container to shrink inside the admin grid. */
+.preop-admin {
+  min-width: 0;
+  max-width: 100%;
+}
+.preop-metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.preop-filters label {
+  min-width: 0;
+  max-width: 100%;
+}
+@media (max-width: 700px) {
+  .admin-manager .preop-table {
+    font-size: 11px;
+  }
+  .admin-manager .preop-table td {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+  .preop-filters label {
+    flex: 1 1 140px;
+  }
+}
+.training-subtext {
+  display: block;
+  font-size: 11px;
+  color: #60758b;
+  margin-top: 5px;
+  white-space: normal;
+  max-width: 260px;
+}
+.training-module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.training-module-grid > article {
+  padding: 22px;
+  border: 1px solid #d9e7ef;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f4f8ff, #effaf5);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.training-module-grid h3 {
+  font-weight: 700;
+  margin: 10px 0;
+  font-size: 18px;
+}
+.training-module-grid p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 8px 0;
+}
+.training-session {
+  border-top: 1px solid #d6e6e6;
+  margin-top: 14px;
+  padding-top: 12px;
+}
+.training-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+.training-command {
+  padding: 24px;
+  border: 1px solid #b8dacf;
+  border-top: 4px solid #168369;
+  border-radius: 16px;
+  background: #fbfefd;
+  margin: 24px 0;
+}
+.training-command h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.preop-admin .training-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.6;
+}
+.preop-admin .training-checkbox input {
+  width: 17px;
+  min-height: 17px;
+  height: 17px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: #127859;
+}
+.training-section-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 28px 0 16px;
+}
+.training-feedback {
+  white-space: pre-wrap;
+  max-width: 450px;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-top: 10px;
+}
+.training-audit {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  background: #edf3fa;
+  padding: 14px;
+  border-radius: 8px;
+  max-height: 350px;
+  overflow: auto;
+}
+.training-membership {
+  background: linear-gradient(120deg, #074c94, #08755f);
+  padding: 28px;
+  color: white;
+  border-radius: 18px;
+  margin: 24px 0;
+}
+.training-membership h3 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+.training-membership a {
+  display: inline-block;
+  margin-top: 16px;
+  text-decoration: underline;
+}
+.training-overview {
+  margin-top: 24px;
+}
+.training-personal {
+  border-top: 1px solid #dbe6ef;
+  margin-top: 32px;
+  padding-top: 20px;
+}
+.preop-tabs {
+  flex-wrap: wrap;
+}
+.preop-admin .training-command input[type="number"] {
+  max-width: 220px;
+}
+@media (max-width: 700px) {
+  .training-module-grid {
+    grid-template-columns: 1fr;
+  }
+  .training-command {
+    padding: 18px 14px;
+  }
+  .training-actions button {
+    font-size: 11px;
+    white-space: normal;
+    height: auto;
+    min-height: 36px;
+  }
+  .training-module-grid > article {
+    padding: 18px;
+  }
+  .training-overview .preop-table td {
+    max-width: 200px;
+    white-space: normal;
+    min-width: 110px;
+  }
+}
