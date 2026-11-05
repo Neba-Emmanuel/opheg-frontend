@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { Eye, EyeOff, ArrowUpRight, ShieldCheck } from "lucide-react";
-import { useApiMutation } from "@/hooks/useApi";
+import { apiRequest } from "@/lib/apiClient";
 import SEO from "@/components/SEO";
 import "./admin.css";
 
@@ -17,11 +17,6 @@ const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const mutation = useApiMutation<
-    { accessToken: string },
-    { email: string; password: string; role?: string }
-  >("/auth/login", "POST");
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -30,11 +25,13 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const response = await mutation.mutateAsync({
-        email,
-        password,
-        role: "admin",
+      const response = await apiRequest<{ accessToken: string; user: { role: string } }>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
       });
+      if (response.user.role !== "admin") {
+        throw new Error("This account does not have administrator access.");
+      }
       storeSession("admin",response.accessToken);
       toast({
         title: "Login successful",
@@ -44,7 +41,7 @@ const AdminLogin = () => {
     } catch (error) {
       toast({
         title: "Login failed",
-        description: "Invalid credentials.",
+        description: error instanceof Error ? error.message : "Unable to sign in. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -52,7 +49,7 @@ const AdminLogin = () => {
     }
   };
 
-  const submitting = isLoading || mutation.isPending;
+  const submitting = isLoading;
 
   return (
     <>
