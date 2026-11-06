@@ -16,10 +16,11 @@ export interface Application {
   createdAt: string;
 }
 
-export function useApplications(type?: "volunteer" | "partner") {
+export function useApplications(type?: "volunteer" | "partner", enabled = true) {
   return useApiQuery<Application[]>(
     ["applications", type || "all"],
-    type ? `/applications?type=${type}` : "/applications"
+    type ? `/applications?type=${type}` : "/applications",
+    { enabled }
   );
 }
 

@@ -14,8 +14,8 @@ export interface Appointment {
   createdAt: string;
 }
 
-export function useAppointments() {
-  return useApiQuery<Appointment[]>(["appointments"], "/appointments");
+export function useAppointments(enabled = true) {
+  return useApiQuery<Appointment[]>(["appointments"], "/appointments", { enabled });
 }
 
 export function useCreateAppointment() {

@@ -42,11 +42,12 @@ export default function PreopManager() {
     [selected, setSelected] = useState<number | null>(null);
   useEffect(() => {
     let live = true;
+    const controller = new AbortController();
     setLoading(true);
     const timer = setTimeout(() => {
       preopRequest<Directory>(
         `admin/applications?search=${encodeURIComponent(search)}&status=${status}&page=${page}`,
-        {},
+        { signal: controller.signal },
         "admin",
       )
         .then((result) => {
@@ -64,6 +65,7 @@ export default function PreopManager() {
     }, 250);
     return () => {
       live = false;
+      controller.abort();
       clearTimeout(timer);
     };
   }, [search, status, page, refresh]);
@@ -222,8 +224,9 @@ function Review({ id, onChange }: { id: number; onChange: () => void }) {
   const cohorts = useVolunteerCohorts();
   useEffect(() => {
     let live = true;
+    const controller = new AbortController();
     setDetail(null);
-    preopRequest<PreopDetail>(`admin/applications/${id}`, {}, "admin")
+    preopRequest<PreopDetail>(`admin/applications/${id}`, { signal: controller.signal }, "admin")
       .then((value) => {
         if (live) {
           setDetail(value);
@@ -236,6 +239,7 @@ function Review({ id, onChange }: { id: number; onChange: () => void }) {
       });
     return () => {
       live = false;
+      controller.abort();
     };
   }, [id, reload]);
   const payload = {

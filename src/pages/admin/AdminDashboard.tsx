@@ -79,10 +79,11 @@ export default function AdminDashboard() {
   const active =
     sections.find((s) => s.id === params.get("section")) ?? sections.find(s => s.id === "overview")!;
   const select = (section: string) => setParams({ section });
-  const subscribers = useSubscribers();
-  const appointments = useAppointments();
-  const volunteers = useApplications("volunteer");
-  const partners = useApplications("partner");
+  const overview = active.id === "overview" && Boolean(localStorage.getItem("opheg_admin_token"));
+  const subscribers = useSubscribers(overview);
+  const appointments = useAppointments(overview);
+  const volunteers = useApplications("volunteer", overview);
+  const partners = useApplications("partner", overview);
   const queries = [subscribers, appointments, volunteers, partners];
   const hasError = queries.some((q) => q.isError);
   const refreshing = queries.some((q) => q.isFetching);

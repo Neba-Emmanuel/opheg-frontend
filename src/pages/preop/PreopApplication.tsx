@@ -1,6 +1,7 @@
 import { storeSession } from "@/lib/authSession";
 import TrainingProgress from "./TrainingProgress";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { createDraftSaver } from "@/lib/draftSaver";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -84,90 +85,56 @@ function Workspace({
   const [withdrawReason, setWithdrawReason] = useState("");
   const answerRef = useRef(answers);
   const versionRef = useRef(initial.version);
-  const dirty = useRef(false);
-  const editNumber = useRef(0);
-  const flight = useRef<Promise<void> | null>(null);
-  const blocked = useRef(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const mounted = useRef(true);
+  const [latestSaved, setLatestSaved] = useState<Application | null>(null);
+  const [saver] = useState(() => createDraftSaver<PreopAnswers, Pick<Application, "version" | "status" | "answers">>({
+    initial: initial.answers, version: initial.version, status: initial.status,
+    write: (snapshot, version, submit) => preopRequest(submit ? "submit" : "me", {
+      method: submit ? "POST" : "PATCH",
+      body: JSON.stringify({ version, answers: snapshot, receipt: true }),
+    }),
+    onSaved: (result) => {
+      versionRef.current = result.version;
+      setApplication(current => ({ ...current, ...result }));
+      setError("");
+    },
+    onState: setSaveState,
+    onError: (cause) => {
+      setConflict(true);
+      setError((cause as Error).message);
+      // Read only: never replace local answers or adopt this version for another write.
+      void preopRequest<Application>("me").then(result => { if (mounted.current) setLatestSaved(result); }).catch(() => {});
+    },
+  }));
   const errors = preopErrors(answers);
   const draft = application.status === "draft";
-  const save = useCallback(async function persist(): Promise<void> {
-    if (blocked.current)
-      throw new Error("Reload the saved application before continuing.");
-    if (flight.current) {
-      await flight.current;
-      if (dirty.current) await persist();
-      return;
-    }
-    if (!dirty.current) return;
-    const revision = editNumber.current;
-    const snapshot = answerRef.current;
-    setSaveState("Saving…");
-    const work = (async () => {
-      try {
-        const result = await preopRequest<Application>("me", {
-          method: "PATCH",
-          body: JSON.stringify({
-            version: versionRef.current,
-            answers: snapshot,
-          }),
-        });
-        versionRef.current = result.version;
-        setApplication(result);
-        if (editNumber.current === revision) dirty.current = false;
-        setSaveState(dirty.current ? "Unsaved changes" : "All changes saved");
-        setError("");
-      } catch (cause) {
-        setSaveState("Changes not saved");
-        if (
-          cause instanceof PreopApiError &&
-          (cause.status === 409 || cause.status === 401)
-        ) {
-          blocked.current = true;
-          setConflict(true);
-        }
-        setError((cause as Error).message);
-        throw cause;
-      }
-    })();
-    flight.current = work;
-    try {
-      await work;
-    } finally {
-      flight.current = null;
-    }
-  }, []);
+  const save = () => saver.flush();
   useEffect(() => {
-    if (!draft || !dirty.current || blocked.current) return;
-    timer.current = setTimeout(() => {
-      void save().catch(() => {});
-    }, 1200);
-    return () => clearTimeout(timer.current);
-  }, [answers, draft, save]);
-  useEffect(() => {
+    mounted.current = true;
+    saver.activate();
     const warn = (event: BeforeUnloadEvent) => {
-      if (
-        (dirty.current || flight.current) &&
-        sessionStorage.getItem(PREOP_TOKEN)
-      ) {
+      if (saver.unsaved && sessionStorage.getItem(PREOP_TOKEN)) {
         event.preventDefault();
         event.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, []);
+    return () => { mounted.current = false; saver.dispose(); window.removeEventListener("beforeunload", warn); };
+  }, [saver]);
   function change(key: string, value: string | boolean | string[]) {
     const next = { ...answerRef.current, [key]: value };
     answerRef.current = next;
-    editNumber.current++;
-    dirty.current = true;
     setAnswers(next);
-    setSaveState("Unsaved changes");
+    saver.change(next);
+  }
+  function downloadEdits() {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(answerRef.current, null, 2)], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url; link.download = "opheg-unsaved-application.json"; link.click();
+    URL.revokeObjectURL(url);
   }
   async function move(next: number) {
     setBusy(true);
-    clearTimeout(timer.current);
     try {
       await save();
       setStep(next);
@@ -180,25 +147,13 @@ function Workspace({
   }
   async function submit() {
     setBusy(true);
-    clearTimeout(timer.current);
     try {
-      await save();
-      const result = await preopRequest<Application>("submit", {
-        method: "POST",
-        body: JSON.stringify({
-          version: versionRef.current,
-          answers: answerRef.current,
-        }),
-      });
-      versionRef.current = result.version;
-      dirty.current = false;
-      setApplication(result);
+      await saver.submit();
       setError("");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (cause) {
       setError((cause as Error).message);
       if (cause instanceof PreopApiError && cause.status === 409) {
-        blocked.current = true;
         setConflict(true);
       }
     } finally {
@@ -207,9 +162,9 @@ function Workspace({
   }
   async function logout() {
     setBusy(true);
-    clearTimeout(timer.current);
     try {
-      if (draft && !blocked.current) await save();
+      if (draft && !conflict) await save();
+      if (saver.unsaved && !window.confirm("Your edits are not confirmed saved. Sign out and discard them?")) return;
       await preopRequest("logout", { method: "POST" });
       sessionStorage.removeItem(PREOP_TOKEN);
       onLogout();
@@ -274,7 +229,9 @@ function Workspace({
                 Your local answers have not been overwritten. Reloading will
                 replace them with the saved version.
               </p>
-              <Button variant="outline" onClick={onReload}>
+              {latestSaved && <p>Saved record: version {latestSaved.version}, status {preopStatuses[latestSaved.status] || latestSaved.status}.</p>}
+              <Button variant="outline" onClick={downloadEdits}>Download my unsaved answers</Button>
+              <Button variant="outline" onClick={() => { if (window.confirm("Discard local edits and load the saved application?")) onReload(); }}>
                 Reload saved application
               </Button>
             </>
@@ -610,8 +567,9 @@ export default function PreopApplication() {
   useEffect(() => {
     if (!session || linkToken) return;
     let live = true;
+    const controller = new AbortController();
     setLoading(true);
-    preopRequest<Application>("me")
+    preopRequest<Application>("me", { signal: controller.signal })
       .then((data) => {
         if (live) {
           setApplication(data);
@@ -630,6 +588,7 @@ export default function PreopApplication() {
       });
     return () => {
       live = false;
+      controller.abort();
     };
   }, [session, linkToken, reload]);
   async function request() {

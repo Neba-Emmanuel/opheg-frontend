@@ -49,12 +49,14 @@ export default function PreopTrainingManager({
     [loading, setLoading] = useState(false),
     [selected, setSelected] = useState<number | null>(null);
   useEffect(() => {
+    if (tab !== "trainees") return;
     let live = true;
+    const controller = new AbortController();
     setLoading(true);
     const timer = setTimeout(() => {
       preopRequest<{ items: Trainee[]; total: number }>(
         `${auth}/training?cohort=${encodeURIComponent(cohort)}&stage=${stage}&search=${encodeURIComponent(search)}&page=${page}`,
-        {},
+        { signal: controller.signal },
         auth,
       )
         .then((data) => {
@@ -72,9 +74,10 @@ export default function PreopTrainingManager({
     }, 200);
     return () => {
       live = false;
+      controller.abort();
       clearTimeout(timer);
     };
-  }, [cohort, stage, search, page, reload, auth]);
+  }, [cohort, stage, search, page, reload, auth, tab]);
   return (
     <section className="preop-admin">
       <p className="preop-message">
@@ -294,8 +297,9 @@ function ProgramEditor({
     [busy, setBusy] = useState(false);
   useEffect(() => {
     let live = true;
+    const controller = new AbortController();
     setProgram(null);
-    preopRequest<TrainingProgram>(path, {}, auth)
+    preopRequest<TrainingProgram>(path, { signal: controller.signal }, auth)
       .then((p) => {
         if (live) {
           setProgram(p);
@@ -307,6 +311,7 @@ function ProgramEditor({
       });
     return () => {
       live = false;
+      controller.abort();
     };
   }, [path, auth, reload]);
   async function save(data: Record<string, unknown>) {
@@ -488,8 +493,9 @@ function TraineeEditor({
     [tab, setTab] = useState("progress");
   useEffect(() => {
     let live = true;
+    const controller = new AbortController();
     setDetail(null);
-    preopRequest<TrainingDetail>(`${auth}/training/${id}`, {}, auth)
+    preopRequest<TrainingDetail>(`${auth}/training/${id}`, { signal: controller.signal }, auth)
       .then((data) => {
         if (live) {
           setDetail(data);
@@ -501,6 +507,7 @@ function TraineeEditor({
       });
     return () => {
       live = false;
+      controller.abort();
     };
   }, [id, auth, reload]);
   async function save(data: Record<string, unknown>) {

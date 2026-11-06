@@ -48,7 +48,7 @@ function MemberDetails() {
 export default function VolunteerPortal() {
   const navigate=useNavigate(); const cache=useQueryClient(); const [session,setSession]=useState(()=>Boolean(sessionStorage.getItem(PORTAL_TOKEN_KEY))); const [logoutError,setLogoutError]=useState(""); const [leaving,setLeaving]=useState(false);
   useEffect(()=>{const expire=()=>{setSession(false);cache.removeQueries({queryKey:["volunteer-portal"]});};window.addEventListener("volunteer-session-expired",expire);return()=>window.removeEventListener("volunteer-session-expired",expire);},[cache]);
-  const me=useQuery({queryKey:["volunteer-portal","me"],queryFn:({signal})=>portalRequest<PortalMe>("me",{signal}),enabled:session,retry:1,staleTime:60000,refetchInterval:30000});
+  const me=useQuery({queryKey:["volunteer-portal","me"],queryFn:({signal})=>portalRequest<PortalMe>("me",{signal}),enabled:session,retry:1,staleTime:60000,refetchInterval:240000});
   async function signout(){setLeaving(true);setLogoutError("");try{await portalRequest("logout",{method:"POST"});sessionStorage.removeItem(PORTAL_TOKEN_KEY);cache.removeQueries({queryKey:["volunteer-portal"]});navigate("/volunteers/login",{replace:true});}catch{setLogoutError("Could not sign out. Please try again.");}finally{setLeaving(false);}}
   if(!session)return <Navigate to="/volunteers/login" replace/>;
   const update=(value:PortalMe)=>{cache.setQueryData(["volunteer-portal","me"],value);void cache.invalidateQueries({queryKey:["volunteer-portal","directory"]});void cache.invalidateQueries({queryKey:["volunteer-portal","community-home"]});void cache.invalidateQueries({queryKey:["volunteer-portal","member"]});};

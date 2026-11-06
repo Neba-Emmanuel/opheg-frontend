@@ -10,11 +10,13 @@ import { apiRequest } from "@/lib/apiClient";
 export function useApiQuery<T>(
   key: string[],
   endpoint: string,
-  options?: UseQueryOptions<T>
+  options?: Omit<UseQueryOptions<T>, "queryKey" | "queryFn">
 ) {
   return useQuery<T>({
     queryKey: key,
-    queryFn: () => apiRequest<T>(endpoint, { auth: true }),
+    queryFn: ({ signal }) => apiRequest<T>(endpoint, { auth: true, signal }),
+    staleTime: 60000,
+    retry: false,
     ...options,
   });
 }

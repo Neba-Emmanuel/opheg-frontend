@@ -215,7 +215,7 @@ export default function VolunteersManager({cohortsOnly=false}:{cohortsOnly?:bool
   const [search,setSearch]=useState("");const [status,setStatus]=useState("all");const [branch,setBranch]=useState("all");const [cohort,setCohort]=useState("all");
   const [selection,setSelection]=useState<{id:number;action:"view"|"status"|"comments"|"cohort"|"director"|"branch"}|null>(null);
   const client=useQueryClient();
-  const records=useQuery({queryKey:["volunteer-records"],queryFn:()=>apiRequest<VolunteerRecord[]>("/volunteers",{auth:true}),refetchOnMount:"always"});
+  const records=useQuery({queryKey:["volunteer-records"],queryFn:()=>apiRequest<VolunteerRecord[]>("/volunteers",{auth:true}),staleTime:60000});
   const cohorts=useVolunteerCohorts();
   const [page,setPage]=useState(1);
   const all=records.data||[];

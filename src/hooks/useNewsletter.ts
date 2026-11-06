@@ -9,8 +9,8 @@ export interface Subscriber {
   createdAt: string;
 }
 
-export function useSubscribers() {
-  return useApiQuery<Subscriber[]>(["subscribers"], "/newsletter/subscribers");
+export function useSubscribers(enabled = true) {
+  return useApiQuery<Subscriber[]>(["subscribers"], "/newsletter/subscribers", { enabled });
 }
 
 export interface EmailDraft {

@@ -166,8 +166,9 @@ export default function TrainingProgress({
     [reload, setReload] = useState(0);
   useEffect(() => {
     let live = true;
+    const controller = new AbortController();
     setLoading(true);
-    preopRequest<TrainingDetail | null>("training")
+    preopRequest<TrainingDetail | null>("training", { signal: controller.signal })
       .then((data) => {
         if (live) {
           setDetail(data);
@@ -183,6 +184,7 @@ export default function TrainingProgress({
       });
     return () => {
       live = false;
+      controller.abort();
     };
   }, [reload, onMembership]);
   return (
