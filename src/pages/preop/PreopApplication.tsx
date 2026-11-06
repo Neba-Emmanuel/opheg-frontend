@@ -1,3 +1,4 @@
+import { watchApplication, withApplicationLock } from "@/lib/applicationSync";
 import { storeSession } from "@/lib/authSession";
 import TrainingProgress from "./TrainingProgress";
 import { createDraftSaver } from "@/lib/draftSaver";
@@ -86,14 +87,18 @@ function Workspace({
   const answerRef = useRef(answers);
   const versionRef = useRef(initial.version);
   const mounted = useRef(true);
+  const actionRunning = useRef(false);
+  const sync = useRef<ReturnType<typeof watchApplication> | null>(null);
   const [latestSaved, setLatestSaved] = useState<Application | null>(null);
   const [saver] = useState(() => createDraftSaver<PreopAnswers, Pick<Application, "version" | "status" | "answers">>({
     initial: initial.answers, version: initial.version, status: initial.status,
+    exclusive: work => withApplicationLock(initial.id, work),
     write: (snapshot, version, submit) => preopRequest(submit ? "submit" : "me", {
       method: submit ? "POST" : "PATCH",
-      body: JSON.stringify({ version, answers: snapshot, receipt: true }),
+      body: JSON.stringify({ version, answers: snapshot, receipt: true, saveProtocol: 2 }),
     }),
     onSaved: (result) => {
+      sync.current?.publish(result);
       versionRef.current = result.version;
       setApplication(current => ({ ...current, ...result }));
       setError("");
@@ -112,6 +117,19 @@ function Workspace({
   useEffect(() => {
     mounted.current = true;
     saver.activate();
+    sync.current = watchApplication(initial.id, state => saver.observe(state));
+    let checking = false;
+    const controller = new AbortController();
+    const checkRemote = () => {
+      if (checking || saver.pending || document.visibilityState === "hidden") return;
+      checking = true;
+      void preopRequest<Pick<Application, "version" | "status">>("state", { signal: controller.signal })
+        .then(state => { if (!controller.signal.aborted && !saver.pending) saver.observe(state); })
+        .catch(() => {}) // Read failure must not replay a write or discard edits.
+        .finally(() => { checking = false; });
+    };
+    window.addEventListener("focus", checkRemote);
+    document.addEventListener("visibilitychange", checkRemote);
     const warn = (event: BeforeUnloadEvent) => {
       if (saver.unsaved && sessionStorage.getItem(PREOP_TOKEN)) {
         event.preventDefault();
@@ -119,9 +137,15 @@ function Workspace({
       }
     };
     window.addEventListener("beforeunload", warn);
-    return () => { mounted.current = false; saver.dispose(); window.removeEventListener("beforeunload", warn); };
-  }, [saver]);
+    return () => {
+      mounted.current = false; saver.dispose(); sync.current?.close(); sync.current = null;
+      controller.abort(); window.removeEventListener("focus", checkRemote);
+      document.removeEventListener("visibilitychange", checkRemote);
+      window.removeEventListener("beforeunload", warn);
+    };
+  }, [saver, initial.id]);
   function change(key: string, value: string | boolean | string[]) {
+    if (actionRunning.current || conflict) return;
     const next = { ...answerRef.current, [key]: value };
     answerRef.current = next;
     setAnswers(next);
@@ -134,6 +158,8 @@ function Workspace({
     URL.revokeObjectURL(url);
   }
   async function move(next: number) {
+    if (actionRunning.current) return;
+    actionRunning.current = true;
     setBusy(true);
     try {
       await save();
@@ -142,10 +168,13 @@ function Workspace({
     } catch {
       /* Error remains visible. */
     } finally {
+      actionRunning.current = false;
       setBusy(false);
     }
   }
   async function submit() {
+    if (actionRunning.current) return;
+    actionRunning.current = true;
     setBusy(true);
     try {
       await saver.submit();
@@ -157,10 +186,13 @@ function Workspace({
         setConflict(true);
       }
     } finally {
+      actionRunning.current = false;
       setBusy(false);
     }
   }
   async function logout() {
+    if (actionRunning.current) return;
+    actionRunning.current = true;
     setBusy(true);
     try {
       if (draft && !conflict) await save();
@@ -174,10 +206,13 @@ function Workspace({
         onLogout();
       } else setError((cause as Error).message);
     } finally {
+      actionRunning.current = false;
       setBusy(false);
     }
   }
   async function withdraw() {
+    if (actionRunning.current) return;
+    actionRunning.current = true;
     setBusy(true);
     try {
       const result = await preopRequest<Application>("withdraw", {
@@ -187,6 +222,7 @@ function Workspace({
           reason: withdrawReason,
         }),
       });
+      sync.current?.publish(result);
       versionRef.current = result.version;
       setApplication(result);
       setWithdrawOpen(false);
@@ -194,6 +230,7 @@ function Workspace({
     } catch (cause) {
       setError((cause as Error).message);
     } finally {
+      actionRunning.current = false;
       setBusy(false);
     }
   }

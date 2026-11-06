@@ -3,6 +3,7 @@ export interface SaveReceipt { version: number; status: string }
 export function createDraftSaver<T, R extends SaveReceipt>(options: {
   initial: T; version: number; status: string;
   write: (answers: T, version: number, submit: boolean) => Promise<R>;
+  exclusive?: (work: () => Promise<R>) => Promise<R>;
   onSaved: (result: R) => void;
   onState: (state: string) => void;
   onError: (error: unknown) => void;
@@ -19,7 +20,12 @@ export function createDraftSaver<T, R extends SaveReceipt>(options: {
     const snapshot = latest, sentRevision = revision;
     emit(submit ? "Submitting…" : "Saving…");
     try {
-      const result = await options.write(snapshot, version, submit);
+      const send = () => {
+        // A different tab can update the record while this task waits for its lock.
+        if (disposed || paused || status !== "draft") throw new Error("This application changed. Review the saved application before continuing.");
+        return options.write(snapshot, version, submit);
+      };
+      const result = await (options.exclusive ? options.exclusive(send) : send());
       if (!Number.isInteger(result.version) || result.version !== version + 1 ||
           result.status !== (submit ? "submitted" : "draft")) {
         throw new Error("The saved version could not be confirmed. Review the saved application before continuing.");
@@ -27,13 +33,14 @@ export function createDraftSaver<T, R extends SaveReceipt>(options: {
       version = result.version;
       status = result.status;
       savedRevision = sentRevision;
-      if (!disposed) options.onSaved(result);
-      emit(revision === savedRevision ? "All changes saved" : "Unsaved changes");
+      if (!disposed && !paused) options.onSaved(result);
+      emit(paused ? "Unsaved changes — review required" : revision === savedRevision ? "All changes saved" : "Unsaved changes");
     } catch (error) {
+      const notify = !paused;
       paused = true;
       cancel();
       emit("Changes not confirmed — review required");
-      if (!disposed) options.onError(error);
+      if (!disposed && notify) options.onError(error);
       throw error;
     }
   }
@@ -75,6 +82,17 @@ export function createDraftSaver<T, R extends SaveReceipt>(options: {
         try { await work; } finally { if (flight === work) flight = null; }
       } finally { finalizing = false; }
     },
+    observe(remote: SaveReceipt) {
+      // Never rebase local edits onto a remote version automatically. Ignore old
+      // read responses arriving after our own newer acknowledgment.
+      if (disposed || paused || !Number.isInteger(remote.version) || remote.version < version ||
+          (remote.version === version && remote.status === status)) return;
+      paused = true;
+      cancel();
+      emit("Application changed — review required");
+      options.onError(new Error("This application changed in another tab or session. Your local answers are preserved; review the saved application before continuing."));
+    },
+    get pending() { return !!flight || finalizing; },
     get unsaved() { return revision !== savedRevision || !!flight || paused; },
     dispose() { disposed = true; cancel(); },
     activate() { disposed = false; },
